@@ -1,0 +1,751 @@
+<project_specification>
+  <project_name>魔塔 (Magic Tower) - Classic RPG Puzzle Game</project_name>
+
+  <overview>
+    Build a fully functional classic Magic Tower (魔塔) web game. Magic Tower is a traditional Chinese
+    turn-based RPG puzzle game where the player navigates through a multi-floor tower, collecting items,
+    fighting monsters, and solving strategic route puzzles to reach the top. The game features grid-based
+    movement, turn-based combat (bump-to-attack), key-and-door mechanics, and RPG stat progression.
+    The UI should feature a retro pixel-art style with a clean, modern web implementation.
+  </overview>
+
+  <technology_stack>
+    <frontend>
+      <framework>React with Vite</framework>
+      <styling>Tailwind CSS (via CDN) + custom CSS for pixel-art sprites</styling>
+      <state_management>React hooks, context, and useReducer for game state</state_management>
+      <rendering>HTML5 Canvas or CSS Grid for tile map rendering</rendering>
+      <port>Only launch on port {frontend_port}</port>
+    </frontend>
+    <backend>
+      <runtime>Node.js with Express</runtime>
+      <database>SQLite with better-sqlite3 (for save/load game state)</database>
+    </backend>
+    <architecture>
+      Pure frontend game logic with optional backend for persistence.
+      All game mechanics run client-side for instant responsiveness.
+      Backend handles save/load, leaderboard, and user preferences.
+    </architecture>
+  </technology_stack>
+
+  <prerequisites>
+    <environment_setup>
+      - Frontend dependencies pre-installed via pnpm
+      - Backend code goes in /server directory
+      - Install backend dependencies as needed
+      - Game assets (sprites, tilesets) created as CSS/SVG or canvas-drawn
+    </environment_setup>
+  </prerequisites>
+
+  <game_design>
+    <game_world>
+      The tower consists of multiple floors (typically 50 floors in the classic game, but we implement
+      a complete playable version with at least 11 floors as the initial content). Each floor is a
+      grid-based map (typically 11x11 tiles per floor). The player starts at the bottom floor and
+      must ascend to the top.
+
+      <floor_types>
+        - Normal floors: contain monsters, items, keys, and doors
+        - Shop floors: NPCs that buy/sell items
+        - Boss floors: contain powerful boss monsters guarding progress
+        - Special event floors: unique puzzles or story events
+      </floor_types>
+
+      <tile_types>
+        - Wall (impassable)
+        - Floor (passable)
+        - Stairs up (to next floor)
+        - Stairs down (to previous floor)
+        - Yellow door (requires yellow key)
+        - Blue door (requires blue key)
+        - Red door (requires red key)
+        - Yellow key (pickup item)
+        - Blue key (pickup item)
+        - Red key (pickup item)
+        - Small potion (HP +200)
+        - Big potion (HP +500)
+        - Super potion (HP +1000 or full heal)
+        - Red gem (ATK +3)
+        - Blue gem (DEF +3)
+        - Green gem (ATK +1, DEF +1)
+        - Sword (ATK +10 or other fixed amount)
+        - Shield (DEF +10 or other fixed amount)
+        - Attack book (ATK + permanent upgrade)
+        - Defense book (DEF + permanent upgrade)
+        - Life gem (max HP +)
+        - Gold pile (gold +50)
+        - Big gold pile (gold +200)
+        - Monster (various types, see monster_types)
+        - NPC (interactive characters)
+        - Shopkeeper (buy/sell items)
+        - Hidden wall (looks like wall but is passable - revealed on adjacent)
+      </tile_types>
+    </game_world>
+
+    <player_stats>
+      - HP (Hit Points): current health, reach 0 = game over
+      - Max HP: maximum health capacity
+      - ATK (Attack): damage dealt per hit
+      - DEF (Defense): damage reduced per hit
+      - Gold: currency for shops
+      - Yellow Keys: count of yellow keys held
+      - Blue Keys: count of blue keys held
+      - Red Keys: count of red keys held
+      - Floor: current floor number
+      - Steps: total steps taken (used for scoring)
+    </player_stats>
+
+    <combat_system>
+      Combat is turn-based and automatic (bump-to-attack):
+      - Player moves into a monster tile to initiate combat
+      - Combat is auto-resolved: player attacks first, then monster attacks if alive
+      - Damage to monster = Player ATK - Monster DEF (minimum 0)
+      - Damage to player = Monster ATK - Player DEF (minimum 0)
+      - Combat continues until monster HP or player HP reaches 0
+      - If player wins: monster removed from map, player keeps remaining HP
+      - If player loses: game over screen with option to restart or load save
+      - Display damage numbers and combat result
+
+      <example>
+        Player (HP:1000, ATK:20, DEF:10) vs Green Slime (HP:50, ATK:15, DEF:5)
+        Round 1: Player deals 20-5=15 damage (Slime HP: 35), Slime deals 15-10=5 damage (Player HP: 995)
+        Round 2: Player deals 15 damage (Slime HP: 20), Slime deals 5 damage (Player HP: 990)
+        Round 3: Player deals 15 damage (Slime HP: 5), Slime deals 5 damage (Player HP: 985)
+        Round 4: Player deals 15 damage (Slime HP: 0), Slime defeated!
+        Player wins with HP: 985, took 4 rounds
+      </example>
+    </combat_system>
+
+    <monster_types>
+      Classic monster hierarchy (stats should be balanced for strategic gameplay):
+
+      Floor 0-3 (Easy):
+      - Green Slime: HP 35, ATK 18, DEF 1
+      - Red Bat: HP 45, ATK 20, DEF 5
+      - Skeleton: HP 50, ATK 22, DEF 8
+      - Magician: HP 40, ATK 25, DEF 3
+
+      Floor 4-6 (Medium):
+      - Red Slime: HP 70, ATK 30, DEF 10
+      - Stone Golem: HP 100, ATK 35, DEF 20
+      - Dark Knight: HP 120, ATK 40, DEF 25
+      - Witch: HP 80, ATK 45, DEF 15
+
+      Floor 7-9 (Hard):
+      - Vampire: HP 200, ATK 55, DEF 30
+      - Dragon: HP 300, ATK 60, DEF 40
+      - Dark Mage: HP 250, ATK 70, DEF 35
+      - Skeleton King: HP 350, ATK 65, DEF 45
+
+      Floor 10+ (Boss):
+      - Mini Boss: HP 500, ATK 80, DEF 50
+      - Floor Guardian: HP 800, ATK 100, DEF 60
+      - Tower Lord (Final Boss): HP 1500, ATK 120, DEF 80
+    </monster_types>
+
+    <key_and_door_system>
+      - Yellow key + Yellow door: most common, found throughout the tower
+      - Blue key + Blue door: less common, guard better rewards
+      - Red key + Red door: rare, guard important areas and powerful items
+      - Using a key on a door consumes one key of that color
+      - Keys are limited resources - strategic key usage is core to the puzzle
+      - Some doors may be one-way (can only pass through from one side)
+    </key_and_door_system>
+
+    <item_system>
+      <consumables>
+        - Small potion: Restore 200 HP (capped at max HP)
+        - Big potion: Restore 500 HP (capped at max HP)
+        - Super potion: Fully restore HP to max
+      </consumables>
+
+      <permanent_upgrades>
+        - Red gem: +3 ATK permanently
+        - Blue gem: +3 DEF permanently
+        - Green gem: +1 ATK and +1 DEF permanently
+        - Attack book: +ATK (varies by floor)
+        - Defense book: +DEF (varies by floor)
+        - Life gem: +Max HP
+      </permanent_upgrades>
+
+      <equipment>
+        - Iron Sword: +10 ATK
+        - Steel Sword: +20 ATK
+        - Holy Sword: +50 ATK
+        - Wooden Shield: +8 DEF
+        - Iron Shield: +15 DEF
+        - Holy Shield: +40 DEF
+        Equipment replaces previous equipment of same slot (only one sword, one shield)
+      </equipment>
+
+      <currency>
+        - Gold pile: +50 gold
+        - Big gold pile: +200 gold
+        - Gold is used in shops to buy items
+      </currency>
+    </item_system>
+
+    <shop_system>
+      - Shop NPCs appear on certain floors
+      - Player can buy items with gold:
+        - Potions (small: 25 gold, big: 100 gold)
+        - Keys (yellow: 10 gold, blue: 50 gold, red: 100 gold)
+        - Gems (red: 80 gold, blue: 80 gold)
+      - Some shops also buy items from player
+      - Shop interface opens as a modal overlay
+    </shop_system>
+
+    <npcs_and_events>
+      - Guide NPC: gives hints and game tips
+      - Healer NPC: fully heals player (limited uses per floor)
+      - Teleporter NPC: teleports player to a specific floor
+      - Gambling NPC: player pays gold for random item reward
+      - Fortune teller: shows monster stats preview
+      - Story NPCs: advance the game narrative
+      - Trapped floor: stepping on certain tiles triggers damage or teleport
+    </npcs_and_events>
+  </game_design>
+
+  <map_design>
+    <floor_0_ground_floor>
+      The starting floor. Player begins here with base stats.
+      Layout: simple introduction floor with a few weak monsters (Green Slimes),
+      some yellow keys and doors, small potions, and stairs to floor 1.
+      An NPC guide explains basic controls.
+      Contains: 3 Green Slimes, 2 Red Bats, 2 Yellow Keys, 1 Yellow Door,
+      2 Small Potions, 1 Red Gem, stairs up.
+    </floor_0_ground_floor>
+
+    <floor_1>
+      Slightly harder. Introduces blue keys/doors.
+      Contains: 2 Green Slimes, 2 Red Bats, 1 Skeleton,
+      2 Yellow Keys, 1 Blue Key, 1 Yellow Door, 1 Blue Door,
+      2 Small Potions, 1 Blue Gem, 1 Gold Pile, stairs up and down.
+    </floor_1>
+
+    <floor_2>
+      Medium difficulty. More complex door puzzles.
+      Contains: 1 Red Bat, 2 Skeletons, 1 Magician,
+      2 Yellow Keys, 1 Blue Key, 2 Yellow Doors, 1 Blue Door,
+      1 Small Potion, 1 Big Potion, 1 Green Gem, stairs up and down.
+    </floor_2>
+
+    <floor_3_shop_floor>
+      Contains a shop NPC. Introduction to the shop system.
+      Contains: 1 Shopkeeper NPC, 2 Green Slimes, 1 Yellow Key,
+      2 Gold Piles, stairs up and down.
+    </floor_3_shop_floor>
+
+    <floor_4>
+      Introduces red keys/doors and stronger monsters.
+      Contains: 2 Skeletons, 1 Red Slime, 1 Stone Golem,
+      2 Yellow Keys, 1 Blue Key, 1 Red Key, 2 Yellow Doors, 1 Blue Door, 1 Red Door,
+      1 Big Potion, 1 Blue Gem, 1 Iron Sword, stairs up and down.
+    </floor_4>
+
+    <floor_5>
+      Harder combat encounters. More strategic key usage required.
+      Contains: 1 Stone Golem, 2 Dark Knights, 1 Witch,
+      1 Yellow Key, 1 Blue Key, 1 Red Key, 2 Yellow Doors, 1 Blue Door, 1 Red Door,
+      1 Big Potion, 1 Green Gem, 1 Wooden Shield, stairs up and down.
+    </floor_5>
+
+    <floor_6>
+      Complex puzzle floor with hidden walls and strategic routing.
+      Contains: 2 Dark Knights, 2 Witches, 1 Red Slime,
+      2 Yellow Keys, 2 Blue Keys, 1 Red Key, 3 Yellow Doors, 2 Blue Doors, 1 Red Door,
+      1 Super Potion, 1 Attack Book, stairs up and down.
+      Has 2 hidden walls that reveal shortcuts.
+    </floor_6>
+
+    <floor_7>
+      First serious challenge floor. Requires good stat build.
+      Contains: 1 Vampire, 1 Dragon, 2 Witches,
+      1 Yellow Key, 1 Blue Key, 1 Red Key, 2 Yellow Doors, 1 Blue Door, 1 Red Door,
+      1 Big Potion, 1 Defense Book, 1 Steel Sword, stairs up and down.
+    </floor_7>
+
+    <floor_8>
+      Very difficult. Minimal healing, tough monsters.
+      Contains: 2 Vampires, 1 Dragon, 1 Dark Mage,
+      1 Blue Key, 1 Red Key, 1 Yellow Door, 1 Blue Door, 2 Red Doors,
+      1 Super Potion, 1 Attack Book, 1 Iron Shield, stairs up and down.
+    </floor_8>
+
+    <floor_9_boss_floor>
+      Mini-boss floor. Must defeat Mini Boss to proceed.
+      Contains: 1 Skeleton King, 1 Dark Mage, 1 Mini Boss (guards stairs),
+      1 Red Key, 2 Red Doors,
+      1 Super Potion, 1 Holy Shield, stairs up and down.
+    </floor_9_boss_floor>
+
+    <floor_10_final_floor>
+      The final floor. Confront the Tower Lord.
+      Contains: 1 Floor Guardian, 1 Tower Lord (Final Boss) guarding the victory stairs,
+      1 Super Potion, 1 Holy Sword (guarded by Floor Guardian),
+      1 Red Key, 1 Red Door.
+      Defeating Tower Lord = game victory.
+    </floor_10_final_floor>
+  </map_design>
+
+  <core_features>
+    <game_interface>
+      - Tile-based game map rendering (11x11 grid per floor)
+      - Player character sprite on the map
+      - Smooth movement animation between tiles
+      - Status panel showing all player stats (HP, ATK, DEF, keys, gold, floor)
+      - Mini-map or floor indicator
+      - Game log/message area for events
+      - Keyboard controls (arrow keys or WASD for movement)
+      - Click/tap to move (for mobile support)
+      - Turn counter and step tracker
+    </game_interface>
+
+    <map_rendering>
+      - Each tile rendered with distinct visual appearance
+      - Wall tiles with stone/brick texture
+      - Floor tiles with dungeon floor pattern
+      - Door tiles with color-coded appearance (yellow, blue, red)
+      - Item tiles with sparkle/glow effect to indicate interactability
+      - Monster tiles with animated sprites (idle animation)
+      - Player sprite with directional facing
+      - Stairs with visual indicator (up/down arrows)
+      - Fog of war or visibility system (optional)
+      - Smooth camera/viewport if map is larger than screen
+    </map_rendering>
+
+    <combat_display>
+      - Damage numbers popup during combat
+      - HP bar animation during combat
+      - Combat result overlay (victory/defeat)
+      - Monster info tooltip on hover (showing stats)
+      - Battle log showing damage dealt/received per round
+      - Critical hit or special attack effects (optional)
+    </combat_display>
+
+    <item_interaction>
+      - Auto-pickup when stepping on item tiles
+      - Notification popup showing what was picked up
+      - Stat change animation (+3 ATK flashes on screen)
+      - Equipment comparison (showing stat difference when picking up equipment)
+      - Full inventory view (optional, for consumables)
+    </item_interaction>
+
+    <save_load_system>
+      - Auto-save at key points (entering new floor, after combat)
+      - Manual save (3 save slots)
+      - Load saved game from main menu
+      - Save stores: player stats, inventory, current floor, map state, visited floors
+      - Save data stored in localStorage and optionally synced to backend
+    </save_load_system>
+
+    <main_menu>
+      - New Game button
+      - Continue Game button (loads from save)
+      - Settings button
+      - About/Help button
+      - Game title with atmospheric background
+    </main_menu>
+
+    <game_over_screen>
+      - Game Over message
+      - Final stats display (floor reached, monsters killed, steps taken)
+      - Retry from last save button
+      - Return to main menu button
+      - Restart from beginning option
+    </game_over_screen>
+
+    <victory_screen>
+      - Congratulations message
+      - Final stats and score
+      - Play time display
+      - Return to main menu option
+      - New Game+ option (replay with harder difficulty)
+    </victory_screen>
+
+    <settings>
+      - Music/SFX volume control
+      - Movement speed (instant / smooth animation toggle)
+      - Key repeat for held keys
+      - Theme selection (classic / modern visual style)
+      - Show monster stats on hover toggle
+      - Auto-save toggle
+      - Reset game progress option
+    </settings>
+
+    <help_tutorial>
+      - How to play tutorial (accessible from main menu and in-game)
+      - Control reference (keyboard shortcuts)
+      - Monster stat reference guide
+      - Item description guide
+      - Strategy tips
+    </help_tutorial>
+
+    <game_mechanics>
+      - One-way tiles (can pass through one direction only)
+      - Conveyor/teleporter tiles (move player to specific position)
+      - Damage tiles (deal damage when stepped on)
+      - Sealed areas (require specific conditions to access)
+      - Floor-specific events and triggers
+      - Score calculation based on: floors cleared, monsters defeated,
+        items collected, steps taken (fewer = better), gold remaining
+    </game_mechanics>
+
+    <responsive_design>
+      - Desktop: game map centered with status panel on the side
+      - Mobile: game map fills screen, status panel as overlay or bottom bar
+      - Touch controls: on-screen D-pad for mobile
+      - Responsive tile sizing based on viewport
+      - Landscape and portrait support
+    </responsive_design>
+  </core_features>
+
+  <database_schema>
+    <tables>
+      <save_games>
+        - id, user_id, slot_number
+        - save_data (JSON: all player stats, inventory, floor, map states)
+        - score, play_time_seconds
+        - created_at, updated_at
+      </save_games>
+
+      <leaderboard>
+        - id, player_name
+        - score, floors_cleared, monsters_killed
+        - play_time_seconds, difficulty
+        - created_at
+      </leaderboard>
+
+      <game_settings>
+        - id, user_id
+        - music_volume, sfx_volume
+        - movement_speed, theme
+        - auto_save_enabled
+        - show_monster_stats
+      </game_settings>
+    </tables>
+  </database_schema>
+
+  <api_endpoints_summary>
+    <save_load>
+      - POST /api/saves (create new save)
+      - GET /api/saves (list all saves)
+      - GET /api/saves/:id (load specific save)
+      - PUT /api/saves/:id (update save)
+      - DELETE /api/saves/:id (delete save)
+    </save_load>
+
+    <leaderboard>
+      - GET /api/leaderboard (get top scores)
+      - POST /api/leaderboard (submit score)
+    </leaderboard>
+
+    <settings>
+      - GET /api/settings (get user settings)
+      - PUT /api/settings (update settings)
+    </settings>
+
+    <maps>
+      - GET /api/maps (get all floor maps)
+      - GET /api/maps/:floor (get specific floor map)
+    </maps>
+  </api_endpoints_summary>
+
+  <ui_layout>
+    <main_structure>
+      Desktop layout:
+      - Left: Game map area (square, centered)
+      - Right: Status panel (player stats, inventory, minimap)
+      - Bottom: Message log (last 5-10 game events)
+      - Top: Floor indicator, menu buttons
+
+      Mobile layout:
+      - Full screen game map
+      - Overlay status bar (HP bar at top, key counts)
+      - Bottom: touch D-pad controls
+      - Swipe or tap for menu access
+    </main_structure>
+
+    <game_map_area>
+      - 11x11 tile grid (or configurable per floor)
+      - Each tile is a square with consistent sizing
+      - Player sprite clearly visible with directional indicator
+      - Items have subtle glow/sparkle animation
+      - Monsters have idle animation (slight bob or pulse)
+      - Doors show key color clearly
+      - Stairs have animated indicator
+      - Current position highlighted
+    </game_map_area>
+
+    <status_panel>
+      - Player portrait/avatar
+      - HP bar (current/max with color gradient green->yellow->red)
+      - ATK stat with icon
+      - DEF stat with icon
+      - Key counts: Yellow X, Blue X, Red X (with key icons)
+      - Gold amount with coin icon
+      - Current floor indicator
+      - Steps counter
+      - Mini-map showing visited floor layout
+    </status_panel>
+
+    <message_log>
+      - Scrollable list of recent game events
+      - Color-coded messages:
+        - White: general info
+        - Green: item pickup, stat gain
+        - Red: damage taken, combat loss
+        - Yellow: key usage, door opened
+        - Blue: special event, NPC dialogue
+      - Auto-scroll to latest message
+      - Click to expand for full message
+    </message_log>
+
+    <modals_overlays>
+      - Shop interface modal
+      - Combat result overlay
+      - Save/Load modal
+      - Settings modal
+      - Help/Tutorial modal
+      - Game Over screen
+      - Victory screen
+      - Inventory detail overlay
+    </modals_overlays>
+  </ui_layout>
+
+  <design_system>
+    <visual_style>
+      - Retro pixel-art aesthetic with clean modern UI
+      - Dark dungeon theme with warm accent colors
+      - Tile-based rendering with crisp pixel boundaries
+      - Pixel-perfect sprite rendering (no anti-aliasing on sprites)
+      - UI chrome uses modern rounded corners and clean typography
+    </visual_style>
+
+    <color_palette>
+      - Background: Dark stone gray (#2D2D2D)
+      - Game area: Slightly lighter dungeon floor (#3A3A3A)
+      - Walls: Stone gray (#5C5C5C) with brick texture
+      - Primary accent: Golden yellow (#FFD700) for important UI elements
+      - Player: Bright blue (#4488FF)
+      - HP bar: Green (#44CC44) to Red (#CC4444) gradient based on health
+      - Yellow door/key: (#FFD700)
+      - Blue door/key: (#4488FF)
+      - Red door/key: (#FF4444)
+      - Item glow: Soft white/yellow (#FFFFCC)
+      - Text: Off-white (#E5E5E5) on dark backgrounds
+      - Panel background: Semi-transparent dark (#1A1A1ACC)
+    </color_palette>
+
+    <typography>
+      - Game text: Pixel font (Press Start 2P or similar) for game elements
+      - UI text: Clean sans-serif (Inter, system-ui) for menus and panels
+      - Stat numbers: Monospace for alignment
+      - Message log: Regular weight, 14-16px
+    </typography>
+
+    <animations>
+      - Player movement: smooth slide between tiles (100-150ms)
+      - Combat: shake effect on hit, flash on damage
+      - Item pickup: float up and fade out
+      - Door open: slide animation
+      - HP bar: smooth transition on value change
+      - Monster idle: subtle pulse/bob (2s cycle)
+      - Stairs: animated arrow or glow
+      - Screen transitions: fade between floors
+    </animations>
+  </design_system>
+
+  <key_interactions>
+    <movement_flow>
+      1. Player presses arrow key / WASD / clicks adjacent tile
+      2. If target tile is passable: player moves to tile
+      3. If target tile is wall: movement blocked, no action
+      4. If target tile has item: item auto-picked up, stats updated, message shown
+      5. If target tile has monster: combat initiated automatically
+      6. If target tile is door: key consumed, door opens, player moves to tile
+      7. If target tile is stairs: floor transition with fade animation
+      8. If target tile is NPC: interaction dialogue opens
+      9. Each movement counts as one step
+    </movement_flow>
+
+    <combat_flow>
+      1. Player moves into monster tile
+      2. Combat overlay appears showing both combatants
+      3. Auto-combat resolves round by round with visual feedback:
+         - Damage numbers popup
+         - HP bars animate
+         - Hit effects on sprites
+      4. If player wins: monster disappears, XP/gain shown, player stays on tile
+      5. If player loses: game over screen with options
+      6. Player can see expected combat result via tooltip before engaging
+    </combat_flow>
+
+    <floor_transition_flow>
+      1. Player steps on stairs tile
+      2. Brief transition animation (fade or slide)
+      3. New floor loads with player at corresponding stairs position
+      4. Floor number indicator updates
+      5. Message log shows "Entered Floor X"
+    </floor_transition_flow>
+
+    <shop_flow>
+      1. Player interacts with shopkeeper NPC
+      2. Shop modal opens showing available items with prices
+      3. Player clicks item to buy (if enough gold)
+      4. Gold deducted, item added, modal updates
+      5. Close shop to resume game
+    </shop_flow>
+  </key_interactions>
+
+  <initial_player_stats>
+    HP: 1000, Max HP: 1000
+    ATK: 10, DEF: 10
+    Gold: 0
+    Yellow Keys: 1
+    Blue Keys: 0
+    Red Keys: 0
+    Floor: 0 (Ground Floor)
+    Steps: 0
+  </initial_player_stats>
+
+  <implementation_steps>
+    <step number="1">
+      <title>Setup Project Foundation</title>
+      <tasks>
+        - Initialize React + Vite project
+        - Set up Express server with SQLite
+        - Create basic project structure (components, game logic, data)
+        - Implement game state management (useReducer + context)
+        - Create database schema and migrations
+        - Build main menu screen
+        - Set up routing (menu, game, settings)
+      </tasks>
+    </step>
+
+    <step number="2">
+      <title>Core Game Engine</title>
+      <tasks>
+        - Implement tile map data structure and rendering
+        - Build grid-based movement system (keyboard + click)
+        - Create collision detection system
+        - Implement item pickup system
+        - Build door/key interaction system
+        - Create floor transition system
+        - Add player sprite rendering with directional facing
+      </tasks>
+    </step>
+
+    <step number="3">
+      <title>Combat System</title>
+      <tasks>
+        - Implement auto-combat resolution logic
+        - Build combat UI overlay with animations
+        - Add damage number popups
+        - Create monster stat tooltip system
+        - Implement combat prediction (show outcome before fighting)
+        - Add HP bar animations during combat
+        - Build game over detection and screen
+      </tasks>
+    </step>
+
+    <step number="4">
+      <title>Map Content and Balance</title>
+      <tasks>
+        - Design and implement all 11 floors with tile data
+        - Place monsters, items, keys, and doors per floor specification
+        - Balance monster stats against player progression
+        - Implement hidden wall mechanic
+        - Add NPC interaction system
+        - Create shop system with buy interface
+      </tasks>
+    </step>
+
+    <step number="5">
+      <title>UI and Visual Polish</title>
+      <tasks>
+        - Build status panel with all player stats
+        - Implement message log system
+        - Add tile sprites and visual styling
+        - Create animations (movement, combat, pickups, transitions)
+        - Build settings modal
+        - Add help/tutorial screen
+        - Implement mini-map
+      </tasks>
+    </step>
+
+    <step number="6">
+      <title>Save/Load and Persistence</title>
+      <tasks>
+        - Implement save game system (3 slots)
+        - Build auto-save on floor transitions
+        - Create load game interface
+        - Add backend save/load API
+        - Implement localStorage fallback for saves
+        - Add save data validation
+      </tasks>
+    </step>
+
+    <step number="7">
+      <title>Victory, Scoring, and Extras</title>
+      <tasks>
+        - Implement victory screen with final stats
+        - Build scoring system
+        - Add leaderboard (backend + UI)
+        - Create New Game+ mode (optional harder difficulty)
+        - Add sound effects hooks (placeholder for audio)
+        - Mobile responsive layout and touch controls
+        - Performance optimization
+      </tasks>
+    </step>
+  </implementation_steps>
+
+  <success_criteria>
+    <functionality>
+      - All 11 floors fully playable with correct tile layouts
+      - Movement, combat, items, keys/doors all working correctly
+      - All monster types present with correct stats
+      - Combat resolution mathematically accurate
+      - Shop system functional
+      - Save/load working reliably
+      - Game completable from start to final boss victory
+    </functionality>
+
+    <game_balance>
+      - Starting stats allow clearing floor 0 with minimal challenge
+      - Progression requires strategic item collection and route planning
+      - Keys are scarce enough to create meaningful choices
+      - Each floor increases in difficulty
+      - Final boss is challenging but beatable with optimal play
+      - No softlocks (player can always reach victory with correct choices)
+    </game_balance>
+
+    <user_experience>
+      - Responsive keyboard controls with no input lag
+      - Clear visual feedback for all actions
+      - Intuitive UI with no confusion about game state
+      - Combat results easy to understand
+      - Monster stats visible for strategic planning
+      - Smooth animations that don't slow gameplay
+      - Mobile-friendly with touch controls
+    </user_experience>
+
+    <technical_quality>
+      - Clean game state management
+      - Efficient map rendering (no unnecessary re-renders)
+      - Proper separation of game logic from UI
+      - Immutable state updates
+      - Save data integrity and validation
+      - No memory leaks from animations or event listeners
+    </technical_quality>
+
+    <design_polish>
+      - Consistent pixel-art visual style
+      - Smooth animations and transitions
+      - Clear color coding for game elements
+      - Professional-looking menus and overlays
+      - Atmospheric dungeon aesthetic
+      - Polished game over and victory screens
+    </design_polish>
+  </success_criteria>
+</project_specification>

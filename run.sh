@@ -1,0 +1,1 @@
+python autonomous_agent_demo.py --project-dir ./magic_tower
