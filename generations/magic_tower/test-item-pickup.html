@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic Tower - Item Pickup Test Suite (Session 9)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .test-section { margin-bottom: 2rem; padding: 1rem; border: 2px solid #444; border-radius: 8px; }
+    .test-pass { background-color: #1a3a1a; border-color: #22c55e; }
+    .test-fail { background-color: #3a1a1a; border-color: #ef4444; }
+    .test-pending { background-color: #3a3a1a; border-color: #eab308; }
+    code { background-color: #2a2a2a; padding: 0.2rem 0.4rem; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 p-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-4xl font-bold text-yellow-400 mb-4">Magic Tower - Item Pickup Test Suite</h1>
+    <p class="text-gray-400 mb-6">Session 9: Verification of Item Pickup System</p>
+
+    <div class="mb-8 p-4 bg-blue-900 rounded-lg">
+      <h2 class="text-xl font-bold text-blue-300 mb-2">🎮 Game Controls</h2>
+      <p class="mb-2">Open the game at: <a href="http://localhost:3008" target="_blank" class="text-yellow-400 underline">http://localhost:3008</a></p>
+      <ul class="list-disc list-inside text-sm">
+        <li>Click <strong>New Game</strong> to start</li>
+        <li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move</li>
+        <li>Click on adjacent tiles to move</li>
+      </ul>
+    </div>
+
+    <!-- Test #7: Small Potion -->
+    <div id="test-7" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #7: Small Potion Pickup (+200 HP)</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 503-506<br>
+          Logic: <code>hp = min(hp + 200, maxHp)</code>
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game (player at 5,5 with 1000/1000 HP)</li>
+        <li>Move to tile (2,2) or (8,8) where Small Potions are located</li>
+        <li>Walk onto the Small Potion tile</li>
+        <li>Verify HP increases by 200 (or stays at 1000 if already full)</li>
+        <li>Verify the potion disappears from the map</li>
+        <li>Verify message log shows "Used Small Potion (+200 HP)"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-7').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-7').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Test #8: Big Potion -->
+    <div id="test-8" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #8: Big Potion Pickup (+500 HP)</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 507-510<br>
+          Logic: <code>hp = min(hp + 500, maxHp)</code>
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game</li>
+        <li>Move up stairs to Floor 1 (position 5,9)</li>
+        <li>Locate Big Potion on Floor 2 or higher</li>
+        <li>Reduce HP first by fighting a monster</li>
+        <li>Walk onto the Big Potion tile</li>
+        <li>Verify HP increases by 500 (capped at max)</li>
+        <li>Verify message log shows "Used Big Potion (+500 HP)"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-8').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-8').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Test #9: Super Potion -->
+    <div id="test-9" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #9: Super Potion Pickup (Full Heal)</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 511-514<br>
+          Logic: <code>hp = maxHp</code> (full restore)
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game and reach a floor with Super Potion</li>
+        <li>Reduce HP by fighting monsters</li>
+        <li>Walk onto the Super Potion tile</li>
+        <li>Verify HP is fully restored to max (1000)</li>
+        <li>Verify message log shows "Used Super Potion (Full Heal)"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-9').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-9').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Test #10: Yellow Key -->
+    <div id="test-10" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #10: Yellow Key Pickup</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 491-494<br>
+          Logic: <code>yellowKeys = yellowKeys + 1</code>
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game (player has 1 Yellow Key)</li>
+        <li>Move to position (3,3) to pick up Yellow Key</li>
+        <li>Verify Yellow Key count increases to 2</li>
+        <li>Verify the key disappears from the map</li>
+        <li>Verify message log shows "Picked up Yellow Key"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-10').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-10').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Test #11: Blue Key -->
+    <div id="test-11" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #11: Blue Key Pickup</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 495-498<br>
+          Logic: <code>blueKeys = blueKeys + 1</code>
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game</li>
+        <li>Go up stairs to Floor 1 (position 5,9)</li>
+        <li>Move to position (1,8) to pick up Blue Key</li>
+        <li>Verify Blue Key count increases from 0 to 1</li>
+        <li>Verify the key disappears from the map</li>
+        <li>Verify message log shows "Picked up Blue Key"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-11').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-11').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Test #12: Red Key -->
+    <div id="test-12" class="test-section test-pending">
+      <h2 class="text-2xl font-bold mb-3">Test #12: Red Key Pickup</h2>
+      <div class="mb-4">
+        <p class="font-bold text-green-400">✓ Code Verified: Implementation is correct</p>
+        <p class="text-sm text-gray-400 mt-1">
+          Location: <code>gameReducer.js</code> lines 499-502<br>
+          Logic: <code>redKeys = redKeys + 1</code>
+        </p>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">Manual UI Testing Steps:</h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>Start a new game</li>
+        <li>Progress to Floor 4 where Red Keys are located</li>
+        <li>Move onto a Red Key tile</li>
+        <li>Verify Red Key count increases from 0 to 1</li>
+        <li>Verify the key disappears from the map</li>
+        <li>Verify message log shows "Picked up Red Key"</li>
+      </ol>
+      <div class="flex gap-2">
+        <button onclick="document.getElementById('test-12').className='test-section test-pass'" class="px-4 py-2 bg-green-600 hover:bg-green-500 rounded">✓ Pass</button>
+        <button onclick="document.getElementById('test-12').className='test-section test-fail'" class="px-4 py-2 bg-red-600 hover:bg-red-500 rounded">✗ Fail</button>
+      </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="mt-8 p-6 bg-gray-800 rounded-lg">
+      <h2 class="text-2xl font-bold mb-4">📊 Code Verification Summary</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-green-900 p-4 rounded">
+          <h3 class="font-bold text-green-400 mb-2">✅ Fully Implemented</h3>
+          <ul class="text-sm space-y-1">
+            <li>• Small Potion (+200 HP) - line 503</li>
+            <li>• Big Potion (+500 HP) - line 507</li>
+            <li>• Super Potion (Full Heal) - line 511</li>
+            <li>• Yellow Key (+1) - line 491</li>
+            <li>• Blue Key (+1) - line 495</li>
+            <li>• Red Key (+1) - line 499</li>
+            <li>• Red Gem (+3 ATK) - line 515</li>
+            <li>• Blue Gem (+3 DEF) - line 519</li>
+            <li>• Green Gem (+1 ATK, +1 DEF) - line 523</li>
+            <li>• Gold Pile (+50) - line 528</li>
+            <li>• Big Gold Pile (+200) - line 532</li>
+          </ul>
+        </div>
+        <div class="bg-blue-900 p-4 rounded">
+          <h3 class="font-bold text-blue-400 mb-2">🔍 Implementation Details</h3>
+          <ul class="text-sm space-y-1">
+            <li>• Immutable state updates ✓</li>
+            <li>• Items removed from map ✓</li>
+            <li>• Message log updates ✓</li>
+            <li>• HP capped at max ✓</li>
+            <li>• Key counters increment ✓</li>
+            <li>• Step counter increments ✓</li>
+            <li>• No mutations detected ✓</li>
+          </ul>
+        </div>
+      </div>
+      <p class="mt-4 text-yellow-400 font-semibold">
+        All item pickup logic is correctly implemented in handlePickup() function.
+        These tests can be marked as passing after UI verification.
+      </p>
+    </div>
+
+    <div class="mt-6 text-center text-gray-500 text-sm">
+      <p>Session 9 Test Suite - Item Pickup System Verification</p>
+      <p>Generated: 2026-03-29</p>
+    </div>
+  </div>
+</body>
+</html>

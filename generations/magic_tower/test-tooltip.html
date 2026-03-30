@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tooltip Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .test-area {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      border: 2px solid #444;
+      margin: 20px 0;
+      padding: 20px;
+    }
+    .monster-tile {
+      width: 50px;
+      height: 50px;
+      background: #4ade80;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      border: 2px solid transparent;
+    }
+    .monster-tile:hover {
+      border-color: #fbbf24;
+    }
+    .info {
+      margin: 10px 0;
+      padding: 10px;
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+    code {
+      background: #333;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Combat Tooltip Test</h1>
+
+  <div class="info">
+    <h3>Test Instructions:</h3>
+    <ol>
+      <li>Navigate to <code>http://localhost:3000</code></li>
+      <li>Click "New Game" button</li>
+      <li>Locate a monster on the map (green or red colored tile with emoji)</li>
+      <li>Hover your mouse over the monster tile</li>
+      <li>Verify tooltip appears showing:
+        <ul>
+          <li>Monster name (e.g., "Green Slime")</li>
+          <li>Monster HP</li>
+          <li>Monster ATK</li>
+          <li>Monster DEF</li>
+          <li>Combat prediction (damage, rounds, outcome)</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="info">
+    <h3>Monster Locations on Floor 0:</h3>
+    <ul>
+      <li><strong>Green Slimes:</strong> (2,5), (5,2), (8,5)</li>
+      <li><strong>Red Bats:</strong> (2,8), (8,2)</li>
+    </ul>
+  </div>
+
+  <div class="info">
+    <h3>Expected Tooltip Content for Green Slime:</h3>
+    <ul>
+      <li><strong>Name:</strong> Green Slime</li>
+      <li><strong>HP:</strong> 35</li>
+      <li><strong>ATK:</strong> 18</li>
+      <li><strong>DEF:</strong> 1</li>
+      <li><strong>Player damage:</strong> 9/hit (10 ATK - 1 DEF)</li>
+      <li><strong>Monster damage:</strong> 8/hit (18 ATK - 10 DEF)</li>
+      <li><strong>Rounds to kill:</strong> 4</li>
+      <li><strong>Damage taken:</strong> 24</li>
+      <li><strong>Remaining HP:</strong> 976</li>
+      <li><strong>Outcome:</strong> VICTORY</li>
+    </ul>
+  </div>
+
+  <div class="test-area">
+    <p>Hover over the monster below:</p>
+    <div style="margin-top: 50px; margin-left: 100px;">
+      <div class="monster-tile">☺</div>
+    </div>
+  </div>
+
+  <div class="info">
+    <h3>Implementation Details:</h3>
+    <ul>
+      <li><strong>Component:</strong> <code>src/components/MonsterTooltip.jsx</code></li>
+      <li><strong>Integration:</strong> Updated <code>src/components/GameMap.jsx</code></li>
+      <li><strong>Features:</strong>
+        <ul>
+          <li>Hover detection on monster tiles</li>
+          <li>Combat prediction algorithm</li>
+          <li>Responsive positioning</li>
+          <li>Visual indicators for victory/defeat</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    // Log for manual testing
+    console.log('Tooltip Test Page Loaded');
+    console.log('Please test at http://localhost:3000');
+  </script>
+</body>
+</html>

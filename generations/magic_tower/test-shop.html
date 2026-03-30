@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Tower - Shop System Test Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e5e5e5;
+        }
+        h1 { color: #ffd700; }
+        h2 { color: #4488ff; }
+        .section {
+            background: #2d2d2d;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #444;
+        }
+        .test-step {
+            background: #3a3a3a;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #4488ff;
+        }
+        .expected { color: #44cc44; }
+        .code { background: #1a1a1a; padding: 10px; border-radius: 4px; }
+        .item { color: #ffd700; }
+        .price { color: #ff4444; }
+    </style>
+</head>
+<body>
+    <h1>🛒 Magic Tower - Shop System Test Guide</h1>
+
+    <div class="section">
+        <h2>📋 Session 15 - Shop Implementation</h2>
+        <p><strong>Date:</strong> 2026-03-30</p>
+        <p><strong>Feature:</strong> Shop System with Modal UI</p>
+        <p><strong>Status:</strong> ✅ IMPLEMENTED</p>
+    </div>
+
+    <div class="section">
+        <h2>🎯 What Was Implemented</h2>
+        <div class="test-step">
+            <h3>1. ShopModal Component</h3>
+            <ul>
+                <li>Created <code>src/components/ShopModal.jsx</code></li>
+                <li>Displays shop items with icons, names, descriptions, and prices</li>
+                <li>Shows player's current gold</li>
+                <li>Buy buttons are disabled when player can't afford items</li>
+                <li>Modal can be closed with X button or "Close Shop" button</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <h3>2. Shop Items (per specification)</h3>
+            <ul>
+                <li><span class="item">Small Potion</span> - <span class="price">25 gold</span> (+200 HP)</li>
+                <li><span class="item">Big Potion</span> - <span class="price">100 gold</span> (+500 HP)</li>
+                <li><span class="item">Yellow Key</span> - <span class="price">10 gold</span> (Opens yellow doors)</li>
+                <li><span class="item">Blue Key</span> - <span class="price">50 gold</span> (Opens blue doors)</li>
+                <li><span class="item">Red Key</span> - <span class="price">100 gold</span> (Opens red doors)</li>
+                <li><span class="item">Red Gem</span> - <span class="price">80 gold</span> (+3 ATK)</li>
+                <li><span class="item">Blue Gem</span> - <span class="price">80 gold</span> (+3 DEF)</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <h3>3. Game Integration</h3>
+            <ul>
+                <li>Added <code>BUY_ITEM</code> action to gameReducer</li>
+                <li>Added <code>CLOSE_SHOP</code> action to gameReducer</li>
+                <li>Shop opens when player moves onto Shopkeeper NPC tile</li>
+                <li>Gold deduction and item addition logic implemented</li>
+                <li>Shop state tracked in game state (<code>shopOpen: false</code>)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🧪 Manual Test Steps</h2>
+
+        <div class="test-step">
+            <h3>Test 1: Shop Opens When Interacting with Shopkeeper</h3>
+            <ol>
+                <li>Open game: <code>http://localhost:3000</code></li>
+                <li>Click "New Game"</li>
+                <li>Navigate to Floor 3 (shop floor):
+                    <br>• Go up stairs from Floor 0 → Floor 1</li>
+                <li>Move onto the Shopkeeper NPC (center of Floor 3)</li>
+                <li class="expected">✓ EXPECTED: Shop modal opens with all items displayed</li>
+                <li class="expected">✓ EXPECTED: Player's current gold shown (0 initially)</li>
+                <li class="expected">✓ EXPECTED: All buy buttons disabled (can't afford items)</li>
+            </ol>
+        </div>
+
+        <div class="test-step">
+            <h3>Test 2: Collect Gold and Buy Items</h3>
+            <ol>
+                <li>On Floor 3, collect the 2 gold piles (50 gold each = 100 total)</li>
+                <li>Move onto Shopkeeper NPC to open shop</li>
+                <li>Now you should have 100 gold</li>
+                <li class="expected">✓ EXPECTED: Can afford Yellow Key (10g), Blue Key (50g), Big Potion (100g)</li>
+                <li class="expected">✓ EXPECTED: Cannot afford Red Key (100g - but leaves you with 0), Red/Blue Gems (80g)</li>
+                <li>Click "Buy" on Yellow Key</li>
+                <li class="expected">✓ EXPECTED: Gold decreases to 90, Yellow Keys increases to 2</li>
+                <li class="expected">✓ EXPECTED: Success message appears: "Purchased Yellow Key!"</li>
+                <li>Click "Buy" on Big Potion</li>
+                <li class="expected">✓ EXPECTED: Gold decreases to 0, HP increases by 500</li>
+            </ol>
+        </div>
+
+        <div class="test-step">
+            <h3>Test 3: Cannot Buy Without Enough Gold</h3>
+            <ol>
+                <li>With 0 gold, try to click buy on any item</li>
+                <li class="expected">✓ EXPECTED: Buy button is disabled (grayed out)</li>
+                <li class="expected">✓ EXPECTED: Button shows "Not enough gold" text</li>
+            </ol>
+        </div>
+
+        <div class="test-step">
+            <h3>Test 4: Close Shop</h3>
+            <ol>
+                <li>With shop open, click the ✕ button in top-right</li>
+                <li class="expected">✓ EXPECTED: Shop modal closes</li>
+                <li class="expected">✓ EXPECTED: Game controls work again</li>
+                <li>Move onto Shopkeeper again</li>
+                <li class="expected">✓ EXPECTED: Shop reopens</li>
+                <li>Click "Close Shop" button at bottom</li>
+                <li class="expected">✓ EXPECTED: Shop closes again</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>✅ Code Verification</h2>
+
+        <h3>Files Modified:</h3>
+        <ul>
+            <li><code>src/components/ShopModal.jsx</code> (NEW) - Shop UI component</li>
+            <li><code>src/components/Game.jsx</code> - Added shop integration</li>
+            <li><code>src/game/gameReducer.js</code> - Added BUY_ITEM and CLOSE_SHOP actions</li>
+        </ul>
+
+        <h3>Reducer Actions Added:</h3>
+        <div class="code">
+            <pre>
+case 'BUY_ITEM':
+  return handleBuyItem(state, action.item)
+
+case 'CLOSE_SHOP':
+  return { ...state, shopOpen: false }
+            </pre>
+        </div>
+
+        <h3>Buy Item Logic:</h3>
+        <div class="code">
+            <pre>
+• Checks if player has enough gold
+• Deducts gold from player
+• Adds item to player's inventory/stats:
+  - Potions: Increase HP (capped at max HP)
+  - Keys: Increase key count
+  - Gems: Increase ATK/DEF
+• Shows success message
+• Returns error message if not enough gold
+            </pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Tests That Should Now Pass</h2>
+        <ul>
+            <li>✅ Shop modal opens when interacting with shopkeeper NPC</li>
+            <li>✅ Shop shows available items with prices</li>
+            <li>✅ Shop shows player's current gold</li>
+            <li>✅ Player can buy small potion from shop</li>
+            <li>✅ Player can buy big potion from shop</li>
+            <li>✅ Player can buy yellow key from shop</li>
+            <li>✅ Player can buy blue key from shop</li>
+            <li>✅ Player can buy red key from shop</li>
+            <li>✅ Player can buy red gem from shop</li>
+            <li>✅ Player can buy blue gem from shop</li>
+            <li>✅ Shop correctly deducts gold when purchasing</li>
+            <li>✅ Shop updates player stats after purchase</li>
+            <li>✅ Shop closes when clicking close button</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🎮 How to Test</h2>
+        <ol>
+            <li>Ensure dev server is running: <code>./init.sh</code></li>
+            <li>Open browser to: <code>http://localhost:3000</code></li>
+            <li>Start new game</li>
+            <li>Navigate floors to reach Floor 3 (shop floor)</li>
+            <li>Collect gold piles on Floor 3</li>
+            <li>Move onto Shopkeeper NPC</li>
+            <li>Try buying items!</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>📝 Next Steps</h2>
+        <ul>
+            <li>Manual browser testing to verify all shop functionality</li>
+            <li>Update feature_list.json to mark shop tests as passing</li>
+            <li>Test edge cases (0 gold, exact gold amounts, etc.)</li>
+            <li>Consider adding more items to shop (super potion, green gem, etc.)</li>
+        </ul>
+    </div>
+</body>
+</html>

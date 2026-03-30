@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement Test - Magic Tower</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e5e5e5;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .pass { background: #1b5e20; }
+        .fail { background: #5e1b1b; }
+        .info { background: #1b3a5e; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #4a4a4a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #5a5a5a;
+        }
+        #game-frame {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #444;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Magic Tower Movement Test</h1>
+
+    <div class="test-section">
+        <h2>Test Instructions</h2>
+        <ol>
+            <li>Click "Start Game" below to load the game</li>
+            <li>Click "New Game" button in the game</li>
+            <li>Use the test buttons below to simulate arrow key presses</li>
+            <li>Verify the player moves and step counter increments</li>
+        </ol>
+        <button onclick="loadGame()">Start Game</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Movement Tests</h2>
+        <button onclick="testArrowUp()">Test Arrow Up (→)</button>
+        <button onclick="testArrowDown()">Test Arrow Down (↓)</button>
+        <button onclick="testArrowLeft()">Test Arrow Left (←)</button>
+        <button onclick="testArrowRight()">Test Arrow Right (→)</button>
+        <button onclick="testWASD()">Test WASD Keys</button>
+        <button onclick="checkPlayerPosition()">Check Player Position</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Game View</h2>
+        <iframe id="game-frame" src="about:blank"></iframe>
+    </div>
+
+    <script>
+        const gameFrame = document.getElementById('game-frame');
+        const resultsDiv = document.getElementById('test-results');
+        let playerPos = { x: 5, y: 5, steps: 0 };
+
+        function addResult(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function loadGame() {
+            gameFrame.src = 'http://localhost:3008';
+            addResult('Game loaded. Click "New Game" in the iframe above.', 'info');
+        }
+
+        function sendKeyEvent(key, code, keyCode) {
+            const iframeWindow = gameFrame.contentWindow;
+            if (!iframeWindow) {
+                addResult('ERROR: Game not loaded. Click "Start Game" first.', 'fail');
+                return;
+            }
+
+            const event = new KeyboardEvent('keydown', {
+                key: key,
+                code: code,
+                keyCode: keyCode,
+                bubbles: true,
+                cancelable: true
+            });
+
+            iframeWindow.document.dispatchEvent(event);
+            iframeWindow.window.dispatchEvent(event);
+
+            addResult(`Sent key: ${key} (code: ${code}, keyCode: ${keyCode})`, 'info');
+        }
+
+        function testArrowUp() {
+            sendKeyEvent('ArrowUp', 'ArrowUp', 38);
+            setTimeout(() => {
+                playerPos.y = Math.max(0, playerPos.y - 1);
+                playerPos.steps++;
+                addResult(`Expected position: (${playerPos.x}, ${playerPos.y}), Steps: ${playerPos.steps}`, 'info');
+            }, 100);
+        }
+
+        function testArrowDown() {
+            sendKeyEvent('ArrowDown', 'ArrowDown', 40);
+            setTimeout(() => {
+                playerPos.y = Math.min(10, playerPos.y + 1);
+                playerPos.steps++;
+                addResult(`Expected position: (${playerPos.x}, ${playerPos.y}), Steps: ${playerPos.steps}`, 'info');
+            }, 100);
+        }
+
+        function testArrowLeft() {
+            sendKeyEvent('ArrowLeft', 'ArrowLeft', 37);
+            setTimeout(() => {
+                playerPos.x = Math.max(0, playerPos.x - 1);
+                playerPos.steps++;
+                addResult(`Expected position: (${playerPos.x}, ${playerPos.y}), Steps: ${playerPos.steps}`, 'info');
+            }, 100);
+        }
+
+        function testArrowRight() {
+            sendKeyEvent('ArrowRight', 'ArrowRight', 39);
+            setTimeout(() => {
+                playerPos.x = Math.min(10, playerPos.x + 1);
+                playerPos.steps++;
+                addResult(`Expected position: (${playerPos.x}, ${playerPos.y}), Steps: ${playerPos.steps}`, 'info');
+            }, 100);
+        }
+
+        function testWASD() {
+            addResult('Testing WASD keys...', 'info');
+            setTimeout(() => sendKeyEvent('w', 'KeyW', 87), 0);
+            setTimeout(() => sendKeyEvent('a', 'KeyA', 65), 200);
+            setTimeout(() => sendKeyEvent('s', 'KeyS', 83), 400);
+            setTimeout(() => sendKeyEvent('d', 'KeyD', 68), 600);
+        }
+
+        function checkPlayerPosition() {
+            const iframeWindow = gameFrame.contentWindow;
+            if (!iframeWindow) {
+                addResult('ERROR: Game not loaded.', 'fail');
+                return;
+            }
+
+            try {
+                // Try to read from the React component state
+                const statusPanel = iframeWindow.document.querySelector('.status-panel');
+                if (statusPanel) {
+                    const text = statusPanel.textContent;
+                    const hpMatch = text.match(/HP:\s*(\d+)\/(\d+)/);
+                    const atkMatch = text.match(/⚔\s*ATK.*?(\d+)/);
+                    const defMatch = text.match(/🛡\s*DEF.*?(\d+)/);
+                    const stepsMatch = text.match(/Steps\s*(\d+)/);
+                    const floorMatch = text.match(/Floor\s*(\d+)/);
+
+                    addResult('Status Panel Found:', 'pass');
+                    if (hpMatch) addResult(`HP: ${hpMatch[1]}/${hpMatch[2]}`, 'info');
+                    if (atkMatch) addResult(`ATK: ${atkMatch[1]}`, 'info');
+                    if (defMatch) addResult(`DEF: ${defMatch[1]}`, 'info');
+                    if (stepsMatch) addResult(`Steps: ${stepsMatch[1]}`, 'info');
+                    if (floorMatch) addResult(`Floor: ${floorMatch[1]}`, 'info');
+                } else {
+                    addResult('Status panel not found. Make sure you clicked "New Game"', 'fail');
+                }
+
+                // Check for player emoji on map
+                const playerTile = iframeWindow.document.querySelector('*');
+                if (playerTile && playerTile.innerHTML.includes('')) {
+                    addResult('Player emoji () found on map!', 'pass');
+                }
+            } catch (error) {
+                addResult(`Error checking position: ${error.message}`, 'fail');
+            }
+        }
+
+        // Auto-check when game loads
+        gameFrame.onload = function() {
+            addResult('Game iframe loaded successfully!', 'pass');
+        };
+    </script>
+</body>
+</html>

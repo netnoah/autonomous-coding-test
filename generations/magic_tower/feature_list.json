@@ -1,0 +1,2584 @@
+[
+  {
+    "category": "functional",
+    "description": "Application starts up and displays main menu with all buttons visible",
+    "steps": [
+      "Step 1: Run init.sh to start the application",
+      "Step 2: Navigate to localhost on the specified port",
+      "Step 3: Verify main menu is displayed",
+      "Step 4: Verify New Game button is visible and clickable",
+      "Step 5: Verify Continue Game button is visible",
+      "Step 6: Verify Settings button is visible",
+      "Step 7: Verify About/Help button is visible"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "New Game button starts game with initial player stats on floor 0",
+    "steps": [
+      "Step 1: Click New Game button from main menu",
+      "Step 2: Verify game screen loads",
+      "Step 3: Verify player is on floor 0 (Ground Floor)",
+      "Step 4: Verify player HP is 1000/1000",
+      "Step 5: Verify player ATK is 10",
+      "Step 6: Verify player DEF is 10",
+      "Step 7: Verify player Gold is 0",
+      "Step 8: Verify player has 1 Yellow Key",
+      "Step 9: Verify player has 0 Blue Keys",
+      "Step 10: Verify player has 0 Red Keys",
+      "Step 11: Verify steps counter is 0"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Arrow keys move player character one tile at a time",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Press up arrow key",
+      "Step 3: Verify player moves up one tile",
+      "Step 4: Press down arrow key",
+      "Step 5: Verify player moves down one tile",
+      "Step 6: Press left arrow key",
+      "Step 7: Verify player moves left one tile",
+      "Step 8: Press right arrow key",
+      "Step 9: Verify player moves right one tile",
+      "Step 10: Verify movement increments step counter"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "WASD keys move player character one tile at a time",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Press W key",
+      "Step 3: Verify player moves up one tile",
+      "Step 4: Press S key",
+      "Step 5: Verify player moves down one tile",
+      "Step 6: Press A key",
+      "Step 7: Verify player moves left one tile",
+      "Step 8: Press D key",
+      "Step 9: Verify player moves right one tile"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Mouse click on adjacent tile moves player to that tile",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Click on tile directly above player",
+      "Step 3: Verify player moves to that tile",
+      "Step 4: Click on tile directly below player",
+      "Step 5: Verify player moves to that tile",
+      "Step 6: Click on tile directly left of player",
+      "Step 7: Verify player moves to that tile",
+      "Step 8: Click on tile directly right of player",
+      "Step 9: Verify player moves to that tile"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player cannot walk through wall tiles",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Identify a wall tile adjacent to player",
+      "Step 3: Attempt to move into wall tile",
+      "Step 4: Verify player remains in current position",
+      "Step 5: Verify step counter did not increment"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up small potion when stepping on it",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate a small potion on the map",
+      "Step 3: Move player onto small potion tile",
+      "Step 4: Verify small potion disappears from map",
+      "Step 5: Verify player HP increases by 200 (capped at max)",
+      "Step 6: Verify message log shows potion pickup",
+      "Step 7: Verify stat change animation displays"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up big potion when stepping on it",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate a big potion on floor 2 or higher",
+      "Step 3: Move player onto big potion tile",
+      "Step 4: Verify big potion disappears from map",
+      "Step 5: Verify player HP increases by 500 (capped at max)",
+      "Step 6: Verify message log shows potion pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up super potion and HP is fully restored",
+    "steps": [
+      "Step 1: Start a new game and reduce HP below max",
+      "Step 2: Locate a super potion on higher floors",
+      "Step 3: Move player onto super potion tile",
+      "Step 4: Verify super potion disappears from map",
+      "Step 5: Verify player HP is restored to max",
+      "Step 6: Verify message log shows full heal"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up yellow key and count increases",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate a yellow key on floor 0",
+      "Step 3: Move player onto yellow key tile",
+      "Step 4: Verify yellow key disappears from map",
+      "Step 5: Verify yellow key count increases by 1",
+      "Step 6: Verify message log shows key pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up blue key and count increases",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Locate a blue key on floor 1",
+      "Step 4: Move player onto blue key tile",
+      "Step 5: Verify blue key disappears from map",
+      "Step 6: Verify blue key count increases by 1",
+      "Step 7: Verify message log shows key pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player automatically picks up red key and count increases",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Locate a red key on floor 4",
+      "Step 4: Move player onto red key tile",
+      "Step 5: Verify red key disappears from map",
+      "Step 6: Verify red key count increases by 1",
+      "Step 7: Verify message log shows key pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player picks up red gem and ATK increases by 3",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to red gem on floor 0",
+      "Step 3: Move player onto red gem tile",
+      "Step 4: Verify red gem disappears from map",
+      "Step 5: Verify ATK increases by 3",
+      "Step 6: Verify message log shows ATK increase"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player picks up blue gem and DEF increases by 3",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Locate blue gem on floor 1",
+      "Step 4: Move player onto blue gem tile",
+      "Step 5: Verify blue gem disappears from map",
+      "Step 6: Verify DEF increases by 3",
+      "Step 7: Verify message log shows DEF increase"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player picks up green gem and both ATK and DEF increase by 1",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 2",
+      "Step 3: Locate green gem on floor 2",
+      "Step 4: Move player onto green gem tile",
+      "Step 5: Verify green gem disappears from map",
+      "Step 6: Verify ATK increases by 1",
+      "Step 7: Verify DEF increases by 1",
+      "Step 8: Verify message log shows stat increases"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player picks up gold pile and gold count increases",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Locate gold pile on floor 1",
+      "Step 4: Move player onto gold pile tile",
+      "Step 5: Verify gold pile disappears from map",
+      "Step 6: Verify gold increases by 50",
+      "Step 7: Verify message log shows gold pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player picks up big gold pile and gold count increases by 200",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor with big gold pile",
+      "Step 3: Move player onto big gold pile tile",
+      "Step 4: Verify big gold pile disappears from map",
+      "Step 5: Verify gold increases by 200",
+      "Step 6: Verify message log shows gold pickup"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player with yellow key can open yellow door",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Verify player has at least 1 yellow key",
+      "Step 3: Navigate to yellow door",
+      "Step 4: Move player onto yellow door tile",
+      "Step 5: Verify yellow door disappears from map",
+      "Step 6: Verify yellow key count decreases by 1",
+      "Step 7: Verify player moves to door tile",
+      "Step 8: Verify message log shows door opened"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player without yellow key cannot open yellow door",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Use all yellow keys to open doors",
+      "Step 3: Navigate to another yellow door with 0 yellow keys",
+      "Step 4: Attempt to move onto yellow door tile",
+      "Step 5: Verify player does not move",
+      "Step 6: Verify yellow key count is still 0",
+      "Step 7: Verify door remains on map",
+      "Step 8: Verify message log shows need yellow key"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player with blue key can open blue door",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Collect blue key",
+      "Step 4: Navigate to blue door",
+      "Step 5: Move player onto blue door tile",
+      "Step 6: Verify blue door disappears from map",
+      "Step 7: Verify blue key count decreases by 1",
+      "Step 8: Verify player moves to door tile",
+      "Step 9: Verify message log shows door opened"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player with red key can open red door",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Collect red key",
+      "Step 4: Navigate to red door",
+      "Step 5: Move player onto red door tile",
+      "Step 6: Verify red door disappears from map",
+      "Step 7: Verify red key count decreases by 1",
+      "Step 8: Verify player moves to door tile",
+      "Step 9: Verify message log shows door opened"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can use stairs up to go to next floor",
+    "steps": [
+      "Step 1: Start a new game on floor 0",
+      "Step 2: Navigate to stairs up",
+      "Step 3: Move player onto stairs up tile",
+      "Step 4: Verify screen transitions with fade animation",
+      "Step 5: Verify player is now on floor 1",
+      "Step 6: Verify floor indicator shows floor 1",
+      "Step 7: Verify message log shows entered floor 1"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can use stairs down to go to previous floor",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Locate stairs down on floor 1",
+      "Step 4: Move player onto stairs down tile",
+      "Step 5: Verify screen transitions with fade animation",
+      "Step 6: Verify player is now on floor 0",
+      "Step 7: Verify floor indicator shows floor 0",
+      "Step 8: Verify message log shows entered floor 0"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Green Slime (easy monster) is resolved correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to Green Slime on floor 0",
+      "Step 3: Record current HP and stats",
+      "Step 4: Move player onto Green Slime tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Green Slime is removed from map",
+      "Step 9: Verify player HP decreased correctly (HP - (Monster ATK - Player DEF) per round)",
+      "Step 10: Verify message log shows combat result",
+      "Step 11: Verify player remains on tile after combat"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Red Bat works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to Red Bat on floor 0",
+      "Step 3: Record current HP and stats",
+      "Step 4: Move player onto Red Bat tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Red Bat is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Skeleton (medium monster) is resolved correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Locate Skeleton",
+      "Step 4: Move player onto Skeleton tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Skeleton is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Magician works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 2",
+      "Step 3: Locate Magician",
+      "Step 4: Move player onto Magician tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Magician is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Red Slime (medium difficulty) works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Collect items to increase stats",
+      "Step 4: Locate Red Slime",
+      "Step 5: Move player onto Red Slime tile",
+      "Step 6: Verify combat overlay appears",
+      "Step 7: Verify damage numbers are displayed",
+      "Step 8: Verify combat resolves with player victory",
+      "Step 9: Verify Red Slime is removed from map",
+      "Step 10: Verify player HP decreased correctly",
+      "Step 11: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Stone Golem works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Collect sufficient items",
+      "Step 4: Locate Stone Golem",
+      "Step 5: Move player onto Stone Golem tile",
+      "Step 6: Verify combat overlay appears",
+      "Step 7: Verify damage numbers are displayed",
+      "Step 8: Verify combat resolves with player victory",
+      "Step 9: Verify Stone Golem is removed from map",
+      "Step 10: Verify player HP decreased correctly",
+      "Step 11: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Dark Knight works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 5",
+      "Step 3: Collect sufficient items",
+      "Step 4: Locate Dark Knight",
+      "Step 5: Move player onto Dark Knight tile",
+      "Step 6: Verify combat overlay appears",
+      "Step 7: Verify damage numbers are displayed",
+      "Step 8: Verify combat resolves with player victory",
+      "Step 9: Verify Dark Knight is removed from map",
+      "Step 10: Verify player HP decreased correctly",
+      "Step 11: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Witch works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 5",
+      "Step 3: Collect sufficient items",
+      "Step 4: Locate Witch",
+      "Step 5: Move player onto Witch tile",
+      "Step 6: Verify combat overlay appears",
+      "Step 7: Verify damage numbers are displayed",
+      "Step 8: Verify combat resolves with player victory",
+      "Step 9: Verify Witch is removed from map",
+      "Step 10: Verify player HP decreased correctly",
+      "Step 11: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Vampire (hard monster) works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 7 with good stats",
+      "Step 3: Locate Vampire",
+      "Step 4: Move player onto Vampire tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Vampire is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Dragon works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 7 with strong stats",
+      "Step 3: Locate Dragon",
+      "Step 4: Move player onto Dragon tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Dragon is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Dark Mage works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 8 with strong stats",
+      "Step 3: Locate Dark Mage",
+      "Step 4: Move player onto Dark Mage tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Dark Mage is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Skeleton King works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 9 with strong stats",
+      "Step 3: Locate Skeleton King",
+      "Step 4: Move player onto Skeleton King tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Skeleton King is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Mini Boss works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 9 with very strong stats",
+      "Step 3: Locate Mini Boss",
+      "Step 4: Move player onto Mini Boss tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Mini Boss is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Floor Guardian works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 10 with excellent stats",
+      "Step 3: Locate Floor Guardian",
+      "Step 4: Move player onto Floor Guardian tile",
+      "Step 5: Verify combat overlay appears",
+      "Step 6: Verify damage numbers are displayed",
+      "Step 7: Verify combat resolves with player victory",
+      "Step 8: Verify Floor Guardian is removed from map",
+      "Step 9: Verify player HP decreased correctly",
+      "Step 10: Verify message log shows combat result"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player combat with Tower Lord (Final Boss) works correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress through all floors to floor 10",
+      "Step 3: Collect Holy Sword and best items",
+      "Step 4: Locate Tower Lord",
+      "Step 5: Move player onto Tower Lord tile",
+      "Step 6: Verify combat overlay appears",
+      "Step 7: Verify damage numbers are displayed",
+      "Step 8: Verify combat resolves with player victory",
+      "Step 9: Verify Tower Lord is removed from map",
+      "Step 10: Verify player HP decreased correctly",
+      "Step 11: Verify victory screen appears",
+      "Step 12: Verify message log shows final victory"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Combat tooltip shows monster stats on hover",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate any monster",
+      "Step 3: Hover mouse over monster tile",
+      "Step 4: Verify tooltip appears showing monster name",
+      "Step 5: Verify tooltip shows monster HP",
+      "Step 6: Verify tooltip shows monster ATK",
+      "Step 7: Verify tooltip shows monster DEF",
+      "Step 8: Verify tooltip shows predicted combat outcome"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player dies when HP reaches 0 and game over screen appears",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to a monster the player cannot defeat",
+      "Step 3: Move player onto monster tile",
+      "Step 4: Verify combat resolves with player defeat",
+      "Step 5: Verify player HP reaches 0",
+      "Step 6: Verify game over screen appears",
+      "Step 7: Verify final stats are displayed",
+      "Step 8: Verify Retry from last save button is visible",
+      "Step 9: Verify Return to main menu button is visible",
+      "Step 10: Verify Restart from beginning button is visible"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 0 has correct layout with specified content",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Explore entire floor 0",
+      "Step 3: Verify there are 3 Green Slimes",
+      "Step 4: Verify there are 2 Red Bats",
+      "Step 5: Verify there are 2 Yellow Keys",
+      "Step 6: Verify there is 1 Yellow Door",
+      "Step 7: Verify there are 2 Small Potions",
+      "Step 8: Verify there is 1 Red Gem",
+      "Step 9: Verify there are stairs up to floor 1",
+      "Step 10: Verify layout matches floor 0 specification"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 1 has correct layout with specified content",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Explore entire floor 1",
+      "Step 4: Verify there are 2 Green Slimes",
+      "Step 5: Verify there are 2 Red Bats",
+      "Step 6: Verify there is 1 Skeleton",
+      "Step 7: Verify there are 2 Yellow Keys",
+      "Step 8: Verify there is 1 Blue Key",
+      "Step 9: Verify there is 1 Yellow Door",
+      "Step 10: Verify there is 1 Blue Door",
+      "Step 11: Verify there are 2 Small Potions",
+      "Step 12: Verify there is 1 Blue Gem",
+      "Step 13: Verify there is 1 Gold Pile",
+      "Step 14: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 2 has correct layout with specified content",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 2",
+      "Step 3: Explore entire floor 2",
+      "Step 4: Verify there is 1 Red Bat",
+      "Step 5: Verify there are 2 Skeletons",
+      "Step 6: Verify there is 1 Magician",
+      "Step 7: Verify there are 2 Yellow Keys",
+      "Step 8: Verify there is 1 Blue Key",
+      "Step 9: Verify there are 2 Yellow Doors",
+      "Step 10: Verify there is 1 Blue Door",
+      "Step 11: Verify there is 1 Small Potion",
+      "Step 12: Verify there is 1 Big Potion",
+      "Step 13: Verify there is 1 Green Gem",
+      "Step 14: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 3 (shop floor) has correct layout with shop NPC",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3",
+      "Step 3: Explore entire floor 3",
+      "Step 4: Verify there is 1 Shopkeeper NPC",
+      "Step 5: Verify there are 2 Green Slimes",
+      "Step 6: Verify there is 1 Yellow Key",
+      "Step 7: Verify there are 2 Gold Piles",
+      "Step 8: Verify there are stairs up and down",
+      "Step 9: Interact with shopkeeper NPC",
+      "Step 10: Verify shop modal opens"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 4 has correct layout with red keys/doors",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Explore entire floor 4",
+      "Step 4: Verify there are 2 Skeletons",
+      "Step 5: Verify there is 1 Red Slime",
+      "Step 6: Verify there is 1 Stone Golem",
+      "Step 7: Verify there are 2 Yellow Keys",
+      "Step 8: Verify there is 1 Blue Key",
+      "Step 9: Verify there is 1 Red Key",
+      "Step 10: Verify there are 2 Yellow Doors",
+      "Step 11: Verify there is 1 Blue Door",
+      "Step 12: Verify there is 1 Red Door",
+      "Step 13: Verify there is 1 Big Potion",
+      "Step 14: Verify there is 1 Blue Gem",
+      "Step 15: Verify there is 1 Iron Sword",
+      "Step 16: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 5 has correct layout with harder monsters",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 5",
+      "Step 3: Explore entire floor 5",
+      "Step 4: Verify there is 1 Stone Golem",
+      "Step 5: Verify there are 2 Dark Knights",
+      "Step 6: Verify there is 1 Witch",
+      "Step 7: Verify there is 1 Yellow Key",
+      "Step 8: Verify there is 1 Blue Key",
+      "Step 9: Verify there is 1 Red Key",
+      "Step 10: Verify there are 2 Yellow Doors",
+      "Step 11: Verify there is 1 Blue Door",
+      "Step 12: Verify there is 1 Red Door",
+      "Step 13: Verify there is 1 Big Potion",
+      "Step 14: Verify there is 1 Green Gem",
+      "Step 15: Verify there is 1 Wooden Shield",
+      "Step 16: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 6 has correct layout with hidden walls",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 6",
+      "Step 3: Explore entire floor 6",
+      "Step 4: Verify there are 2 Dark Knights",
+      "Step 5: Verify there are 2 Witches",
+      "Step 6: Verify there is 1 Red Slime",
+      "Step 7: Verify there are 2 Yellow Keys",
+      "Step 8: Verify there are 2 Blue Keys",
+      "Step 9: Verify there is 1 Red Key",
+      "Step 10: Verify there are 3 Yellow Doors",
+      "Step 11: Verify there are 2 Blue Doors",
+      "Step 12: Verify there is 1 Red Door",
+      "Step 13: Verify there is 1 Super Potion",
+      "Step 14: Verify there is 1 Attack Book",
+      "Step 15: Verify there are stairs up and down",
+      "Step 16: Find and reveal 2 hidden walls"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 7 has correct layout with difficult monsters",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 7",
+      "Step 3: Explore entire floor 7",
+      "Step 4: Verify there is 1 Vampire",
+      "Step 5: Verify there is 1 Dragon",
+      "Step 6: Verify there are 2 Witches",
+      "Step 7: Verify there is 1 Yellow Key",
+      "Step 8: Verify there is 1 Blue Key",
+      "Step 9: Verify there is 1 Red Key",
+      "Step 10: Verify there are 2 Yellow Doors",
+      "Step 11: Verify there is 1 Blue Door",
+      "Step 12: Verify there is 1 Red Door",
+      "Step 13: Verify there is 1 Big Potion",
+      "Step 14: Verify there is 1 Defense Book",
+      "Step 15: Verify there is 1 Steel Sword",
+      "Step 16: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 8 has correct layout with minimal healing",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 8",
+      "Step 3: Explore entire floor 8",
+      "Step 4: Verify there are 2 Vampires",
+      "Step 5: Verify there is 1 Dragon",
+      "Step 6: Verify there is 1 Dark Mage",
+      "Step 7: Verify there is 1 Blue Key",
+      "Step 8: Verify there is 1 Red Key",
+      "Step 9: Verify there is 1 Yellow Door",
+      "Step 10: Verify there is 1 Blue Door",
+      "Step 11: Verify there are 2 Red Doors",
+      "Step 12: Verify there is 1 Super Potion",
+      "Step 13: Verify there is 1 Attack Book",
+      "Step 14: Verify there is 1 Iron Shield",
+      "Step 15: Verify there are stairs up and down"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 9 (boss floor) has correct layout with Mini Boss",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 9",
+      "Step 3: Explore entire floor 9",
+      "Step 4: Verify there is 1 Skeleton King",
+      "Step 5: Verify there is 1 Dark Mage",
+      "Step 6: Verify there is 1 Mini Boss guarding stairs",
+      "Step 7: Verify there is 1 Red Key",
+      "Step 8: Verify there are 2 Red Doors",
+      "Step 9: Verify there is 1 Super Potion",
+      "Step 10: Verify there is 1 Holy Shield",
+      "Step 11: Verify there are stairs up and down",
+      "Step 12: Verify stairs up are blocked by Mini Boss"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Floor 10 (final floor) has correct layout with Tower Lord",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress through game to floor 10",
+      "Step 3: Explore entire floor 10",
+      "Step 4: Verify there is 1 Floor Guardian",
+      "Step 5: Verify there is 1 Tower Lord (Final Boss)",
+      "Step 6: Verify there is 1 Super Potion",
+      "Step 7: Verify there is 1 Holy Sword (guarded by Floor Guardian)",
+      "Step 8: Verify there is 1 Red Key",
+      "Step 9: Verify there is 1 Red Door",
+      "Step 10: Verify victory stairs are guarded by Tower Lord"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Shop modal opens when interacting with shopkeeper NPC",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3",
+      "Step 3: Locate shopkeeper NPC",
+      "Step 4: Move player onto shopkeeper NPC tile",
+      "Step 5: Verify shop modal opens",
+      "Step 6: Verify shop shows available items",
+      "Step 7: Verify shop shows prices for each item",
+      "Step 8: Verify shop shows player's current gold"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can buy small potion from shop",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Collect at least 25 gold",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Click on small potion in shop",
+      "Step 6: Verify gold decreases by 25",
+      "Step 7: Verify small potion is added to inventory",
+      "Step 8: Verify shop modal updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can buy big potion from shop",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Collect at least 100 gold",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Click on big potion in shop",
+      "Step 6: Verify gold decreases by 100",
+      "Step 7: Verify big potion is added to inventory",
+      "Step 8: Verify shop modal updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can buy yellow key from shop",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Collect at least 10 gold",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Click on yellow key in shop",
+      "Step 6: Verify gold decreases by 10",
+      "Step 7: Verify yellow key count increases by 1",
+      "Step 8: Verify shop modal updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can buy blue key from shop",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Collect at least 50 gold",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Click on blue key in shop",
+      "Step 6: Verify gold decreases by 50",
+      "Step 7: Verify blue key count increases by 1",
+      "Step 8: Verify shop modal updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can buy red key from shop",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Collect at least 100 gold",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Click on red key in shop",
+      "Step 6: Verify gold decreases by 100",
+      "Step 7: Verify red key count increases by 1",
+      "Step 8: Verify shop modal updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player cannot buy items without sufficient gold",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 3 shop",
+      "Step 3: Verify player has less than item cost",
+      "Step 4: Interact with shopkeeper",
+      "Step 5: Attempt to click on expensive item",
+      "Step 6: Verify item is not purchased",
+      "Step 7: Verify gold remains unchanged",
+      "Step 8: Verify message shows insufficient gold"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Iron Sword and ATK increases by 10",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 4",
+      "Step 3: Open red door to access Iron Sword",
+      "Step 4: Move player onto Iron Sword tile",
+      "Step 5: Verify Iron Sword disappears from map",
+      "Step 6: Verify ATK increases by 10",
+      "Step 7: Verify message log shows sword equipped",
+      "Step 8: Verify equipment slot updates"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Steel Sword and ATK increases by 20",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 7",
+      "Step 3: Access Steel Sword location",
+      "Step 4: Move player onto Steel Sword tile",
+      "Step 5: Verify Steel Sword disappears from map",
+      "Step 6: Verify ATK increases by 20 (replacing previous sword)",
+      "Step 7: Verify message log shows sword equipped"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Holy Sword and ATK increases by 50",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress through all floors to floor 10",
+      "Step 3: Defeat Floor Guardian",
+      "Step 4: Move player onto Holy Sword tile",
+      "Step 5: Verify Holy Sword disappears from map",
+      "Step 6: Verify ATK increases by 50 (replacing previous sword)",
+      "Step 7: Verify message log shows sword equipped"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Wooden Shield and DEF increases by 8",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 5",
+      "Step 3: Access Wooden Shield location",
+      "Step 4: Move player onto Wooden Shield tile",
+      "Step 5: Verify Wooden Shield disappears from map",
+      "Step 6: Verify DEF increases by 8",
+      "Step 7: Verify message log shows shield equipped"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Iron Shield and DEF increases by 15",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 8",
+      "Step 3: Access Iron Shield location",
+      "Step 4: Move player onto Iron Shield tile",
+      "Step 5: Verify Iron Shield disappears from map",
+      "Step 6: Verify DEF increases by 15 (replacing previous shield)",
+      "Step 7: Verify message log shows shield equipped"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Holy Shield and DEF increases by 40",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress to floor 9",
+      "Step 3: Access Holy Shield location",
+      "Step 4: Move player onto Holy Shield tile",
+      "Step 5: Verify Holy Shield disappears from map",
+      "Step 6: Verify DEF increases by 40 (replacing previous shield)",
+      "Step 7: Verify message log shows shield equipped"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Attack Book and ATK increases permanently",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 6",
+      "Step 3: Access Attack Book location",
+      "Step 4: Move player onto Attack Book tile",
+      "Step 5: Verify Attack Book disappears from map",
+      "Step 6: Verify ATK increases by specified amount",
+      "Step 7: Verify message log shows ATK increase"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Player can pick up Defense Book and DEF increases permanently",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 7",
+      "Step 3: Access Defense Book location",
+      "Step 4: Move player onto Defense Book tile",
+      "Step 5: Verify Defense Book disappears from map",
+      "Step 6: Verify DEF increases by specified amount",
+      "Step 7: Verify message log shows DEF increase"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Hidden wall is revealed when player stands adjacent",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to floor 6",
+      "Step 3: Locate hidden wall location",
+      "Step 4: Move player to be adjacent to hidden wall",
+      "Step 5: Verify hidden wall is revealed",
+      "Step 6: Verify revealed wall shows different appearance",
+      "Step 7: Verify player can now pass through"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "NPC dialogue appears when interacting with guide NPC",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate guide NPC on floor 0",
+      "Step 3: Move player onto guide NPC tile",
+      "Step 4: Verify dialogue modal appears",
+      "Step 5: Verify dialogue contains helpful tips",
+      "Step 6: Close dialogue modal",
+      "Step 7: Verify game resumes"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game can be saved to slot 1",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play for some time and collect items",
+      "Step 3: Open save/load menu",
+      "Step 4: Click save to slot 1",
+      "Step 5: Verify save confirmation message",
+      "Step 6: Verify slot 1 shows current save data"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game can be saved to slot 2",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play for some time and collect items",
+      "Step 3: Open save/load menu",
+      "Step 4: Click save to slot 2",
+      "Step 5: Verify save confirmation message",
+      "Step 6: Verify slot 2 shows current save data"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game can be saved to slot 3",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play for some time and collect items",
+      "Step 3: Open save/load menu",
+      "Step 4: Click save to slot 3",
+      "Step 5: Verify save confirmation message",
+      "Step 6: Verify slot 3 shows current save data"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Saved game can be loaded from slot",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play and save to slot 1",
+      "Step 3: Record player stats and position",
+      "Step 4: Quit to main menu",
+      "Step 5: Click Continue Game",
+      "Step 6: Select slot 1",
+      "Step 7: Verify player stats match saved state",
+      "Step 8: Verify player position matches saved state",
+      "Step 9: Verify inventory matches saved state"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Auto-save triggers when entering new floor",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to stairs up on floor 0",
+      "Step 3: Move onto stairs",
+      "Step 4: Verify auto-save message appears",
+      "Step 5: Verify floor transition occurs",
+      "Step 6: Verify save was created in background"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Continue Game button loads most recent auto-save",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play through multiple floors",
+      "Step 3: Quit to main menu",
+      "Step 4: Click Continue Game button",
+      "Step 5: Verify game loads from most recent save",
+      "Step 6: Verify player is on correct floor",
+      "Step 7: Verify player stats are restored"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Settings modal opens and displays all settings",
+    "steps": [
+      "Step 1: From main menu, click Settings",
+      "Step 2: Verify settings modal opens",
+      "Step 3: Verify music volume slider is visible",
+      "Step 4: Verify SFX volume slider is visible",
+      "Step 5: Verify movement speed toggle is visible",
+      "Step 6: Verify key repeat toggle is visible",
+      "Step 7: Verify theme selection is visible",
+      "Step 8: Verify show monster stats toggle is visible",
+      "Step 9: Verify auto-save toggle is visible",
+      "Step 10: Verify reset progress button is visible"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Settings changes are persisted",
+    "steps": [
+      "Step 1: Open settings modal",
+      "Step 2: Change music volume to 50%",
+      "Step 3: Enable show monster stats",
+      "Step 4: Close settings modal",
+      "Step 5: Quit to main menu",
+      "Step 6: Open settings modal again",
+      "Step 7: Verify music volume is still 50%",
+      "Step 8: Verify show monster stats is still enabled"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Help/Tutorial screen is accessible from main menu",
+    "steps": [
+      "Step 1: From main menu, click Help/About",
+      "Step 2: Verify help screen opens",
+      "Step 3: Verify how to play section is visible",
+      "Step 4: Verify control reference is visible",
+      "Step 5: Verify monster stat reference is visible",
+      "Step 6: Verify item description guide is visible",
+      "Step 7: Verify strategy tips are visible"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Help/Tutorial screen is accessible during gameplay",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Click help button during gameplay",
+      "Step 3: Verify help screen opens",
+      "Step 4: Verify game is paused in background",
+      "Step 5: Close help screen",
+      "Step 6: Verify game resumes"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Victory screen appears after defeating Tower Lord",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Progress through all floors to floor 10",
+      "Step 3: Defeat Tower Lord",
+      "Step 4: Verify victory screen appears",
+      "Step 5: Verify congratulations message is shown",
+      "Step 6: Verify final stats are displayed",
+      "Step 7: Verify score is calculated and shown",
+      "Step 8: Verify play time is displayed",
+      "Step 9: Verify Return to main menu button works",
+      "Step 10: Verify New Game+ option is available"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game Over screen Retry button loads last save",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play and create a save",
+      "Step 3: Get defeated by a monster",
+      "Step 4: Verify game over screen appears",
+      "Step 5: Click Retry from last save",
+      "Step 6: Verify game loads from save",
+      "Step 7: Verify player is restored to saved state"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game Over screen Return to main menu works",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Get defeated by a monster",
+      "Step 3: Verify game over screen appears",
+      "Step 4: Click Return to main menu",
+      "Step 5: Verify main menu is displayed",
+      "Step 6: Verify all menu buttons are visible"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Game Over screen Restart from beginning works",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Get defeated by a monster",
+      "Step 3: Verify game over screen appears",
+      "Step 4: Click Restart from beginning",
+      "Step 5: Verify new game starts on floor 0",
+      "Step 6: Verify player stats are reset to initial values"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Step counter increments with each movement",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Verify step counter shows 0",
+      "Step 3: Move player one tile",
+      "Step 4: Verify step counter shows 1",
+      "Step 5: Move player another tile",
+      "Step 6: Verify step counter shows 2",
+      "Step 7: Attempt to move into wall",
+      "Step 8: Verify step counter does not increment"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "HP bar displays correct visual percentage",
+    "steps": [
+      "Step 1: Start a new game with 1000/1000 HP",
+      "Step 2: Verify HP bar is full and green",
+      "Step 3: Take damage in combat",
+      "Step 4: Verify HP bar decreases visually",
+      "Step 5: Reduce HP below 50%",
+      "Step 6: Verify HP bar changes to yellow",
+      "Step 7: Reduce HP below 25%",
+      "Step 8: Verify HP bar changes to red"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Message log displays color-coded messages",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Pick up an item",
+      "Step 3: Verify message log shows green message for item pickup",
+      "Step 4: Fight a monster and take damage",
+      "Step 5: Verify message log shows red message for damage",
+      "Step 6: Open a door",
+      "Step 7: Verify message log shows yellow message for door usage",
+      "Step 8: Interact with NPC",
+      "Step 9: Verify message log shows blue message for NPC dialogue"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Mini-map shows visited floor layout",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Move around floor 0",
+      "Step 3: Verify mini-map updates with explored areas",
+      "Step 4: Navigate to floor 1",
+      "Step 5: Verify mini-map shows floor 1 layout",
+      "Step 6: Return to floor 0",
+      "Step 7: Verify mini-map shows previously explored floor 0"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Floor indicator updates correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Verify floor indicator shows Floor 0",
+      "Step 3: Navigate to floor 1",
+      "Step 4: Verify floor indicator shows Floor 1",
+      "Step 5: Navigate to floor 5",
+      "Step 6: Verify floor indicator shows Floor 5",
+      "Step 7: Navigate back to floor 0",
+      "Step 8: Verify floor indicator shows Floor 0"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Player sprite shows correct directional facing",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Move player up",
+      "Step 3: Verify player sprite faces up",
+      "Step 4: Move player down",
+      "Step 5: Verify player sprite faces down",
+      "Step 6: Move player left",
+      "Step 7: Verify player sprite faces left",
+      "Step 8: Move player right",
+      "Step 9: Verify player sprite faces right"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Movement animation is smooth and timed correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Press movement key",
+      "Step 3: Verify player sprite slides smoothly to new tile",
+      "Step 4: Verify animation takes 100-150ms",
+      "Step 5: Verify player cannot move during animation",
+      "Step 6: Verify player arrives at exact tile position"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Combat damage numbers popup and fade",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Fight a Green Slime",
+      "Step 3: Verify damage numbers popup appears on monster",
+      "Step 4: Verify damage numbers show correct value",
+      "Step 5: Verify damage numbers fade out after combat",
+      "Step 6: Verify multiple damage numbers show for each round"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "HP bar animates smoothly during combat",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Fight a monster",
+      "Step 3: Verify HP bar decreases smoothly during combat",
+      "Step 4: Verify HP bar transitions are gradual, not instant",
+      "Step 5: Verify final HP value is correct"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Item pickup has float-up animation",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Step on a small potion",
+      "Step 3: Verify item sprite floats upward",
+      "Step 4: Verify item fades out as it floats",
+      "Step 5: Verify animation completes within 500ms"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Door open has slide animation",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to a yellow door with key",
+      "Step 3: Move onto door tile",
+      "Step 4: Verify door slides open smoothly",
+      "Step 5: Verify door disappears after animation",
+      "Step 6: Verify player moves through after animation"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Floor transition has fade animation",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Navigate to stairs up",
+      "Step 3: Move onto stairs",
+      "Step 4: Verify screen fades out",
+      "Step 5: Verify new floor loads",
+      "Step 6: Verify screen fades in",
+      "Step 7: Verify transition takes 300-500ms"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Monster idle animation plays continuously",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate a monster",
+      "Step 3: Watch monster for 2 seconds",
+      "Step 4: Verify monster has subtle pulse/bob animation",
+      "Step 5: Verify animation loops smoothly",
+      "Step 6: Verify animation cycle is approximately 2 seconds"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Items have glow/sparkle effect",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate an item on map",
+      "Step 3: Verify item has subtle glow effect",
+      "Step 4: Verify sparkle animation plays",
+      "Step 5: Verify effect draws attention to item"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Stat change animation displays when picking up stat items",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Pick up a red gem",
+      "Step 3: Verify +3 ATK flashes on screen",
+      "Step 4: Verify animation is visible and clear",
+      "Step 5: Verify animation fades out after 1-2 seconds"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Reset game progress option in settings works",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play through several floors",
+      "Step 3: Save game",
+      "Step 4: Open settings",
+      "Step 5: Click reset progress button",
+      "Step 6: Confirm reset",
+      "Step 7: Verify all saves are deleted",
+      "Step 8: Verify return to main menu",
+      "Step 9: Verify Continue Game button is disabled"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Movement speed toggle changes animation style",
+    "steps": [
+      "Step 1: Open settings",
+      "Step 2: Set movement speed to instant",
+      "Step 3: Start a new game",
+      "Step 4: Move player",
+      "Step 5: Verify movement is instant (no animation)",
+      "Step 6: Open settings and set to smooth",
+      "Step 7: Move player again",
+      "Step 8: Verify movement has smooth animation"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Key repeat toggle allows held key movement",
+    "steps": [
+      "Step 1: Open settings",
+      "Step 2: Enable key repeat",
+      "Step 3: Start a new game",
+      "Step 4: Hold down movement key",
+      "Step 5: Verify player continues moving",
+      "Step 6: Verify movement repeats at reasonable pace",
+      "Step 7: Release key and verify movement stops"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Show monster stats toggle affects tooltip display",
+    "steps": [
+      "Step 1: Open settings",
+      "Step 2: Disable show monster stats",
+      "Step 3: Start a new game",
+      "Step 4: Hover over monster",
+      "Step 5: Verify no tooltip appears",
+      "Step 6: Open settings and enable show monster stats",
+      "Step 7: Hover over monster again",
+      "Step 8: Verify tooltip now appears"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Auto-save toggle prevents auto-saves when disabled",
+    "steps": [
+      "Step 1: Open settings",
+      "Step 2: Disable auto-save",
+      "Step 3: Start a new game",
+      "Step 4: Navigate to next floor",
+      "Step 5: Verify no auto-save message appears",
+      "Step 6: Open settings and enable auto-save",
+      "Step 7: Navigate to next floor",
+      "Step 8: Verify auto-save message appears"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Theme selection changes visual style",
+    "steps": [
+      "Step 1: Open settings",
+      "Step 2: Change theme from classic to modern",
+      "Step 3: Verify UI colors and styling change",
+      "Step 4: Verify tile appearances change",
+      "Step 5: Change theme back to classic",
+      "Step 6: Verify original styling is restored"
+    ],
+    "passes": true
+  },
+  {
+    "category": "functional",
+    "description": "Combat prediction shows accurate outcome",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Hover over monster",
+      "Step 3: Verify tooltip shows predicted damage to player",
+      "Step 4: Verify tooltip shows predicted rounds",
+      "Step 5: Fight the monster",
+      "Step 6: Verify actual damage matches prediction",
+      "Step 7: Verify actual rounds match prediction"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Score calculation includes all factors",
+    "steps": [
+      "Step 1: Complete the game",
+      "Step 2: Verify score includes floors cleared",
+      "Step 3: Verify score includes monsters defeated",
+      "Step 4: Verify score includes items collected",
+      "Step 5: Verify score penalizes high step count",
+      "Step 6: Verify score includes remaining gold bonus"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Leaderboard displays top scores",
+    "steps": [
+      "Step 1: Complete game with good score",
+      "Step 2: Submit score to leaderboard",
+      "Step 3: View leaderboard from main menu",
+      "Step 4: Verify leaderboard shows player name",
+      "Step 5: Verify leaderboard shows score",
+      "Step 6: Verify leaderboard shows floors cleared",
+      "Step 7: Verify leaderboard shows play time",
+      "Step 8: Verify leaderboard is sorted by score"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "New Game+ mode has increased difficulty",
+    "steps": [
+      "Step 1: Complete the game",
+      "Step 2: Select New Game+ from victory screen",
+      "Step 3: Verify game starts with harder difficulty",
+      "Step 4: Verify monsters have increased stats",
+      "Step 5: Verify items are scarcer",
+      "Step 6: Verify keys are more limited"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Save data validation prevents corrupted saves",
+    "steps": [
+      "Step 1: Manually corrupt save data in localStorage",
+      "Step 2: Attempt to load corrupted save",
+      "Step 3: Verify error message is displayed",
+      "Step 4: Verify game does not crash",
+      "Step 5: Verify option to start new game is offered"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Backend save API stores save data correctly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Play and create manual save",
+      "Step 3: Verify save is sent to backend API",
+      "Step 4: Verify backend stores save in database",
+      "Step 5: Verify save can be retrieved via API"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Backend leaderboard API stores and retrieves scores",
+    "steps": [
+      "Step 1: Complete game",
+      "Step 2: Submit score via API",
+      "Step 3: Verify backend stores score in database",
+      "Step 4: Request leaderboard via API",
+      "Step 5: Verify score is included in response",
+      "Step 6: Verify scores are sorted correctly"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Backend settings API stores and retrieves user settings",
+    "steps": [
+      "Step 1: Change settings in game",
+      "Step 2: Verify settings are sent to backend API",
+      "Step 3: Verify backend stores settings in database",
+      "Step 4: Reload game",
+      "Step 5: Verify settings are retrieved from API",
+      "Step 6: Verify settings match saved values"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Backend maps API provides floor data",
+    "steps": [
+      "Step 1: Request all maps via API",
+      "Step 2: Verify response includes all 11 floors",
+      "Step 3: Request specific floor via API",
+      "Step 4: Verify response includes correct floor data",
+      "Step 5: Verify tile data is correct"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game state is immutable and updates create new state",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Record initial game state",
+      "Step 3: Move player",
+      "Step 4: Verify new state object is created",
+      "Step 5: Verify original state is unchanged",
+      "Step 6: Verify state updates follow immutable patterns"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game state persists correctly in React context",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Update player stats by picking up item",
+      "Step 3: Verify all components see updated stats",
+      "Step 4: Verify status panel updates",
+      "Step 5: Verify message log updates",
+      "Step 6: Verify game map updates"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "useReducer manages complex state transitions",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Trigger various game actions (move, combat, pickup)",
+      "Step 3: Verify reducer handles all action types",
+      "Step 4: Verify state updates are predictable",
+      "Step 5: Verify no side effects in reducer"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Main menu has atmospheric background with game title",
+    "steps": [
+      "Step 1: Launch application",
+      "Step 2: View main menu",
+      "Step 3: Take screenshot of main menu",
+      "Step 4: Verify game title is prominently displayed",
+      "Step 5: Verify background has atmospheric dungeon theme",
+      "Step 6: Verify styling is professional and polished"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Game map tiles have pixel-perfect rendering",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Zoom in on game map",
+      "Step 3: Take screenshot of individual tiles",
+      "Step 4: Verify wall tiles have stone/brick texture",
+      "Step 5: Verify floor tiles have dungeon pattern",
+      "Step 6: Verify no anti-aliasing on sprite edges",
+      "Step 7: Verify pixel-perfect crisp rendering"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Color palette matches specification",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Take screenshot of game screen",
+      "Step 3: Verify background is dark stone gray (#2D2D2D)",
+      "Step 4: Verify game area is dungeon floor (#3A3A3A)",
+      "Step 5: Verify walls are stone gray (#5C5C5C)",
+      "Step 6: Verify player is bright blue (#4488FF)",
+      "Step 7: Verify yellow doors/keys are golden (#FFD700)"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Typography uses correct fonts",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Examine game text elements",
+      "Step 3: Verify game elements use pixel font",
+      "Step 4: Verify UI text uses sans-serif font",
+      "Step 5: Verify stat numbers use monospace font",
+      "Step 6: Verify fonts are readable at all sizes"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Desktop layout follows specification",
+    "steps": [
+      "Step 1: Start a new game on desktop",
+      "Step 2: Take screenshot of desktop layout",
+      "Step 3: Verify game map is centered on left",
+      "Step 4: Verify status panel is on right side",
+      "Step 5: Verify message log is at bottom",
+      "Step 6: Verify floor indicator is at top",
+      "Step 7: Verify layout is balanced and spacious"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Mobile layout adapts correctly",
+    "steps": [
+      "Step 1: Start game on mobile device or small viewport",
+      "Step 2: Take screenshot of mobile layout",
+      "Step 3: Verify game map fills screen",
+      "Step 4: Verify status bar overlay at top",
+      "Step 5: Verify touch controls at bottom",
+      "Step 6: Verify all elements are accessible",
+      "Step 7: Verify no horizontal scrolling required"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Touch D-pad is visible and functional on mobile",
+    "steps": [
+      "Step 1: Open game on mobile viewport",
+      "Step 2: Verify touch D-pad appears at bottom",
+      "Step 3: Verify D-pad buttons are large enough to tap",
+      "Step 4: Tap up button",
+      "Step 5: Verify player moves up",
+      "Step 6: Tap other direction buttons",
+      "Step 7: Verify player moves in each direction"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Status panel displays all player stats clearly",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Take screenshot of status panel",
+      "Step 3: Verify player portrait/avatar is visible",
+      "Step 4: Verify HP bar shows current/max",
+      "Step 5: Verify ATK stat is displayed with icon",
+      "Step 6: Verify DEF stat is displayed with icon",
+      "Step 7: Verify key counts show key icons",
+      "Step 8: Verify gold shows coin icon",
+      "Step 9: Verify all stats are readable"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Modals have consistent styling",
+    "steps": [
+      "Step 1: Open shop modal",
+      "Step 2: Take screenshot",
+      "Step 3: Verify modal has semi-transparent dark background",
+      "Step 4: Verify modal has rounded corners",
+      "Step 5: Verify modal has close button",
+      "Step 6: Open settings modal",
+      "Step 7: Verify settings modal has same styling",
+      "Step 8: Verify all modals follow design system"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Message log is scrollable and color-coded",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Perform various actions to fill message log",
+      "Step 3: Take screenshot of message log",
+      "Step 4: Verify recent messages are visible",
+      "Step 5: Verify older messages can be scrolled to",
+      "Step 6: Verify item pickup messages are green",
+      "Step 7: Verify damage messages are red",
+      "Step 8: Verify door messages are yellow"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "HP bar has gradient from green to red",
+    "steps": [
+      "Step 1: Start a new game with full HP",
+      "Step 2: Take screenshot of HP bar",
+      "Step 3: Verify HP bar is green",
+      "Step 4: Take damage to reduce HP to 50%",
+      "Step 5: Take screenshot",
+      "Step 6: Verify HP bar is yellow",
+      "Step 7: Take more damage to reduce HP below 25%",
+      "Step 8: Take screenshot",
+      "Step 9: Verify HP bar is red"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Door tiles clearly show key color",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate a yellow door",
+      "Step 3: Take screenshot",
+      "Step 4: Verify door is clearly yellow colored",
+      "Step 5: Navigate to floor with blue door",
+      "Step 6: Take screenshot",
+      "Step 7: Verify door is clearly blue colored",
+      "Step 8: Verify red doors are clearly red"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Key tiles are easily distinguishable from doors",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate yellow key and yellow door",
+      "Step 3: Take screenshot",
+      "Step 4: Verify key and door have different visual styles",
+      "Step 5: Verify keys have sparkle/glow effect",
+      "Step 6: Verify doors have solid appearance",
+      "Step 7: Verify both are same color but clearly different"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Monster sprites are visually distinct",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate Green Slime",
+      "Step 3: Take screenshot",
+      "Step 4: Verify Green Slime has unique appearance",
+      "Step 5: Locate different monster type (e.g., Skeleton)",
+      "Step 6: Take screenshot",
+      "Step 7: Verify Skeleton has different appearance",
+      "Step 8: Verify all monster types are visually distinct"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Item tiles have visual distinction",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate small potion",
+      "Step 3: Take screenshot",
+      "Step 4: Verify potion has unique visual",
+      "Step 5: Locate red gem",
+      "Step 6: Take screenshot",
+      "Step 7: Verify gem has different visual from potion",
+      "Step 8: Verify all item types are distinguishable"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Stairs have animated indicator",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Locate stairs up",
+      "Step 3: Watch stairs for 3 seconds",
+      "Step 4: Verify stairs have animated arrow or glow",
+      "Step 5: Verify animation loops smoothly",
+      "Step 6: Verify stairs up and down have different indicators"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Combat overlay is visually appealing",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Fight a monster",
+      "Step 3: Take screenshot during combat",
+      "Step 4: Verify combat overlay is semi-transparent",
+      "Step 5: Verify both combatants are visible",
+      "Step 6: Verify damage numbers are large and readable",
+      "Step 7: Verify overlay has professional appearance"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Victory screen is celebratory and polished",
+    "steps": [
+      "Step 1: Complete the game",
+      "Step 2: Take screenshot of victory screen",
+      "Step 3: Verify congratulations message is prominent",
+      "Step 4: Verify final stats are clearly displayed",
+      "Step 5: Verify score is highlighted",
+      "Step 6: Verify screen has celebratory visual effects",
+      "Step 7: Verify overall design is polished"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Game Over screen is appropriately somber",
+    "steps": [
+      "Step 1: Get defeated in game",
+      "Step 2: Take screenshot of game over screen",
+      "Step 3: Verify game over message is prominent",
+      "Step 4: Verify screen has somber/dark tone",
+      "Step 5: Verify final stats are displayed",
+      "Step 6: Verify action buttons are clear",
+      "Step 7: Verify overall design is professional"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Shop interface is clean and usable",
+    "steps": [
+      "Step 1: Navigate to shop",
+      "Step 2: Take screenshot of shop modal",
+      "Step 3: Verify items are listed clearly",
+      "Step 4: Verify prices are prominent",
+      "Step 5: Verify player gold is visible",
+      "Step 6: Verify item icons are clear",
+      "Step 7: Verify buy buttons are obvious"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Responsive design works across viewport sizes",
+    "steps": [
+      "Step 1: Start game at 1920x1080",
+      "Step 2: Take screenshot",
+      "Step 3: Resize to 768x1024 (tablet)",
+      "Step 4: Take screenshot",
+      "Step 5: Verify layout adapts correctly",
+      "Step 6: Resize to 375x667 (mobile)",
+      "Step 7: Take screenshot",
+      "Step 8: Verify mobile layout is used"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Loading screens or transitions are smooth",
+    "steps": [
+      "Step 1: Start application",
+      "Step 2: Observe initial loading",
+      "Step 3: Verify loading indicator is smooth",
+      "Step 4: Navigate between floors",
+      "Step 5: Verify transition is smooth",
+      "Step 6: Verify no jarring cuts or glitches"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Button hover states provide visual feedback",
+    "steps": [
+      "Step 1: Navigate to main menu",
+      "Step 2: Hover over New Game button",
+      "Step 3: Verify button shows hover state",
+      "Step 4: Verify hover state has color change or effect",
+      "Step 5: Test other buttons",
+      "Step 6: Verify all buttons have hover states"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Button click states provide visual feedback",
+    "steps": [
+      "Step 1: Navigate to main menu",
+      "Step 2: Click New Game button",
+      "Step 3: Verify button shows active/click state",
+      "Step 4: Verify visual feedback is immediate",
+      "Step 5: Test other clickable elements",
+      "Step 6: Verify all have click feedback"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Icons are consistent across UI",
+    "steps": [
+      "Step 1: Examine status panel",
+      "Step 2: Verify ATK icon style matches DEF icon",
+      "Step 3: Verify key icons match each other",
+      "Step 4: Verify gold icon style is consistent",
+      "Step 5: Check icons in other UI elements",
+      "Step 6: Verify all icons follow same style guide"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Text contrast meets accessibility standards",
+    "steps": [
+      "Step 1: Examine all text in game",
+      "Step 2: Verify white text on dark backgrounds is readable",
+      "Step 3: Verify all text has sufficient contrast",
+      "Step 4: Verify no text blends into background",
+      "Step 5: Verify text is readable at all sizes"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Animations don't impact gameplay responsiveness",
+    "steps": [
+      "Step 1: Start a new game",
+      "Step 2: Move player continuously",
+      "Step 3: Verify input is always responsive",
+      "Step 4: Verify animations don't delay input",
+      "Step 5: Test during combat",
+      "Step 6: Verify combat animations don't feel sluggish"
+    ],
+    "passes": false
+  },
+  {
+    "category": "style",
+    "description": "Error messages are clear and styled consistently",
+    "steps": [
+      "Step 1: Try to buy item without enough gold",
+      "Step 2: Take screenshot of error message",
+      "Step 3: Verify error message is clear",
+      "Step 4: Verify error styling is consistent",
+      "Step 5: Test other error conditions",
+      "Step 6: Verify all errors have same style"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Complete playthrough from floor 0 to floor 10 is possible",
+    "steps": [
+      "Step 1: Start new game on floor 0",
+      "Step 2: Clear all monsters on floor 0",
+      "Step 3: Collect all items on floor 0",
+      "Step 4: Navigate to floor 1",
+      "Step 5: Clear floor 1 and progress to floor 2",
+      "Step 6: Continue through all floors systematically",
+      "Step 7: Collect keys to open doors",
+      "Step 8: Build stats to defeat stronger monsters",
+      "Step 9: Reach floor 10",
+      "Step 10: Defeat Floor Guardian",
+      "Step 11: Collect Holy Sword",
+      "Step 12: Defeat Tower Lord",
+      "Step 13: Verify victory screen appears",
+      "Step 14: Verify no softlocks encountered"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game balance allows clearing floor 0 with starting stats",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Record starting stats (HP:1000, ATK:10, DEF:10)",
+      "Step 3: Fight Green Slime without any upgrades",
+      "Step 4: Verify player can defeat Green Slime",
+      "Step 5: Verify player retains most HP",
+      "Step 6: Fight Red Bat without upgrades",
+      "Step 7: Verify player can defeat Red Bat",
+      "Step 8: Verify floor 0 is beatable with starting stats"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Strategic routing is required for optimal progression",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Try to progress without collecting items",
+      "Step 3: Verify player becomes stuck on floor 2-3",
+      "Step 4: Restart and collect items strategically",
+      "Step 5: Verify proper item collection enables progression",
+      "Step 6: Verify key routing decisions impact success"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Keys are scarce enough to create meaningful choices",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Count total yellow keys on floor 0-1",
+      "Step 3: Count total yellow doors on floor 0-1",
+      "Step 4: Verify keys are limited",
+      "Step 5: Verify player must choose which doors to open",
+      "Step 6: Verify wrong key usage can lead to suboptimal path"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "No softlocks exist in game design",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Try various paths and key usage patterns",
+      "Step 3: Verify it's always possible to reach victory",
+      "Step 4: Verify no dead-end paths exist",
+      "Step 5: Verify keys can always reach required doors",
+      "Step 6: Verify player can always backtrack"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Combat math is calculated correctly per specification",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Record player stats (ATK:10, DEF:10)",
+      "Step 3: Fight Green Slime (HP:35, ATK:18, DEF:1)",
+      "Step 4: Calculate expected damage: Player deals 10-1=9 per round",
+      "Step 5: Calculate expected damage taken: 18-10=8 per round",
+      "Step 6: Verify actual combat matches calculations",
+      "Step 7: Verify rounds to defeat: ceiling(35/9)=4 rounds",
+      "Step 8: Verify HP lost: 4*8=32 damage"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Monster damage cannot go below zero",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Collect many gems to increase DEF to 50+",
+      "Step 3: Fight Green Slime (ATK:18, DEF:1)",
+      "Step 4: Verify damage taken is 0 (DEF > Monster ATK)",
+      "Step 5: Verify player takes no damage",
+      "Step 6: Verify combat still resolves correctly"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Player damage cannot go below zero",
+    "steps": [
+      "Step 1: Start new game with ATK:10",
+      "Step 2: Try to fight monster with very high DEF",
+      "Step 3: Verify player deals 0 damage if ATK < Monster DEF",
+      "Step 4: Verify combat resolves with player defeat",
+      "Step 5: Verify no negative damage is calculated"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Equipment properly replaces previous equipment",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Collect Iron Sword (+10 ATK)",
+      "Step 3: Verify ATK increases by 10",
+      "Step 4: Collect Steel Sword (+20 ATK)",
+      "Step 5: Verify ATK increases by 10 total (not 30)",
+      "Step 6: Verify Steel Sword replaced Iron Sword",
+      "Step 7: Test with shields as well"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Potions respect max HP cap",
+    "steps": [
+      "Step 1: Start new game with 1000/1000 HP",
+      "Step 2: Use small potion (+200 HP)",
+      "Step 3: Verify HP remains 1000 (capped at max)",
+      "Step 4: Take 100 damage",
+      "Step 5: Use big potion (+500 HP)",
+      "Step 6: Verify HP is 1000 (not 1400)",
+      "Step 7: Verify potions never exceed max HP"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Super potion always heals to max HP",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Reduce HP to 200/1000",
+      "Step 3: Use super potion",
+      "Step 4: Verify HP is restored to 1000/1000",
+      "Step 5: Take damage again",
+      "Step 6: Use another super potion",
+      "Step 7: Verify HP is restored to max again"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "All 11 floors load correctly",
+    "steps": [
+      "Step 1: Start new game on floor 0",
+      "Step 2: Navigate to floor 1",
+      "Step 3: Verify floor 1 loads with correct layout",
+      "Step 4: Continue to floor 2",
+      "Step 5: Verify floor 2 loads correctly",
+      "Step 6: Progress through all floors 3-10",
+      "Step 7: Verify each floor loads with correct content",
+      "Step 8: Verify no floor fails to load"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Player position is preserved when changing floors",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Move player to specific tile on floor 0",
+      "Step 3: Record tile position",
+      "Step 4: Go up stairs to floor 1",
+      "Step 5: Return to floor 0 via stairs down",
+      "Step 6: Verify player is at same position",
+      "Step 7: Test with multiple floors"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Map state is preserved when changing floors",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Open a door on floor 0",
+      "Step 3: Pick up an item on floor 0",
+      "Step 4: Go to floor 1",
+      "Step 5: Return to floor 0",
+      "Step 6: Verify door remains open",
+      "Step 7: Verify item is still picked up",
+      "Step 8: Verify defeated monsters don't reappear"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game performance remains smooth with many animations",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Move player rapidly for 30 seconds",
+      "Step 3: Verify frame rate remains smooth",
+      "Step 4: Fight multiple monsters in sequence",
+      "Step 5: Verify combat animations don't lag",
+      "Step 6: Verify no memory leaks from animations"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game state is correct after loading save",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Play through 3 floors",
+      "Step 3: Open several doors",
+      "Step 4: Defeat several monsters",
+      "Step 5: Collect various items",
+      "Step 6: Save game",
+      "Step 7: Quit to main menu",
+      "Step 8: Load saved game",
+      "Step 9: Verify all doors are still open",
+      "Step 10: Verify monsters are still defeated",
+      "Step 11: Verify items are collected",
+      "Step 12: Verify player stats match saved state"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Multiple save slots work independently",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Play and save to slot 1",
+      "Step 3: Play more and save to slot 2",
+      "Step 4: Verify slot 1 has different state than slot 2",
+      "Step 5: Load slot 1",
+      "Step 6: Verify correct state is loaded",
+      "Step 7: Load slot 2",
+      "Step 8: Verify different state is loaded"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game saves map state (opened doors, cleared monsters)",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Open a door on floor 0",
+      "Step 3: Defeat a monster on floor 1",
+      "Step 4: Save game",
+      "Step 5: Load game",
+      "Step 6: Verify door on floor 0 is still open",
+      "Step 7: Verify monster on floor 1 is still defeated"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Keyboard input doesn't have lag",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Press movement key rapidly",
+      "Step 3: Verify each press registers immediately",
+      "Step 4: Verify no input delay is perceptible",
+      "Step 5: Test with all movement keys"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works in Chrome browser",
+    "steps": [
+      "Step 1: Open game in Chrome",
+      "Step 2: Verify game loads correctly",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify no browser-specific issues",
+      "Step 5: Verify performance is good"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works in Firefox browser",
+    "steps": [
+      "Step 1: Open game in Firefox",
+      "Step 2: Verify game loads correctly",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify no browser-specific issues",
+      "Step 5: Verify performance is good"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works in Safari browser",
+    "steps": [
+      "Step 1: Open game in Safari",
+      "Step 2: Verify game loads correctly",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify no browser-specific issues",
+      "Step 5: Verify performance is good"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works in Edge browser",
+    "steps": [
+      "Step 1: Open game in Edge",
+      "Step 2: Verify game loads correctly",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify no browser-specific issues",
+      "Step 5: Verify performance is good"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works on mobile Chrome",
+    "steps": [
+      "Step 1: Open game on mobile Chrome",
+      "Step 2: Verify touch controls work",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify performance is good on mobile",
+      "Step 5: Verify layout adapts correctly"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game works on mobile Safari",
+    "steps": [
+      "Step 1: Open game on mobile Safari",
+      "Step 2: Verify touch controls work",
+      "Step 3: Test all core functionality",
+      "Step 4: Verify performance is good on mobile",
+      "Step 5: Verify layout adapts correctly"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Portrait orientation works on mobile",
+    "steps": [
+      "Step 1: Open game on mobile device",
+      "Step 2: Rotate to portrait orientation",
+      "Step 3: Verify layout adapts",
+      "Step 4: Verify touch controls are accessible",
+      "Step 5: Verify game is playable in portrait"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Landscape orientation works on mobile",
+    "steps": [
+      "Step 1: Open game on mobile device",
+      "Step 2: Rotate to landscape orientation",
+      "Step 3: Verify layout adapts",
+      "Step 4: Verify touch controls are accessible",
+      "Step 5: Verify game is playable in landscape"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Game prevents data loss on unexpected close",
+    "steps": [
+      "Step 1: Start new game",
+      "Step 2: Play for several minutes",
+      "Step 3: Close browser tab abruptly",
+      "Step 4: Reopen game",
+      "Step 5: Click Continue Game",
+      "Step 6: Verify auto-save is available",
+      "Step 7: Verify minimal progress is lost"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "Final boss is challenging but beatable",
+    "steps": [
+      "Step 1: Complete game to floor 10",
+      "Step 2: Collect all items including Holy Sword",
+      "Step 3: Verify player stats are sufficient",
+      "Step 4: Fight Tower Lord",
+      "Step 5: Verify combat is challenging",
+      "Step 6: Verify Tower Lord can be defeated",
+      "Step 7: Verify victory requires good play but is achievable"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "All monster types from spec are in game",
+    "steps": [
+      "Step 1: Progress through all floors",
+      "Step 2: Verify Green Slime exists on floor 0-3",
+      "Step 3: Verify Red Bat exists on floor 0-3",
+      "Step 4: Verify Skeleton exists on floor 0-3",
+      "Step 5: Verify Magician exists on floor 0-3",
+      "Step 6: Verify Red Slime exists on floor 4-6",
+      "Step 7: Verify Stone Golem exists on floor 4-6",
+      "Step 8: Verify Dark Knight exists on floor 4-6",
+      "Step 9: Verify Witch exists on floor 4-6",
+      "Step 10: Verify Vampire exists on floor 7-9",
+      "Step 11: Verify Dragon exists on floor 7-9",
+      "Step 12: Verify Dark Mage exists on floor 7-9",
+      "Step 13: Verify Skeleton King exists on floor 7-9",
+      "Step 14: Verify Mini Boss exists on floor 9+",
+      "Step 15: Verify Floor Guardian exists on floor 10",
+      "Step 16: Verify Tower Lord exists on floor 10"
+    ],
+    "passes": false
+  },
+  {
+    "category": "functional",
+    "description": "All item types from spec are in game",
+    "steps": [
+      "Step 1: Progress through all floors",
+      "Step 2: Find and pick up Small Potion",
+      "Step 3: Find and pick up Big Potion",
+      "Step 4: Find and pick up Super Potion",
+      "Step 5: Find and pick up Red Gem",
+      "Step 6: Find and pick up Blue Gem",
+      "Step 7: Find and pick up Green Gem",
+      "Step 8: Find and pick up Iron Sword",
+      "Step 9: Find and pick up Steel Sword",
+      "Step 10: Find and pick up Holy Sword",
+      "Step 11: Find and pick up Wooden Shield",
+      "Step 12: Find and pick up Iron Shield",
+      "Step 13: Find and pick up Holy Shield",
+      "Step 14: Find and pick up Attack Book",
+      "Step 15: Find and pick up Defense Book",
+      "Step 16: Find and pick up Gold Pile",
+      "Step 17: Find and pick up Big Gold Pile"
+    ],
+    "passes": false
+  }
+]
