@@ -890,7 +890,8 @@ export const initialGameState = {
     floor: 0,
     steps: 0,
     x: 5, // Starting position
-    y: 5
+    y: 5,
+    direction: 'down' // Direction player is facing: 'up', 'down', 'left', 'right'
   },
 
   // Game state
@@ -1141,7 +1142,7 @@ function handleMove(state, direction) {
 
   // Check for doors
   if (targetTile >= 10 && targetTile <= 12) {
-    return handleDoor(stateToUse, targetTile, newX, newY)
+    return handleDoor(stateToUse, targetTile, newX, newY, direction)
   }
 
   // Check for stairs
@@ -1154,12 +1155,12 @@ function handleMove(state, direction) {
 
   // Check for items
   if (targetTile >= 20 && targetTile <= 81) {
-    return handlePickup(stateToUse, targetTile, newX, newY)
+    return handlePickup(stateToUse, targetTile, newX, newY, direction)
   }
 
   // Check for monsters
   if (targetTile >= 100 && targetTile < 300) {
-    return handleCombat(stateToUse, targetTile, newX, newY)
+    return handleCombat(stateToUse, targetTile, newX, newY, direction)
   }
 
   // Check for NPCs
@@ -1174,12 +1175,13 @@ function handleMove(state, direction) {
       ...stateToUse.player,
       x: newX,
       y: newY,
+      direction: direction, // Update player direction based on movement
       steps: stateToUse.player.steps + 1
     }
   }
 }
 
-function handlePickup(state, itemType, newX, newY) {
+function handlePickup(state, itemType, newX, newY, direction) {
   let updates = {}
   let messageText = ''
   let messageType = 'success'
@@ -1266,6 +1268,7 @@ function handlePickup(state, itemType, newX, newY) {
       ...updates,
       x: newX,
       y: newY,
+      direction: direction, // Update player direction based on movement
       steps: state.player.steps + 1
     },
     maps: {
@@ -1326,7 +1329,7 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
   }
 }
 
-function handleCombat(state, monsterType, newX, newY) {
+function handleCombat(state, monsterType, newX, newY, direction) {
   const monster = MONSTER_STATS[monsterType]
   if (!monster) return state
 
@@ -1376,6 +1379,7 @@ function handleCombat(state, monsterType, newX, newY) {
         hp: playerHp,
         x: newX,
         y: newY,
+        direction: direction, // Update player direction based on movement
         steps: player.steps + 1
       },
       maps: {
@@ -1403,7 +1407,7 @@ function handleCombat(state, monsterType, newX, newY) {
   }
 }
 
-function handleDoor(state, doorType, newX, newY) {
+function handleDoor(state, doorType, newX, newY, direction) {
   let keyCount = 0
   let keyName = ''
   let doorName = ''
@@ -1449,6 +1453,7 @@ function handleDoor(state, doorType, newX, newY) {
       ...state.player,
       x: newX,
       y: newY,
+      direction: direction, // Update player direction based on movement
       steps: state.player.steps + 1,
       yellowKeys: doorType === TILE_TYPES.YELLOW_DOOR ? state.player.yellowKeys - 1 : state.player.yellowKeys,
       blueKeys: doorType === TILE_TYPES.BLUE_DOOR ? state.player.blueKeys - 1 : state.player.blueKeys,

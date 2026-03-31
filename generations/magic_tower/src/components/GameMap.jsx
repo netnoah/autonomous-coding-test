@@ -145,8 +145,28 @@ function GameMap({ gameState, dispatch }) {
         return '▲'
       case TILE_TYPES.STAIRS_DOWN:
         return '▼'
+      case TILE_TYPES.NPC:
+        return '🧙‍♂️'
+      case TILE_TYPES.SHOPKEEPER:
+        return '👨‍💼'
       default:
         return '☺'
+    }
+  }
+
+  // Get directional player sprite
+  const getPlayerSprite = () => {
+    switch (player.direction) {
+      case 'up':
+        return '⬆️'
+      case 'down':
+        return '⬇️'
+      case 'left':
+        return '⬅️'
+      case 'right':
+        return '➡️'
+      default:
+        return '😀'
     }
   }
 
@@ -224,7 +244,7 @@ function GameMap({ gameState, dispatch }) {
                 onMouseMove={handleMouseMove}
                 title={`Tile (${x}, ${y})`}
               >
-                {isPlayer ? '😀' : getTileSymbol(tile, x, y)}
+                {isPlayer ? getPlayerSprite() : getTileSymbol(tile, x, y)}
               </div>
             )
           })

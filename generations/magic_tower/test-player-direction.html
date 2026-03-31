@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Directional Facing Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #1a1a1a;
+      color: #e5e5e5;
+    }
+    h1 { color: #ffd700; }
+    h2 { color: #4488ff; border-bottom: 1px solid #444; padding-bottom: 10px; }
+    .test-section {
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .step {
+      background: #1a1a1a;
+      border-left: 3px solid #4488ff;
+      padding: 10px 15px;
+      margin: 10px 0;
+    }
+    .expected {
+      color: #44cc44;
+      font-weight: bold;
+    }
+    .direction-box {
+      display: inline-block;
+      background: #333;
+      border: 2px solid #555;
+      border-radius: 8px;
+      padding: 15px 25px;
+      margin: 10px;
+      font-size: 48px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #555;
+      padding: 10px;
+      text-align: left;
+    }
+    th { background: #333; color: #ffd700; }
+    .pass { color: #44cc44; }
+    .fail { color: #cc4444; }
+    button {
+      background: #4488ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover { background: #3366cc; }
+    .game-link {
+      display: inline-block;
+      background: #44cc44;
+      color: #000;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .game-link:hover { background: #33aa33; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Player Directional Facing Feature Test</h1>
+
+  <div class="test-section">
+    <h2>Quick Start</h2>
+    <a href="http://localhost:3001" target="_blank" class="game-link">🎮 Open Game (Port 3001)</a>
+    <p><strong>What to test:</strong> Verify that player sprite changes direction based on movement</p>
+  </div>
+
+  <div class="test-section">
+    <h2>Direction Mapping</h2>
+    <table>
+      <tr>
+        <th>Movement</th>
+        <th>Keys</th>
+        <th>Expected Sprite</th>
+      </tr>
+      <tr>
+        <td>Move UP</td>
+        <td>↑ Arrow or W</td>
+        <td><span class="direction-box">⬆️</span></td>
+      </tr>
+      <tr>
+        <td>Move DOWN</td>
+        <td>↓ Arrow or S</td>
+        <td><span class="direction-box">⬇️</span></td>
+      </tr>
+      <tr>
+        <td>Move LEFT</td>
+        <td>← Arrow or A</td>
+        <td><span class="direction-box">⬅️</span></td>
+      </tr>
+      <tr>
+        <td>Move RIGHT</td>
+        <td>→ Arrow or D</td>
+        <td><span class="direction-box">➡️</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="test-section">
+    <h2>Test Steps</h2>
+
+    <h3>Test 1: Initial Direction</h3>
+    <div class="step">
+      <strong>Step 1:</strong> Open game and click "New Game"<br>
+      <span class="expected">Expected: Player sprite shows ⬇️ (facing down, default)</span>
+    </div>
+
+    <h3>Test 2: Arrow Keys Direction</h3>
+    <div class="step">
+      <strong>Step 1:</strong> Press Up Arrow (↑)<br>
+      <span class="expected">Expected: Sprite changes to ⬆️, player moves up</span>
+    </div>
+    <div class="step">
+      <strong>Step 2:</strong> Press Down Arrow (↓)<br>
+      <span class="expected">Expected: Sprite changes to ⬇️, player moves down</span>
+    </div>
+    <div class="step">
+      <strong>Step 3:</strong> Press Left Arrow (←)<br>
+      <span class="expected">Expected: Sprite changes to ⬅️, player moves left</span>
+    </div>
+    <div class="step">
+      <strong>Step 4:</strong> Press Right Arrow (→)<br>
+      <span class="expected">Expected: Sprite changes to ➡️, player moves right</span>
+    </div>
+
+    <h3>Test 3: WASD Keys Direction</h3>
+    <div class="step">
+      <strong>Step 1:</strong> Press W key<br>
+      <span class="expected">Expected: Sprite shows ⬆️</span>
+    </div>
+    <div class="step">
+      <strong>Step 2:</strong> Press S key<br>
+      <span class="expected">Expected: Sprite shows ⬇️</span>
+    </div>
+    <div class="step">
+      <strong>Step 3:</strong> Press A key<br>
+      <span class="expected">Expected: Sprite shows ⬅️</span>
+    </div>
+    <div class="step">
+      <strong>Step 4:</strong> Press D key<br>
+      <span class="expected">Expected: Sprite shows ➡️</span>
+    </div>
+
+    <h3>Test 4: Mouse Click Direction</h3>
+    <div class="step">
+      <strong>Step 1:</strong> Click tile above player<br>
+      <span class="expected">Expected: Sprite shows ⬆️</span>
+    </div>
+    <div class="step">
+      <strong>Step 2:</strong> Click tile below player<br>
+      <span class="expected">Expected: Sprite shows ⬇️</span>
+    </div>
+    <div class="step">
+      <strong>Step 3:</strong> Click tile left of player<br>
+      <span class="expected">Expected: Sprite shows ⬅️</span>
+    </div>
+    <div class="step">
+      <strong>Step 4:</strong> Click tile right of player<br>
+      <span class="expected">Expected: Sprite shows ➡️</span>
+    </div>
+
+    <h3>Test 5: Direction Persists Through Actions</h3>
+    <div class="step">
+      <strong>Step 1:</strong> Move to pick up an item (e.g., potion)<br>
+      <span class="expected">Expected: Direction remains from movement direction after pickup</span>
+    </div>
+    <div class="step">
+      <strong>Step 2:</strong> Move into a monster to attack<br>
+      <span class="expected">Expected: Direction shows direction you attacked from</span>
+    </div>
+    <div class="step">
+      <strong>Step 3:</strong> Move through a door<br>
+      <span class="expected">Expected: Direction shows direction you moved through door</span>
+    </div>
+  </div>
+
+  <div class="test-section">
+    <h2>Test Results</h2>
+    <table id="results">
+      <tr>
+        <th>Test</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Initial Direction (⬇️)</td>
+        <td><input type="checkbox" id="test1"> <label for="test1">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>Arrow Keys (All 4 directions)</td>
+        <td><input type="checkbox" id="test2"> <label for="test2">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>WASD Keys (All 4 directions)</td>
+        <td><input type="checkbox" id="test3"> <label for="test3">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>Mouse Clicks (All 4 directions)</td>
+        <td><input type="checkbox" id="test4"> <label for="test4">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>Persists After Item Pickup</td>
+        <td><input type="checkbox" id="test5"> <label for="test5">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>Persists After Combat</td>
+        <td><input type="checkbox" id="test6"> <label for="test6">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <td>Persists After Door</td>
+        <td><input type="checkbox" id="test7"> <label for="test7">Pass</label></td>
+        <td contenteditable="true"></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="test-section">
+    <h2>Implementation Summary</h2>
+    <p><strong>Files Modified:</strong></p>
+    <ul>
+      <li><code>src/game/gameReducer.js</code> - Added direction tracking to player state</li>
+      <li><code>src/components/GameMap.jsx</code> - Added directional sprite rendering</li>
+    </ul>
+
+    <p><strong>Changes:</strong></p>
+    <ul>
+      <li>Added <code>direction: 'down'</code> to initial player state</li>
+      <li>Updated all movement handlers (handleMove, handlePickup, handleCombat, handleDoor) to set direction</li>
+      <li>Added <code>getPlayerSprite()</code> function to return directional emojis</li>
+      <li>Updated player rendering to use directional sprite instead of hardcoded '😀'</li>
+    </ul>
+  </div>
+
+  <script>
+    // Add simple pass/fail visual feedback
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const row = this.closest('tr');
+        if (this.checked) {
+          row.querySelector('label').className = 'pass';
+          row.querySelector('label').textContent = '✓ Pass';
+        } else {
+          row.querySelector('label').className = 'fail';
+          row.querySelector('label').textContent = '✗ Fail';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
