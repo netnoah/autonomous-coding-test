@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { EQUIPMENT_STATS, TILE_TYPES } from '../game/gameReducer'
 import MiniMap from './MiniMap'
 
 function StatusPanel({ gameState }) {
   const { player, equipment } = gameState
+  const [displayedHp, setDisplayedHp] = useState(player.hp)
+  const [previousHp, setPreviousHp] = useState(player.hp)
+  const [isAnimating, setIsAnimating] = useState(false)
+  const animationRef = useRef(null)
 
   // Calculate effective stats (base + equipment bonuses)
   let effectiveAtk = player.atk
@@ -23,12 +27,57 @@ function StatusPanel({ gameState }) {
     }
   }
 
-  const hpPercent = (player.hp / player.maxHp) * 100
-  const hpColor = hpPercent > 50 ? 'bg-green-500' : hpPercent > 25 ? 'bg-yellow-500' : 'bg-red-500'
-
   // Get equipment names
   const swordName = equipment.sword ? EQUIPMENT_STATS[equipment.sword].name : null
   const shieldName = equipment.shield ? EQUIPMENT_STATS[equipment.shield].name : null
+
+  // Smooth HP animation
+  useEffect(() => {
+    if (player.hp !== displayedHp) {
+      setPreviousHp(displayedHp)
+      setIsAnimating(true)
+
+      const animationDuration = 400 // ms
+      const startTime = Date.now()
+      const startHp = displayedHp
+      const endHp = player.hp
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / animationDuration, 1)
+
+        // Ease-out cubic function for smooth deceleration
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+
+        const currentHp = Math.round(startHp + (endHp - startHp) * easeProgress)
+        setDisplayedHp(currentHp)
+
+        if (progress < 1) {
+          animationRef.current = requestAnimationFrame(animate)
+        } else {
+          setIsAnimating(false)
+        }
+      }
+
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+
+      animationRef.current = requestAnimationFrame(animate)
+    }
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current)
+      }
+    }
+  }, [player.hp])
+
+  const hpPercent = (displayedHp / player.maxHp) * 100
+  const hpColor = hpPercent > 50 ? 'bg-green-500' : hpPercent > 25 ? 'bg-yellow-500' : 'bg-red-500'
+
+  // Damage flash effect
+  const isTakingDamage = isAnimating && displayedHp > player.hp
 
   return (
     <div className="status-panel bg-gray-800 rounded-lg p-4 shadow-lg">
@@ -38,14 +87,17 @@ function StatusPanel({ gameState }) {
       <div className="mb-4">
         <div className="flex justify-between text-sm mb-1">
           <span className="text-gray-300">HP</span>
-          <span className="font-mono-stats text-white">
-            {player.hp}/{player.maxHp}
+          <span className={`font-mono-stats ${isTakingDamage ? 'text-red-400' : 'text-white'} transition-colors duration-200`}>
+            {displayedHp}/{player.maxHp}
           </span>
         </div>
-        <div className="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+        <div className={`w-full bg-gray-700 rounded-full h-4 overflow-hidden ${isTakingDamage ? 'ring-2 ring-red-500 ring-opacity-50' : ''}`}>
           <div
-            className={`h-full ${hpColor} transition-all duration-300`}
-            style={{ width: `${hpPercent}%` }}
+            className={`h-full ${hpColor}`}
+            style={{
+              width: `${hpPercent}%`,
+              transition: isAnimating ? 'none' : 'width 0.3s ease-out, background-color 0.3s ease-out'
+            }}
           />
         </div>
       </div>

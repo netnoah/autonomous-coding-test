@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { TILE_TYPES, MONSTER_STATS } from '../game/gameReducer'
 import MonsterTooltip from './MonsterTooltip'
 import DamageNumber from './DamageNumber'
+import ItemPickup from './ItemPickup'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -379,6 +380,17 @@ function GameMap({ gameState, dispatch }) {
             damage={dn.damage}
             type={dn.type}
             onComplete={() => dispatch({ type: 'REMOVE_DAMAGE_NUMBER', id: dn.id })}
+          />
+        ))}
+
+        {/* Item Pickup Animations */}
+        {itemPickups && itemPickups.map(ip => (
+          <ItemPickup
+            key={ip.id}
+            x={ip.x}
+            y={ip.y}
+            itemType={ip.itemType}
+            onComplete={() => dispatch({ type: 'REMOVE_ITEM_PICKUP', id: ip.id })}
           />
         ))}
       </div>

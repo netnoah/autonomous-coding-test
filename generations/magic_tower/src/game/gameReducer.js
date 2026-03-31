@@ -957,7 +957,10 @@ export const initialGameState = {
   revealedHiddenWalls: {},
 
   // Damage numbers for combat feedback
-  damageNumbers: []
+  damageNumbers: [],
+
+  // Item pickup animations
+  itemPickups: []
 }
 
 function gameReducer(state, action) {
@@ -1053,6 +1056,27 @@ function gameReducer(state, action) {
       return {
         ...state,
         damageNumbers: state.damageNumbers.filter(dn => dn.id !== action.id)
+      }
+
+    case 'ADD_ITEM_PICKUP':
+      return {
+        ...state,
+        itemPickups: [
+          ...state.itemPickups,
+          {
+            id: action.id,
+            x: action.x,
+            y: action.y,
+            itemType: action.itemType,
+            timestamp: Date.now()
+          }
+        ]
+      }
+
+    case 'REMOVE_ITEM_PICKUP':
+      return {
+        ...state,
+        itemPickups: state.itemPickups.filter(ip => ip.id !== action.id)
       }
 
     default:
@@ -1265,6 +1289,32 @@ function handlePickup(state, itemType, newX, newY, direction) {
   let messageText = ''
   let messageType = 'success'
 
+  // Get item type name for animation
+  const getItemTypeName = (tileType) => {
+    switch (tileType) {
+      case TILE_TYPES.YELLOW_KEY: return 'yellowKey'
+      case TILE_TYPES.BLUE_KEY: return 'blueKey'
+      case TILE_TYPES.RED_KEY: return 'redKey'
+      case TILE_TYPES.SMALL_POTION: return 'smallPotion'
+      case TILE_TYPES.BIG_POTION: return 'bigPotion'
+      case TILE_TYPES.SUPER_POTION: return 'superPotion'
+      case TILE_TYPES.RED_GEM: return 'redGem'
+      case TILE_TYPES.BLUE_GEM: return 'blueGem'
+      case TILE_TYPES.GREEN_GEM: return 'greenGem'
+      case TILE_TYPES.GOLD_PILE: return 'goldPile'
+      case TILE_TYPES.BIG_GOLD_PILE: return 'bigGoldPile'
+      case TILE_TYPES.IRON_SWORD: return 'ironSword'
+      case TILE_TYPES.STEEL_SWORD: return 'steelSword'
+      case TILE_TYPES.HOLY_SWORD: return 'holySword'
+      case TILE_TYPES.WOODEN_SHIELD: return 'woodenShield'
+      case TILE_TYPES.IRON_SHIELD: return 'ironShield'
+      case TILE_TYPES.HOLY_SHIELD: return 'holyShield'
+      case TILE_TYPES.ATTACK_BOOK: return 'attackBook'
+      case TILE_TYPES.DEFENSE_BOOK: return 'defenseBook'
+      default: return 'item'
+    }
+  }
+
   switch (itemType) {
     case TILE_TYPES.YELLOW_KEY:
       updates.yellowKeys = state.player.yellowKeys + 1
@@ -1340,6 +1390,11 @@ function handlePickup(state, itemType, newX, newY, direction) {
   updatedMap[newY] = [...updatedMap[newY]]
   updatedMap[newY][newX] = TILE_TYPES.FLOOR
 
+  // Calculate position for item pickup animation (center of tile)
+  const tileSize = 48
+  const pickupX = newX * tileSize + tileSize / 2 - 12 // Center horizontally (offset for icon size)
+  const pickupY = newY * tileSize + tileSize / 2 - 12 // Center vertically
+
   return {
     ...state,
     player: {
@@ -1357,6 +1412,16 @@ function handlePickup(state, itemType, newX, newY, direction) {
     messages: [
       ...state.messages.slice(-9),
       { type: messageType, text: messageText }
+    ],
+    itemPickups: [
+      ...state.itemPickups,
+      {
+        id: `pickup-${Date.now()}`,
+        x: pickupX,
+        y: pickupY,
+        itemType: getItemTypeName(itemType),
+        timestamp: Date.now()
+      }
     ]
   }
 }
@@ -1367,6 +1432,19 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
 
   let messageText = `Equipped ${equipmentStats.name}`
   let messageType = 'success'
+
+  // Get item type name for animation
+  const getItemTypeName = (tileType) => {
+    switch (tileType) {
+      case TILE_TYPES.IRON_SWORD: return 'ironSword'
+      case TILE_TYPES.STEEL_SWORD: return 'steelSword'
+      case TILE_TYPES.HOLY_SWORD: return 'holySword'
+      case TILE_TYPES.WOODEN_SHIELD: return 'woodenShield'
+      case TILE_TYPES.IRON_SHIELD: return 'ironShield'
+      case TILE_TYPES.HOLY_SHIELD: return 'holyShield'
+      default: return 'item'
+    }
+  }
 
   // Update equipment state
   let updatedEquipment = { ...state.equipment }
@@ -1381,6 +1459,11 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
   const updatedMap = [...state.maps[state.currentFloor]]
   updatedMap[newY] = [...updatedMap[newY]]
   updatedMap[newY][newX] = TILE_TYPES.FLOOR
+
+  // Calculate position for item pickup animation (center of tile)
+  const tileSize = 48
+  const pickupX = newX * tileSize + tileSize / 2 - 12 // Center horizontally (offset for icon size)
+  const pickupY = newY * tileSize + tileSize / 2 - 12 // Center vertically
 
   // Calculate new effective stats
   const effectiveStats = getEffectivePlayerStats(state.player, updatedEquipment)
@@ -1403,6 +1486,16 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
       {
         type: messageType,
         text: messageText
+      }
+    ],
+    itemPickups: [
+      ...state.itemPickups,
+      {
+        id: `pickup-${Date.now()}`,
+        x: pickupX,
+        y: pickupY,
+        itemType: getItemTypeName(itemType),
+        timestamp: Date.now()
       }
     ]
   }

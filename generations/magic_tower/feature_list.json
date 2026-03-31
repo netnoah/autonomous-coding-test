@@ -1424,7 +1424,7 @@
       "Step 4: Verify HP bar transitions are gradual, not instant",
       "Step 5: Verify final HP value is correct"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -1436,7 +1436,7 @@
       "Step 4: Verify item fades out as it floats",
       "Step 5: Verify animation completes within 500ms"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
