@@ -1901,7 +1901,7 @@
       "Step 8: Take screenshot",
       "Step 9: Verify HP bar is red"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",

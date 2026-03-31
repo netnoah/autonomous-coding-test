@@ -74,7 +74,35 @@ function StatusPanel({ gameState }) {
   }, [player.hp])
 
   const hpPercent = (displayedHp / player.maxHp) * 100
-  const hpColor = hpPercent > 50 ? 'bg-green-500' : hpPercent > 25 ? 'bg-yellow-500' : 'bg-red-500'
+
+  // HP bar gradient from green to red
+  // High HP (80-100%): Green
+  // Medium HP (40-79%): Yellow
+  // Low HP (0-39%): Red
+  const getHpBarColor = (percent) => {
+    if (percent >= 80) {
+      // Green (hue 120)
+      return `hsl(120, 70%, 45%)`
+    } else if (percent >= 40) {
+      // Transition from yellow (hue 60) to green (hue 120)
+      // At 80%: yellow, at 40%: green
+      const yellowStart = 80
+      const greenEnd = 40
+      const ratio = (percent - greenEnd) / (yellowStart - greenEnd)
+      const hue = 60 + (ratio * 60) // 60 (yellow) to 120 (green)
+      return `hsl(${hue}, 80%, 45%)`
+    } else {
+      // Transition from red (hue 0) to yellow (hue 60)
+      // At 40%: yellow, at 0%: red
+      const yellowStart = 40
+      const redEnd = 0
+      const ratio = Math.max(0, (percent - redEnd) / (yellowStart - redEnd))
+      const hue = ratio * 60 // 0 (red) to 60 (yellow)
+      return `hsl(${hue}, 80%, 45%)`
+    }
+  }
+
+  const hpBarColor = getHpBarColor(hpPercent)
 
   // Damage flash effect
   const isTakingDamage = isAnimating && displayedHp > player.hp
@@ -93,9 +121,10 @@ function StatusPanel({ gameState }) {
         </div>
         <div className={`w-full bg-gray-700 rounded-full h-4 overflow-hidden ${isTakingDamage ? 'ring-2 ring-red-500 ring-opacity-50' : ''}`}>
           <div
-            className={`h-full ${hpColor}`}
+            className="h-full"
             style={{
               width: `${hpPercent}%`,
+              backgroundColor: hpBarColor,
               transition: isAnimating ? 'none' : 'width 0.3s ease-out, background-color 0.3s ease-out'
             }}
           />
