@@ -1463,7 +1463,7 @@
       "Step 6: Verify screen fades in",
       "Step 7: Verify transition takes 300-500ms"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

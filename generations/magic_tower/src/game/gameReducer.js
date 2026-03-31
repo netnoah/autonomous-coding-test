@@ -976,7 +976,15 @@ export const initialGameState = {
   itemPickups: [],
 
   // Door opening animations
-  doorAnimations: []
+  doorAnimations: [],
+
+  // Floor transition animation
+  floorTransition: {
+    isActive: false,
+    fromFloor: 0,
+    toFloor: 0,
+    direction: 'up'
+  }
 }
 
 function gameReducer(state, action) {
@@ -1123,6 +1131,21 @@ function gameReducer(state, action) {
 
       // Call completeDoorOpening with the pending movement data (door already removed from map)
       return completeDoorOpening(state, doorAnim.pendingDoorType, doorAnim.pendingNewX, doorAnim.pendingNewY, doorAnim.pendingDirection)
+
+    case 'START_FLOOR_TRANSITION':
+      return {
+        ...state,
+        floorTransition: {
+          isActive: true,
+          fromFloor: action.fromFloor,
+          toFloor: action.toFloor,
+          direction: action.direction
+        }
+      }
+
+    case 'COMPLETE_FLOOR_TRANSITION':
+      // Actually perform the floor change
+      return handleChangeFloor(state, action.toFloor, action.direction)
 
     default:
       return state
@@ -1342,10 +1365,28 @@ function handleMove(state, direction) {
 
   // Check for stairs
   if (targetTile === TILE_TYPES.STAIRS_UP) {
-    return handleChangeFloor(stateToUse, stateToUse.currentFloor + 1, 'up')
+    // Start floor transition animation instead of immediately changing floors
+    return {
+      ...stateToUse,
+      floorTransition: {
+        isActive: true,
+        fromFloor: stateToUse.currentFloor,
+        toFloor: stateToUse.currentFloor + 1,
+        direction: 'up'
+      }
+    }
   }
   if (targetTile === TILE_TYPES.STAIRS_DOWN) {
-    return handleChangeFloor(stateToUse, stateToUse.currentFloor - 1, 'down')
+    // Start floor transition animation instead of immediately changing floors
+    return {
+      ...stateToUse,
+      floorTransition: {
+        isActive: true,
+        fromFloor: stateToUse.currentFloor,
+        toFloor: stateToUse.currentFloor - 1,
+        direction: 'down'
+      }
+    }
   }
 
   // Check for items

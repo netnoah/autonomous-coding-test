@@ -4,9 +4,10 @@ import MonsterTooltip from './MonsterTooltip'
 import DamageNumber from './DamageNumber'
 import ItemPickup from './ItemPickup'
 import DoorAnimation from './DoorAnimation'
+import FloorTransition from './FloorTransition'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers, itemPickups, doorAnimations } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups, doorAnimations, floorTransition } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -405,6 +406,21 @@ function GameMap({ gameState, dispatch }) {
             onComplete={() => dispatch({ type: 'DOOR_ANIMATION_COMPLETE', id: da.id })}
           />
         ))}
+
+        {/* Floor Transition Animation */}
+        {floorTransition && (
+          <FloorTransition
+            isActive={floorTransition.isActive}
+            fromFloor={floorTransition.fromFloor}
+            toFloor={floorTransition.toFloor}
+            direction={floorTransition.direction}
+            onComplete={() => dispatch({
+              type: 'COMPLETE_FLOOR_TRANSITION',
+              toFloor: floorTransition.toFloor,
+              direction: floorTransition.direction
+            })}
+          />
+        )}
       </div>
     </div>
   )
