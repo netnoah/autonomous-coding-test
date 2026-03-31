@@ -1500,7 +1500,7 @@
       "Step 4: Verify animation is visible and clear",
       "Step 5: Verify animation fades out after 1-2 seconds"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

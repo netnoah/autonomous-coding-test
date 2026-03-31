@@ -975,6 +975,9 @@ export const initialGameState = {
   // Item pickup animations
   itemPickups: [],
 
+  // Stat change animations
+  statChangeAnimations: [],
+
   // Door opening animations
   doorAnimations: [],
 
@@ -1101,6 +1104,27 @@ function gameReducer(state, action) {
       return {
         ...state,
         itemPickups: state.itemPickups.filter(ip => ip.id !== action.id)
+      }
+
+    case 'ADD_STAT_CHANGE_ANIMATION':
+      return {
+        ...state,
+        statChangeAnimations: [
+          ...state.statChangeAnimations,
+          {
+            id: action.id,
+            x: action.x,
+            y: action.y,
+            statChangeText: action.statChangeText,
+            timestamp: Date.now()
+          }
+        ]
+      }
+
+    case 'REMOVE_STAT_CHANGE_ANIMATION':
+      return {
+        ...state,
+        statChangeAnimations: state.statChangeAnimations.filter(sca => sca.id !== action.id)
       }
 
     case 'ADD_DOOR_ANIMATION':
@@ -1531,7 +1555,35 @@ function handlePickup(state, itemType, newX, newY, direction) {
   const pickupX = newX * tileSize + tileSize / 2 - 12 // Center horizontally (offset for icon size)
   const pickupY = newY * tileSize + tileSize / 2 - 12 // Center vertically
 
-  return {
+  // Calculate position for stat change animation (slightly above pickup)
+  const statChangeX = newX * tileSize + tileSize / 2 - 30 // Center horizontally (more offset for text)
+  const statChangeY = newY * tileSize + tileSize / 2 - 40 // Above the pickup animation
+
+  // Determine stat change text for items that modify stats
+  let statChangeText = null
+  switch (itemType) {
+    case TILE_TYPES.RED_GEM:
+      statChangeText = '+3 ATK'
+      break
+    case TILE_TYPES.BLUE_GEM:
+      statChangeText = '+3 DEF'
+      break
+    case TILE_TYPES.GREEN_GEM:
+      statChangeText = '+1 ATK, +1 DEF'
+      break
+    case TILE_TYPES.ATTACK_BOOK:
+      statChangeText = `+${state.player.atk < 100 ? 3 : 1} ATK` // Dynamic based on current ATK
+      break
+    case TILE_TYPES.DEFENSE_BOOK:
+      statChangeText = `+${state.player.def < 100 ? 3 : 1} DEF` // Dynamic based on current DEF
+      break
+    case TILE_TYPES.LIFE_GEM:
+      statChangeText = '+Max HP'
+      break
+  }
+
+  // Build return state
+  const newState = {
     ...state,
     player: {
       ...state.player,
@@ -1560,6 +1612,22 @@ function handlePickup(state, itemType, newX, newY, direction) {
       }
     ]
   }
+
+  // Add stat change animation if applicable
+  if (statChangeText) {
+    newState.statChangeAnimations = [
+      ...state.statChangeAnimations,
+      {
+        id: `stat-change-${Date.now()}`,
+        x: statChangeX,
+        y: statChangeY,
+        statChangeText: statChangeText,
+        timestamp: Date.now()
+      }
+    ]
+  }
+
+  return newState
 }
 
 function handleEquipmentPickup(state, itemType, newX, newY) {
@@ -1601,10 +1669,31 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
   const pickupX = newX * tileSize + tileSize / 2 - 12 // Center horizontally (offset for icon size)
   const pickupY = newY * tileSize + tileSize / 2 - 12 // Center vertically
 
+  // Calculate position for stat change animation (slightly above pickup)
+  const statChangeX = newX * tileSize + tileSize / 2 - 40
+  const statChangeY = newY * tileSize + tileSize / 2 - 40 // Above the pickup animation
+
   // Calculate new effective stats
   const effectiveStats = getEffectivePlayerStats(state.player, updatedEquipment)
 
-  return {
+  // Calculate stat difference for animation
+  const currentEffectiveStats = getEffectivePlayerStats(state.player, state.equipment)
+  let statChangeText = null
+
+  if (equipmentStats.type === 'sword') {
+    const atkDiff = effectiveStats.atk - currentEffectiveStats.atk
+    if (atkDiff > 0) {
+      statChangeText = `+${atkDiff} ATK`
+    }
+  } else if (equipmentStats.type === 'shield') {
+    const defDiff = effectiveStats.def - currentEffectiveStats.def
+    if (defDiff > 0) {
+      statChangeText = `+${defDiff} DEF`
+    }
+  }
+
+  // Build return state
+  const newState = {
     ...state,
     equipment: updatedEquipment,
     player: {
@@ -1634,6 +1723,23 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
         timestamp: Date.now()
       }
     ]
+  }
+
+  // Add stat change animation if applicable
+  if (statChangeText) {
+    newState.statChangeAnimations = [
+      ...state.statChangeAnimations,
+      {
+        id: `stat-change-${Date.now()}`,
+        x: statChangeX,
+        y: statChangeY,
+        statChangeText: statChangeText,
+        timestamp: Date.now()
+      }
+    ]
+  }
+
+  return newState
   }
 }
 

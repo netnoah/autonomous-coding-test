@@ -3,11 +3,12 @@ import { TILE_TYPES, MONSTER_STATS } from '../game/gameReducer'
 import MonsterTooltip from './MonsterTooltip'
 import DamageNumber from './DamageNumber'
 import ItemPickup from './ItemPickup'
+import StatChangeAnimation from './StatChangeAnimation'
 import DoorAnimation from './DoorAnimation'
 import FloorTransition from './FloorTransition'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers, itemPickups, doorAnimations, floorTransition } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups, statChangeAnimations, doorAnimations, floorTransition } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -393,6 +394,17 @@ function GameMap({ gameState, dispatch }) {
             y={ip.y}
             itemType={ip.itemType}
             onComplete={() => dispatch({ type: 'REMOVE_ITEM_PICKUP', id: ip.id })}
+          />
+        ))}
+
+        {/* Stat Change Animations */}
+        {statChangeAnimations && statChangeAnimations.map(sca => (
+          <StatChangeAnimation
+            key={sca.id}
+            x={sca.x}
+            y={sca.y}
+            statChangeText={sca.statChangeText}
+            onComplete={() => dispatch({ type: 'REMOVE_STAT_CHANGE_ANIMATION', id: sca.id })}
           />
         ))}
 
