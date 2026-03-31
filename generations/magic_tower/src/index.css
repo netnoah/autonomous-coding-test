@@ -146,3 +146,27 @@ button:hover {
 button:active {
   transform: translateY(0);
 }
+
+/* Monster idle animation - subtle pulse/bob effect */
+@keyframes monsterIdle {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-2px) scale(1.02);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(-3px) scale(1.03);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(-2px) scale(1.02);
+    opacity: 0.95;
+  }
+}
+
+.monster-idle {
+  animation: monsterIdle 2s ease-in-out infinite;
+}

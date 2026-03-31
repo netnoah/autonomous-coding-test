@@ -261,6 +261,27 @@ function GameMap({ gameState, dispatch }) {
     ].includes(tile)
   }
 
+  // Check if tile is a monster (for idle animation)
+  const isMonsterTile = (tile) => {
+    return [
+      TILE_TYPES.GREEN_SLIME,
+      TILE_TYPES.RED_SLIME,
+      TILE_TYPES.RED_BAT,
+      TILE_TYPES.SKELETON,
+      TILE_TYPES.MAGICIAN,
+      TILE_TYPES.STONE_GOLEM,
+      TILE_TYPES.DARK_KNIGHT,
+      TILE_TYPES.WITCH,
+      TILE_TYPES.VAMPIRE,
+      TILE_TYPES.DRAGON,
+      TILE_TYPES.DARK_MAGE,
+      TILE_TYPES.SKELETON_KING,
+      TILE_TYPES.MINI_BOSS,
+      TILE_TYPES.FLOOR_GUARDIAN,
+      TILE_TYPES.TOWER_LORD
+    ].includes(tile)
+  }
+
   const handleTileClick = (x, y) => {
     // Prevent movement during animation
     if (isAnimating) {
@@ -336,6 +357,7 @@ function GameMap({ gameState, dispatch }) {
                   transition-opacity
                   font-pixel text-xs
                   ${!isItemTile(tile) ? '' : 'item-glow'}
+                  ${!isMonsterTile(tile) ? '' : 'monster-idle'}
                 `}
                 onClick={() => handleTileClick(x, y)}
                 onMouseEnter={(e) => handleTileMouseEnter(tile, x, y, e)}
