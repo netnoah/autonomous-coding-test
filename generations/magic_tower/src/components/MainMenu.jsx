@@ -2,30 +2,9 @@ import React, { useState, useEffect } from 'react'
 import SettingsModal from './SettingsModal'
 import HelpModal from './HelpModal'
 
-function MainMenu({ onStartNewGame, onContinueGame }) {
+function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }) {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [helpOpen, setHelpOpen] = useState(false)
-  const [settings, setSettings] = useState({
-    musicVolume: 70,
-    sfxVolume: 80,
-    movementSpeed: 'smooth',
-    keyRepeat: false,
-    theme: 'classic',
-    showMonsterStats: true,
-    autoSave: true
-  })
-
-  // Load settings from localStorage on mount
-  useEffect(() => {
-    const savedSettings = localStorage.getItem('magicTowerSettings')
-    if (savedSettings) {
-      try {
-        setSettings(JSON.parse(savedSettings))
-      } catch (e) {
-        console.error('Failed to load settings:', e)
-      }
-    }
-  }, [])
   return (
     <div className="main-menu flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="text-center fade-in">

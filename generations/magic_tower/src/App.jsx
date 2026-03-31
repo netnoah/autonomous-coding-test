@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MainMenu from './components/MainMenu'
 import Game from './components/Game'
 import GameOver from './components/GameOver'
@@ -8,6 +8,27 @@ function App() {
   const [gameState, setGameState] = useState('menu') // 'menu', 'playing', 'paused', 'gameOver', 'victory'
   const [finalStats, setFinalStats] = useState(null)
   const [loadedGameData, setLoadedGameData] = useState(null)
+  const [settings, setSettings] = useState({
+    musicVolume: 70,
+    sfxVolume: 80,
+    movementSpeed: 'smooth',
+    keyRepeat: false,
+    theme: 'classic',
+    showMonsterStats: true,
+    autoSave: true
+  })
+
+  // Load settings from localStorage on mount
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('magicTowerSettings')
+    if (savedSettings) {
+      try {
+        setSettings(JSON.parse(savedSettings))
+      } catch (e) {
+        console.error('Failed to load settings:', e)
+      }
+    }
+  }, [])
 
   const handleStartNewGame = () => {
     setFinalStats(null)
@@ -132,6 +153,8 @@ function App() {
         <MainMenu
           onStartNewGame={handleStartNewGame}
           onContinueGame={handleContinueGame}
+          settings={settings}
+          onSettingsChange={setSettings}
         />
       )}
       {gameState === 'playing' && (
@@ -140,6 +163,7 @@ function App() {
           onGameOver={handleGameOver}
           onVictory={handleVictory}
           initialLoadState={loadedGameData}
+          settings={settings}
         />
       )}
       {gameState === 'gameOver' && finalStats && (

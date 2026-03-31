@@ -8,56 +8,126 @@ import HelpModal from './HelpModal'
 import SaveLoadModal from './SaveLoadModal'
 import DialogueModal from './DialogueModal'
 
-function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState }) {
+function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, settings }) {
   const [gameState, dispatch] = useReducer(gameReducer, initialGameState)
   const [helpOpen, setHelpOpen] = useState(false)
   const [saveLoadOpen, setSaveLoadOpen] = useState(false)
   const [previousFloor, setPreviousFloor] = useState(0)
 
-  // Keyboard input handling
+  // Keyboard input handling with key repeat support
   useEffect(() => {
-    const handleKeyPress = (event) => {
-      // Prevent default for game keys
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(event.key)) {
-        event.preventDefault()
-      }
+    const pressedKeys = new Set()
+    const keyTimers = new Map() // Store timers for each key
+    const moveDirections = new Map() // Map keys to move directions
 
-      switch (event.key) {
+    const getDirection = (key) => {
+      switch (key) {
         case 'ArrowUp':
         case 'w':
         case 'W':
-          dispatch({ type: 'MOVE', direction: 'up' })
-          break
+          return 'up'
         case 'ArrowDown':
         case 's':
         case 'S':
-          dispatch({ type: 'MOVE', direction: 'down' })
-          break
+          return 'down'
         case 'ArrowLeft':
         case 'a':
         case 'A':
-          dispatch({ type: 'MOVE', direction: 'left' })
-          break
+          return 'left'
         case 'ArrowRight':
         case 'd':
         case 'D':
-          dispatch({ type: 'MOVE', direction: 'right' })
-          break
-        case 'Escape':
-          onReturnToMenu()
-          break
-        case 'h':
-        case 'H':
-          setHelpOpen(true)
-          break
+          return 'right'
         default:
-          break
+          return null
       }
     }
 
-    window.addEventListener('keydown', handleKeyPress)
-    return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [onReturnToMenu])
+    const handleKeyDown = (event) => {
+      // Prevent default for game keys
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd', 'W', 'A', 'S', 'D'].includes(event.key)) {
+        event.preventDefault()
+      }
+
+      // Handle non-movement keys immediately
+      if (event.key === 'Escape') {
+        onReturnToMenu()
+        return
+      }
+      if (event.key === 'h' || event.key === 'H') {
+        setHelpOpen(true)
+        return
+      }
+
+      // Handle movement keys
+      const direction = getDirection(event.key)
+      if (direction) {
+        // Ignore if key is already pressed (prevent duplicate events)
+        if (pressedKeys.has(event.key)) {
+          return
+        }
+
+        pressedKeys.add(event.key)
+        moveDirections.set(event.key, direction)
+
+        // Always trigger initial movement
+        dispatch({ type: 'MOVE', direction })
+
+        // If key repeat is enabled, start repeating
+        if (settings.keyRepeat) {
+          // Initial delay before repeating (150ms)
+          const initialDelayTimer = setTimeout(() => {
+            // Then repeat every 80ms
+            const repeatTimer = setInterval(() => {
+              if (pressedKeys.has(event.key)) {
+                dispatch({ type: 'MOVE', direction })
+              } else {
+                clearInterval(repeatTimer)
+              }
+            }, 80)
+
+            keyTimers.set(event.key + '_repeat', repeatTimer)
+          }, 150)
+
+          keyTimers.set(event.key + '_initial', initialDelayTimer)
+        }
+      }
+    }
+
+    const handleKeyUp = (event) => {
+      const direction = getDirection(event.key)
+      if (direction || pressedKeys.has(event.key)) {
+        pressedKeys.delete(event.key)
+        moveDirections.delete(event.key)
+
+        // Clear timers
+        const initialTimer = keyTimers.get(event.key + '_initial')
+        const repeatTimer = keyTimers.get(event.key + '_repeat')
+
+        if (initialTimer) {
+          clearTimeout(initialTimer)
+          keyTimers.delete(event.key + '_initial')
+        }
+        if (repeatTimer) {
+          clearInterval(repeatTimer)
+          keyTimers.delete(event.key + '_repeat')
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+      // Clear all timers
+      keyTimers.forEach(timer => {
+        clearTimeout(timer)
+        clearInterval(timer)
+      })
+    }
+  }, [onReturnToMenu, settings.keyRepeat])
 
   // Check for game over
   useEffect(() => {
