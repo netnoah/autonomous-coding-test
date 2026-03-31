@@ -170,6 +170,31 @@ function GameMap({ gameState, dispatch }) {
     }
   }
 
+  // Check if tile is an item (for glow effect)
+  const isItemTile = (tile) => {
+    return [
+      TILE_TYPES.YELLOW_KEY,
+      TILE_TYPES.BLUE_KEY,
+      TILE_TYPES.RED_KEY,
+      TILE_TYPES.SMALL_POTION,
+      TILE_TYPES.BIG_POTION,
+      TILE_TYPES.SUPER_POTION,
+      TILE_TYPES.RED_GEM,
+      TILE_TYPES.BLUE_GEM,
+      TILE_TYPES.GREEN_GEM,
+      TILE_TYPES.GOLD_PILE,
+      TILE_TYPES.BIG_GOLD_PILE,
+      TILE_TYPES.IRON_SWORD,
+      TILE_TYPES.STEEL_SWORD,
+      TILE_TYPES.HOLY_SWORD,
+      TILE_TYPES.WOODEN_SHIELD,
+      TILE_TYPES.IRON_SHIELD,
+      TILE_TYPES.HOLY_SHIELD,
+      TILE_TYPES.ATTACK_BOOK,
+      TILE_TYPES.DEFENSE_BOOK
+    ].includes(tile)
+  }
+
   const handleTileClick = (x, y) => {
     const dx = Math.abs(x - player.x)
     const dy = Math.abs(y - player.y)
@@ -237,6 +262,7 @@ function GameMap({ gameState, dispatch }) {
                   transition-opacity
                   font-pixel text-xs
                   ${isPlayer ? 'ring-2 ring-blue-400 ring-inset' : ''}
+                  ${!isPlayer && isItemTile(tile) ? 'item-glow' : ''}
                 `}
                 onClick={() => handleTileClick(x, y)}
                 onMouseEnter={(e) => handleTileMouseEnter(tile, x, y, e)}
