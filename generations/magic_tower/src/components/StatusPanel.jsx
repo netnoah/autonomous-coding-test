@@ -1,5 +1,6 @@
 import React from 'react'
 import { EQUIPMENT_STATS, TILE_TYPES } from '../game/gameReducer'
+import MiniMap from './MiniMap'
 
 function StatusPanel({ gameState }) {
   const { player, equipment } = gameState
@@ -127,13 +128,8 @@ function StatusPanel({ gameState }) {
         </div>
       </div>
 
-      {/* Mini-map placeholder */}
-      <div className="mt-4 pt-4 border-t border-gray-700">
-        <h3 className="text-sm text-gray-400 mb-2">Mini-Map</h3>
-        <div className="bg-gray-900 rounded p-2 flex items-center justify-center h-32">
-          <span className="text-gray-600 text-xs">Floor {player.floor} Map</span>
-        </div>
-      </div>
+      {/* Mini-map */}
+      <MiniMap gameState={gameState} />
     </div>
   )
 }

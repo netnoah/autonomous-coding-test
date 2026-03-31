@@ -929,6 +929,12 @@ export const initialGameState = {
     }
   },
 
+  // Track explored tiles for mini-map
+  // Format: { floorNum: ["x,y", "x,y", ...] }
+  exploredTiles: {
+    0: ["5,5"] // Starting position explored
+  },
+
   // Message log
   messages: [
     { type: 'info', text: 'Welcome to Magic Tower! Use arrow keys or WASD to move.' }
@@ -1021,6 +1027,7 @@ function gameReducer(state, action) {
         visitedFloors: action.payload.visitedFloors || [0],
         monstersKilled: action.payload.monstersKilled || 0,
         maps: action.payload.maps || state.maps,
+        exploredTiles: action.payload.exploredTiles || { 0: ["5,5"] },
         messages: [
           { type: 'info', text: 'Game loaded successfully!' }
         ]
@@ -1105,6 +1112,50 @@ function revealAdjacentHiddenWalls(state) {
       ...state.messages.slice(-9),
       { type: 'info', text: `Hidden wall${newlyRevealed.length > 1 ? 's' : ''} revealed!` }
     ]
+  }
+}
+
+// Helper function to mark adjacent tiles as explored for mini-map
+function markTilesAsExplored(state) {
+  const { player, currentFloor, exploredTiles } = state
+
+  // Mark current position and adjacent tiles as explored
+  const directions = [
+    { dx: 0, dy: 0 },   // current tile
+    { dx: 0, dy: -1 },  // up
+    { dx: 0, dy: 1 },   // down
+    { dx: -1, dy: 0 },  // left
+    { dx: 1, dy: 0 }    // right
+  ]
+
+  const floorExplored = exploredTiles[currentFloor] || []
+  const newExplored = [...floorExplored]
+
+  // Mark each adjacent tile as explored
+  for (const dir of directions) {
+    const exploreX = player.x + dir.dx
+    const exploreY = player.y + dir.dy
+
+    // Check bounds
+    if (exploreX < 0 || exploreX >= 11 || exploreY < 0 || exploreY >= 11) continue
+
+    const tileKey = `${exploreX},${exploreY}`
+
+    // If not already explored, mark it
+    if (!newExplored.includes(tileKey)) {
+      newExplored.push(tileKey)
+    }
+  }
+
+  // Only update state if something new was explored
+  if (newExplored.length === floorExplored.length) return state
+
+  return {
+    ...state,
+    exploredTiles: {
+      ...exploredTiles,
+      [currentFloor]: newExplored
+    }
   }
 }
 
@@ -1194,7 +1245,7 @@ function handleMove(state, direction) {
   }
 
   // Normal movement (including onto revealed hidden walls)
-  return {
+  const movedState = {
     ...stateToUse,
     player: {
       ...stateToUse.player,
@@ -1204,6 +1255,9 @@ function handleMove(state, direction) {
       steps: stateToUse.player.steps + 1
     }
   }
+
+  // Mark tiles as explored for mini-map
+  return markTilesAsExplored(movedState)
 }
 
 function handlePickup(state, itemType, newX, newY, direction) {
