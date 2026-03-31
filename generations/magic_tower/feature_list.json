@@ -1885,7 +1885,7 @@
       "Step 7: Verify damage messages are red",
       "Step 8: Verify door messages are yellow"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
