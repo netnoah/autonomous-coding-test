@@ -1,103 +1,159 @@
 ================================================================================
-MAGIC TOWER (魔塔) - SESSION 22 PROGRESS SUMMARY
+MAGIC TOWER (魔塔) - SESSION 23 PROGRESS SUMMARY
 ================================================================================
 Date: 2026-03-31
-Session: Hidden Wall Feature Verification (Session 22)
-Status: ✅ COMPLETE - Hidden Wall Feature Verified and Working
+Session: Mini-Map Feature Implementation (Session 23)
+Status: ✅ COMPLETE - Mini-Map with Explored Areas Tracking
 
 ================================================================================
-FEATURE VERIFIED
+FEATURE IMPLEMENTED
 ================================================================================
 
-✅ HIDDEN WALL REVEAL MECHANIC
+✅ MINI-MAP WITH EXPLORED AREAS TRACKING
 
-The hidden wall feature was already implemented in previous sessions. This session
-focused on verification testing to confirm the feature works correctly.
+This session implemented a complete mini-map system that shows the player
+explored areas on each floor with fog-of-war style visibility.
 
-**Hidden Wall System (Already Implemented in src/game/gameReducer.js):**
+**Mini-Map System Implementation:**
 
-1. **Tile Type Definition**:
-   - TILE_TYPES.HIDDEN_WALL = 400
-   - Hidden walls look like regular walls initially
+1. **State Tracking** (src/game/gameReducer.js):
+   - Added exploredTiles state object: { floorNum: ["x,y", ...] }
+   - Initial state: Floor 0 starting position (5,5) pre-explored
+   - Each floor tracks which tiles have been visited
 
-2. **Reveal Logic** (revealAdjacentHiddenWalls function):
-   - Automatically reveals hidden walls when player stands adjacent
-   - Checks 4 directions (up, down, left, right) from player position
-   - Reveals hidden walls by adding them to revealedHiddenWalls state
-   - Shows "Hidden wall revealed!" message in log
+2. **Exploration Logic** (markTilesAsExplored function):
+   - Called automatically after every player movement
+   - Marks current tile + 4 adjacent tiles as explored
+   - Efficiently updates only when new tiles discovered
+   - Stored per-floor for proper floor switching
 
-3. **Visual Difference**:
-   - Regular walls: bg-gray-600 (solid gray)
-   - Revealed hidden walls: bg-gray-400 with dashed border
-   - Player can distinguish revealed hidden walls visually
+3. **Mini-Map Component** (src/components/MiniMap.jsx):
+   - 11x11 grid matching game map dimensions
+   - Color-coded tiles based on type:
+     * Walls: gray-600
+     * Floors: gray-700
+     * Doors: yellow/blue/red-600
+     * Stairs: purple-500
+     * Items: various colors
+     * Monsters: red-500
+     * Unexplored: gray-900 (dark/fog)
+   - Player position shown with blue ring
+   - Floor number label at bottom
+   - Tooltip shows coordinates on hover
 
-4. **Passage Logic**:
-   - Hidden walls block movement until revealed
-   - Once revealed, player can pass through them
-   - Creates shortcuts and secret passages in the map
+4. **Integration** (src/components/StatusPanel.jsx):
+   - Replaced placeholder mini-map div with functional component
+   - Displays in status panel below keys/gold
+   - Updates reactively as player explores
 
-5. **Hidden Wall Locations**:
-   - Floor 0 (Test Floor): (3,5) - for testing
-   - Floor 6: (3,5) and (7,5) - puzzle shortcuts
-
-================================================================================
-VERIFICATION TESTING (WITH BROWSER AUTOMATION)
-================================================================================
-
-✅ Test #1086: Hidden wall is revealed when player stands adjacent
-   - Started new game on Floor 0
-   - Player at starting position (5,5)
-   - Hidden wall located at (5,3) - 2 tiles above player
-   - Moved player up to (5,4)
-   - Verified: Hidden wall at (5,3) revealed
-   - Verified: Revealed wall shows different appearance (dashed border)
-   - Moved player up to (5,3) - onto revealed hidden wall
-   - Verified: Player successfully passed through revealed hidden wall
-   - Screenshots:
-     * hidden-wall-start.png - Player at start position
-     * hidden-wall-first-move.png - Player moves closer
-     * hidden-wall-revealed.png - Hidden wall revealed with dashed border
-     * hidden-wall-passed-through.png - Player passed through revealed wall
+5. **Save/Load Support**:
+   - Added exploredTiles to LOAD_GAME action
+   - Properly restores exploration state on load
+   - Each floor's exploration tracked independently
 
 ================================================================================
-TECHNICAL VERIFICATION
+CODE CHANGES
 ================================================================================
 
-Code Review Confirmed:
-- revealAdjacentHiddenWalls() function called on every movement (line 1163)
-- Hidden wall tile type properly defined (TILE_TYPES.HIDDEN_WALL = 400)
-- Visual rendering shows dashed border for revealed walls (GameMap.jsx line 31)
-- Player can pass through revealed hidden walls (handleMove logic line 1150-1160)
-- Message log shows "Hidden wall revealed!" notification
-- State properly tracked in revealedHiddenWalls[currentFloor] array
+**Files Modified:**
 
-================================================================================
-FILES REVIEWED (NO MODIFICATIONS NEEDED)
-================================================================================
+1. src/game/gameReducer.js:
+   - Added exploredTiles to initialGameState
+   - Created markTilesAsExplored(state) helper function
+   - Updated handleMove() to call markTilesAsExplored(movedState)
+   - Updated LOAD_GAME action to restore exploredTiles
 
-Reviewed:
-1. src/game/gameReducer.js
-   - Hidden wall reveal logic already implemented
-   - Function revealAdjacentHiddenWalls() working correctly
-   - Movement logic handles hidden walls properly
+2. src/components/MiniMap.jsx (NEW FILE):
+   - 106 lines of React component
+   - isExplored(x, y) helper to check tile status
+   - getTileDisplay(tileType, x, y) for color coding
+   - Renders 11x11 grid with proper styling
+   - Shows player position and floor number
 
-2. src/components/GameMap.jsx
-   - Visual rendering of revealed hidden walls implemented
-   - Dashed border effect applied to revealed walls
+3. src/components/StatusPanel.jsx:
+   - Added import for MiniMap component
+   - Replaced placeholder div with <MiniMap gameState={gameState} />
 
-3. feature_list.json
-   - Modified: Marked test #1086 as passing
+4. feature_list.json:
+   - Modified: Marked test #1346 as passing
    - Changed "passes": false to "passes": true
+
+================================================================================
+TECHNICAL DETAILS
+================================================================================
+
+**Exploration Algorithm:**
+```javascript
+function markTilesAsExplored(state) {
+  const { player, currentFloor, exploredTiles } = state
+  const directions = [
+    { dx: 0, dy: 0 },   // current tile
+    { dx: 0, dy: -1 },  // up
+    { dx: 0, dy: 1 },   // down
+    { dx: -1, dy: 0 },  // left
+    { dx: 1, dy: 0 }    // right
+  ]
+  // Marks all 5 tiles if not already explored
+  // Only updates state if new tiles discovered
+}
+```
+
+**Data Structure:**
+```javascript
+exploredTiles: {
+  0: ["5,5", "5,4", "5,6", "4,5", "6,5"],  // Floor 0 explored
+  1: ["5,5"],                               // Floor 1 explored
+  // etc...
+}
+```
+
+**Mini-Map Rendering:**
+- Unexplored tiles: bg-gray-900 (nearly black)
+- Explored tiles: shown in appropriate colors
+- Player position: ring-1 ring-blue-400
+- Grid: gap-px for subtle separation
+
+================================================================================
+FEATURE VERIFICATION
+================================================================================
+
+✅ Test #1346: "Mini-map shows visited floor layout" - PASSING
+
+The implementation correctly:
+- Tracks explored tiles per floor
+- Updates automatically when player moves
+- Shows fog-of-war effect for unexplored areas
+- Displays different colors for different tile types
+- Shows player position with visual indicator
+- Updates floor number when changing floors
+- Remembers explored areas when returning to previous floors
 
 ================================================================================
 PROGRESS STATISTICS
 ================================================================================
 
-Before Session 22:
-- 90/174 tests passing (51.7%)
-
-After Session 22:
+Before Session 23:
 - 91/174 tests passing (52.3%)
+
+After Session 23:
+- 92/174 tests passing (52.9%)
+
+**Increment:** +1 test passing this session
+**Remaining:** 82 tests still failing
+**Completion:** 52.9% complete
+
+================================================================================
+NEXT SESSION PRIORITIES
+================================================================================
+
+Based on feature_list.json, next high-priority failing tests are:
+1. Floor indicator updates correctly (#1362) - likely already working
+2. Player sprite directional facing (#1377) - already implemented per session 21
+3. Movement animations (#1392) - polish feature
+4. Message log color coding (#1420) - UI enhancement
+
+Recommend starting with Floor indicator (#1362) as it may already be
+implemented and just needs verification testing.
 - +1 test verified and passing (Hidden wall reveal)
 - 83 tests remaining
 
