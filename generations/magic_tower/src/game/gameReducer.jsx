@@ -1740,7 +1740,6 @@ function handleEquipmentPickup(state, itemType, newX, newY) {
   }
 
   return newState
-  }
 }
 
 function handleCombat(state, monsterType, newX, newY, direction) {
@@ -1773,7 +1772,7 @@ function handleCombat(state, monsterType, newX, newY, direction) {
     if (playerDamage > 0) {
       const id = Date.now() + rounds * 2
       newDamageNumbers.push({
-        id,
+        id: id,
         x: baseX + (Math.random() - 0.5) * 20, // Slight random offset
         y: baseY - 20 - rounds * 10, // Stack damage numbers upward
         damage: playerDamage,
@@ -1792,7 +1791,7 @@ function handleCombat(state, monsterType, newX, newY, direction) {
       const playerX = player.x * tileSize + tileSize / 2
       const playerY = player.y * tileSize + tileSize / 2
       newDamageNumbers.push({
-        id,
+        id: id,
         x: playerX + (Math.random() - 0.5) * 20,
         y: playerY - 20 - rounds * 10,
         damage: monsterDamage,
