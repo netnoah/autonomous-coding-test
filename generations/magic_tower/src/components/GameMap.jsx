@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { TILE_TYPES, MONSTER_STATS } from '../game/gameReducer'
 import MonsterTooltip from './MonsterTooltip'
 import DamageNumber from './DamageNumber'
@@ -10,8 +10,69 @@ function GameMap({ gameState, dispatch }) {
   const [hoveredTile, setHoveredTile] = useState(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
+  // Animation state
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [animatedPlayerPos, setAnimatedPlayerPos] = useState({ x: player.x, y: player.y })
+  const mapRef = useRef(null)
+  const [tileSize, setTileSize] = useState(0)
+
   // Use the actual floor map from game state
   const currentMap = maps[currentFloor]
+
+  // Calculate tile size on mount and resize
+  useEffect(() => {
+    const calculateTileSize = () => {
+      if (mapRef.current) {
+        const mapWidth = mapRef.current.offsetWidth
+        setTileSize(mapWidth / 11) // 11 columns
+      }
+    }
+
+    calculateTileSize()
+    window.addEventListener('resize', calculateTileSize)
+
+    // Recalculate after a short delay to ensure DOM is ready
+    const timeout = setTimeout(calculateTileSize, 100)
+
+    return () => {
+      window.removeEventListener('resize', calculateTileSize)
+      clearTimeout(timeout)
+    }
+  }, [])
+
+  // Animate player movement
+  useEffect(() => {
+    if (player.x !== animatedPlayerPos.x || player.y !== animatedPlayerPos.y) {
+      setIsAnimating(true)
+
+      // Start animation
+      const animationDuration = 120 // ms (within 100-150ms range)
+      const startTime = Date.now()
+      const startPos = { ...animatedPlayerPos }
+      const endPos = { x: player.x, y: player.y }
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / animationDuration, 1)
+
+        // Ease-out function for smoother deceleration
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+
+        setAnimatedPlayerPos({
+          x: startPos.x + (endPos.x - startPos.x) * easeProgress,
+          y: startPos.y + (endPos.y - startPos.y) * easeProgress
+        })
+
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          setIsAnimating(false)
+        }
+      }
+
+      requestAnimationFrame(animate)
+    }
+  }, [player.x, player.y, animatedPlayerPos.x, animatedPlayerPos.y])
 
   if (!currentMap) {
     return <div className="text-white">Loading floor...</div>
@@ -197,6 +258,11 @@ function GameMap({ gameState, dispatch }) {
   }
 
   const handleTileClick = (x, y) => {
+    // Prevent movement during animation
+    if (isAnimating) {
+      return
+    }
+
     const dx = Math.abs(x - player.x)
     const dy = Math.abs(y - player.y)
 
@@ -234,6 +300,10 @@ function GameMap({ gameState, dispatch }) {
   // Check if hovered tile is a monster
   const hoveredMonster = hoveredTile && hoveredTile.stats ? hoveredTile.stats : null
 
+  // Calculate player pixel position
+  const playerPixelX = animatedPlayerPos.x * tileSize
+  const playerPixelY = animatedPlayerPos.y * tileSize
+
   return (
     <div className="game-map">
       <div className="mb-4 text-center">
@@ -241,6 +311,7 @@ function GameMap({ gameState, dispatch }) {
       </div>
 
       <div
+        ref={mapRef}
         className="grid gap-0 border-4 border-gray-600 rounded-lg overflow-hidden relative"
         style={{
           gridTemplateColumns: 'repeat(11, minmax(0, 1fr))',
@@ -250,8 +321,6 @@ function GameMap({ gameState, dispatch }) {
       >
         {currentMap.map((row, y) =>
           row.map((tile, x) => {
-            const isPlayer = x === player.x && y === player.y
-
             return (
               <div
                 key={`${x}-${y}`}
@@ -262,8 +331,7 @@ function GameMap({ gameState, dispatch }) {
                   hover:opacity-80
                   transition-opacity
                   font-pixel text-xs
-                  ${isPlayer ? 'ring-2 ring-blue-400 ring-inset' : ''}
-                  ${!isPlayer && isItemTile(tile) ? 'item-glow' : ''}
+                  ${!isItemTile(tile) ? '' : 'item-glow'}
                 `}
                 onClick={() => handleTileClick(x, y)}
                 onMouseEnter={(e) => handleTileMouseEnter(tile, x, y, e)}
@@ -271,11 +339,27 @@ function GameMap({ gameState, dispatch }) {
                 onMouseMove={handleMouseMove}
                 title={`Tile (${x}, ${y})`}
               >
-                {isPlayer ? getPlayerSprite() : getTileSymbol(tile, x, y)}
+                {getTileSymbol(tile, x, y)}
               </div>
             )
           })
         )}
+
+        {/* Animated Player Sprite */}
+        <div
+          className="absolute flex items-center justify-center font-pixel text-xs pointer-events-none"
+          style={{
+            left: `${playerPixelX}px`,
+            top: `${playerPixelY}px`,
+            width: `${tileSize}px`,
+            height: `${tileSize}px`,
+            transition: 'none' // We handle animation manually with requestAnimationFrame
+          }}
+        >
+          <div className="ring-2 ring-blue-400 ring-inset w-full h-full flex items-center justify-center">
+            {getPlayerSprite()}
+          </div>
+        </div>
 
         {/* Monster Tooltip */}
         {hoveredMonster && (

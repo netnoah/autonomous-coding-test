@@ -1370,7 +1370,7 @@
       "Step 7: Navigate back to floor 0",
       "Step 8: Verify floor indicator shows Floor 0"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -1386,7 +1386,7 @@
       "Step 8: Move player right",
       "Step 9: Verify player sprite faces right"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -1399,7 +1399,7 @@
       "Step 5: Verify player cannot move during animation",
       "Step 6: Verify player arrives at exact tile position"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
@@ -1412,7 +1412,7 @@
       "Step 5: Verify damage numbers fade out after combat",
       "Step 6: Verify multiple damage numbers show for each round"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
