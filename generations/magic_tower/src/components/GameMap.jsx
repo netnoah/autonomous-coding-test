@@ -3,9 +3,10 @@ import { TILE_TYPES, MONSTER_STATS } from '../game/gameReducer'
 import MonsterTooltip from './MonsterTooltip'
 import DamageNumber from './DamageNumber'
 import ItemPickup from './ItemPickup'
+import DoorAnimation from './DoorAnimation'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers, itemPickups } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups, doorAnimations } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -391,6 +392,17 @@ function GameMap({ gameState, dispatch }) {
             y={ip.y}
             itemType={ip.itemType}
             onComplete={() => dispatch({ type: 'REMOVE_ITEM_PICKUP', id: ip.id })}
+          />
+        ))}
+
+        {/* Door Opening Animations */}
+        {doorAnimations && doorAnimations.map(da => (
+          <DoorAnimation
+            key={da.id}
+            x={da.x}
+            y={da.y}
+            doorType={da.doorType}
+            onComplete={() => dispatch({ type: 'DOOR_ANIMATION_COMPLETE', id: da.id })}
           />
         ))}
       </div>

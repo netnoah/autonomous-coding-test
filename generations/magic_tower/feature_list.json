@@ -1449,7 +1449,7 @@
       "Step 5: Verify door disappears after animation",
       "Step 6: Verify player moves through after animation"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

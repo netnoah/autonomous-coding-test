@@ -105,6 +105,19 @@ function getEffectivePlayerStats(player, equipment) {
   return { atk: effectiveAtk, def: effectiveDef }
 }
 
+function getDoorTypeName(doorType) {
+  switch (doorType) {
+    case TILE_TYPES.YELLOW_DOOR:
+      return 'yellowDoor'
+    case TILE_TYPES.BLUE_DOOR:
+      return 'blueDoor'
+    case TILE_TYPES.RED_DOOR:
+      return 'redDoor'
+    default:
+      return 'yellowDoor'
+  }
+}
+
 // Create Floor 0 - Ground Floor (Introduction Floor)
 // Per specification: 3 Green Slimes, 2 Red Bats, 2 Yellow Keys, 1 Yellow Door,
 // 2 Small Potions, 1 Red Gem, stairs up, NPC guide
@@ -960,7 +973,10 @@ export const initialGameState = {
   damageNumbers: [],
 
   // Item pickup animations
-  itemPickups: []
+  itemPickups: [],
+
+  // Door opening animations
+  doorAnimations: []
 }
 
 function gameReducer(state, action) {
@@ -1078,6 +1094,35 @@ function gameReducer(state, action) {
         ...state,
         itemPickups: state.itemPickups.filter(ip => ip.id !== action.id)
       }
+
+    case 'ADD_DOOR_ANIMATION':
+      return {
+        ...state,
+        doorAnimations: [
+          ...state.doorAnimations,
+          {
+            id: action.id,
+            x: action.x,
+            y: action.y,
+            doorType: action.doorType,
+            timestamp: Date.now()
+          }
+        ]
+      }
+
+    case 'REMOVE_DOOR_ANIMATION':
+      return {
+        ...state,
+        doorAnimations: state.doorAnimations.filter(da => da.id !== action.id)
+      }
+
+    case 'DOOR_ANIMATION_COMPLETE':
+      // After animation completes, actually move the player
+      const doorAnim = state.doorAnimations.find(da => da.id === action.id)
+      if (!doorAnim) return state
+
+      // Call completeDoorOpening with the pending movement data (door already removed from map)
+      return completeDoorOpening(state, doorAnim.pendingDoorType, doorAnim.pendingNewX, doorAnim.pendingNewY, doorAnim.pendingDirection)
 
     default:
       return state
@@ -1242,7 +1287,57 @@ function handleMove(state, direction) {
 
   // Check for doors
   if (targetTile >= 10 && targetTile <= 12) {
-    return handleDoor(stateToUse, targetTile, newX, newY, direction)
+    // Check if player has the required key
+    let keyCount = 0
+    switch (targetTile) {
+      case TILE_TYPES.YELLOW_DOOR:
+        keyCount = stateToUse.player.yellowKeys
+        break
+      case TILE_TYPES.BLUE_DOOR:
+        keyCount = stateToUse.player.blueKeys
+        break
+      case TILE_TYPES.RED_DOOR:
+        keyCount = stateToUse.player.redKeys
+        break
+    }
+
+    // If no key, show error immediately
+    if (keyCount <= 0) {
+      return handleDoor(stateToUse, targetTile, newX, newY, direction)
+    }
+
+    // Has key - add animation and store pending movement
+    const tileSize = 48
+    const animX = newX * tileSize
+    const animY = newY * tileSize
+
+    // Immediately remove door from map so it doesn't show under the animation
+    const updatedMap = [...stateToUse.maps[stateToUse.currentFloor]]
+    updatedMap[newY] = [...updatedMap[newY]]
+    updatedMap[newY][newX] = TILE_TYPES.FLOOR
+
+    // Update maps with the door removed
+    const updatedMaps = [...stateToUse.maps]
+    updatedMaps[stateToUse.currentFloor] = updatedMap
+
+    return {
+      ...stateToUse,
+      maps: updatedMaps,
+      doorAnimations: [
+        ...stateToUse.doorAnimations,
+        {
+          id: `door-${Date.now()}`,
+          x: animX,
+          y: animY,
+          doorType: getDoorTypeName(targetTile),
+          pendingDoorType: targetTile,
+          pendingNewX: newX,
+          pendingNewY: newY,
+          pendingDirection: direction,
+          timestamp: Date.now()
+        }
+      ]
+    }
   }
 
   // Check for stairs
@@ -1679,6 +1774,47 @@ function handleDoor(state, doorType, newX, newY, direction) {
     maps: {
       ...state.maps,
       [state.currentFloor]: updatedMap
+    },
+    messages: [
+      ...state.messages.slice(-9),
+      { type: 'info', text: `Opened ${doorName}` }
+    ]
+  }
+}
+
+// Complete door opening after animation finishes (door already removed from map)
+function completeDoorOpening(state, doorType, newX, newY, direction) {
+  let keyName = ''
+  let doorName = ''
+
+  switch (doorType) {
+    case TILE_TYPES.YELLOW_DOOR:
+      keyName = 'Yellow'
+      doorName = 'Yellow Door'
+      break
+    case TILE_TYPES.BLUE_DOOR:
+      keyName = 'Blue'
+      doorName = 'Blue Door'
+      break
+    case TILE_TYPES.RED_DOOR:
+      keyName = 'Red'
+      doorName = 'Red Door'
+      break
+    default:
+      return state
+  }
+
+  return {
+    ...state,
+    player: {
+      ...state.player,
+      x: newX,
+      y: newY,
+      direction: direction,
+      steps: state.player.steps + 1,
+      yellowKeys: doorType === TILE_TYPES.YELLOW_DOOR ? state.player.yellowKeys - 1 : state.player.yellowKeys,
+      blueKeys: doorType === TILE_TYPES.BLUE_DOOR ? state.player.blueKeys - 1 : state.player.blueKeys,
+      redKeys: doorType === TILE_TYPES.RED_DOOR ? state.player.redKeys - 1 : state.player.redKeys
     },
     messages: [
       ...state.messages.slice(-9),
