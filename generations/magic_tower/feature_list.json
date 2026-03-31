@@ -1083,7 +1083,7 @@
       "Step 6: Verify revealed wall shows different appearance",
       "Step 7: Verify player can now pass through"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

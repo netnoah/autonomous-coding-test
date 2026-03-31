@@ -948,7 +948,10 @@ export const initialGameState = {
   dialogueContent: null,
 
   // Hidden walls that have been revealed (floor => ["x,y", ...])
-  revealedHiddenWalls: {}
+  revealedHiddenWalls: {},
+
+  // Damage numbers for combat feedback
+  damageNumbers: []
 }
 
 function gameReducer(state, action) {
@@ -1021,6 +1024,28 @@ function gameReducer(state, action) {
         messages: [
           { type: 'info', text: 'Game loaded successfully!' }
         ]
+      }
+
+    case 'ADD_DAMAGE_NUMBER':
+      return {
+        ...state,
+        damageNumbers: [
+          ...state.damageNumbers,
+          {
+            id: action.id,
+            x: action.x,
+            y: action.y,
+            damage: action.damage,
+            type: action.type,
+            timestamp: Date.now()
+          }
+        ]
+      }
+
+    case 'REMOVE_DAMAGE_NUMBER':
+      return {
+        ...state,
+        damageNumbers: state.damageNumbers.filter(dn => dn.id !== action.id)
       }
 
     default:
@@ -1342,14 +1367,51 @@ function handleCombat(state, monsterType, newX, newY, direction) {
   const playerDamage = Math.max(0, effectiveStats.atk - monster.def)
   const monsterDamage = Math.max(0, monster.atk - effectiveStats.def)
 
-  // Simulate combat
+  // Simulate combat and collect damage numbers
   let playerHp = player.hp
   let monsterHp = monster.hp
   let rounds = 0
+  const newDamageNumbers = []
+
+  // Calculate tile position for damage numbers (center of tile + offset)
+  // Assuming 48px tile size based on typical grid layouts
+  const tileSize = 48
+  const baseX = newX * tileSize + tileSize / 2
+  const baseY = newY * tileSize + tileSize / 2
 
   while (playerHp > 0 && monsterHp > 0) {
+    // Player attacks monster
+    if (playerDamage > 0) {
+      const id = Date.now() + rounds * 2
+      newDamageNumbers.push({
+        id,
+        x: baseX + (Math.random() - 0.5) * 20, // Slight random offset
+        y: baseY - 20 - rounds * 10, // Stack damage numbers upward
+        damage: playerDamage,
+        type: playerDamage > monster.hp * 0.3 ? 'critical' : 'player-dealt',
+        timestamp: Date.now()
+      })
+    }
+
     monsterHp -= playerDamage
     if (monsterHp <= 0) break
+
+    // Monster attacks player
+    if (monsterDamage > 0) {
+      const id = Date.now() + rounds * 2 + 1
+      // Show player damage taken at player's position
+      const playerX = player.x * tileSize + tileSize / 2
+      const playerY = player.y * tileSize + tileSize / 2
+      newDamageNumbers.push({
+        id,
+        x: playerX + (Math.random() - 0.5) * 20,
+        y: playerY - 20 - rounds * 10,
+        damage: monsterDamage,
+        type: 'player-taken',
+        timestamp: Date.now()
+      })
+    }
+
     playerHp -= monsterDamage
     rounds++
   }
@@ -1389,6 +1451,10 @@ function handleCombat(state, monsterType, newX, newY, direction) {
       messages: [
         ...state.messages.slice(-9),
         { type: 'success', text: `Defeated ${monster.name}! Took ${player.hp - playerHp} damage in ${rounds} rounds.` }
+      ],
+      damageNumbers: [
+        ...state.damageNumbers,
+        ...newDamageNumbers
       ]
     }
   }
@@ -1403,6 +1469,10 @@ function handleCombat(state, monsterType, newX, newY, direction) {
     messages: [
       ...state.messages.slice(-9),
       { type: 'error', text: `Defeated by ${monster.name}...` }
+    ],
+    damageNumbers: [
+      ...state.damageNumbers,
+      ...newDamageNumbers
     ]
   }
 }

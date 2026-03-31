@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { TILE_TYPES, MONSTER_STATS } from '../game/gameReducer'
 import MonsterTooltip from './MonsterTooltip'
+import DamageNumber from './DamageNumber'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps } = gameState
+  const { currentFloor, player, maps, damageNumbers } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -284,6 +285,18 @@ function GameMap({ gameState, dispatch }) {
             position={mousePosition}
           />
         )}
+
+        {/* Damage Numbers */}
+        {damageNumbers && damageNumbers.map(dn => (
+          <DamageNumber
+            key={dn.id}
+            x={dn.x}
+            y={dn.y}
+            damage={dn.damage}
+            type={dn.type}
+            onComplete={() => dispatch({ type: 'REMOVE_DAMAGE_NUMBER', id: dn.id })}
+          />
+        ))}
       </div>
     </div>
   )
