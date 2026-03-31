@@ -282,6 +282,14 @@ function GameMap({ gameState, dispatch }) {
     ].includes(tile)
   }
 
+  // Check if tile is stairs (for glow animation)
+  const isStairsTile = (tile) => {
+    return [
+      TILE_TYPES.STAIRS_UP,
+      TILE_TYPES.STAIRS_DOWN
+    ].includes(tile)
+  }
+
   const handleTileClick = (x, y) => {
     // Prevent movement during animation
     if (isAnimating) {
@@ -358,6 +366,8 @@ function GameMap({ gameState, dispatch }) {
                   font-pixel text-xs
                   ${!isItemTile(tile) ? '' : 'item-glow'}
                   ${!isMonsterTile(tile) ? '' : 'monster-idle'}
+                  ${tile === TILE_TYPES.STAIRS_UP ? 'stairs-up-animation' : ''}
+                  ${tile === TILE_TYPES.STAIRS_DOWN ? 'stairs-down-animation' : ''}
                 `}
                 onClick={() => handleTileClick(x, y)}
                 onMouseEnter={(e) => handleTileMouseEnter(tile, x, y, e)}

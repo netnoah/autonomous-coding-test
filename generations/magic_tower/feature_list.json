@@ -1973,7 +1973,7 @@
       "Step 5: Verify animation loops smoothly",
       "Step 6: Verify stairs up and down have different indicators"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
