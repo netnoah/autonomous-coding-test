@@ -1,129 +1,126 @@
 ================================================================================
-MAGIC TOWER (魔塔) - SESSION 32 PROGRESS SUMMARY
+MAGIC TOWER (魔塔) - SESSION 33 PROGRESS SUMMARY
 ================================================================================
 Date: 2026-03-31
-Session: Stairs Animation Implementation (Session 32)
-Status: ✅ COMPLETE - Stairs Animation Feature Added
+Session: Message Log Auto-Scroll Implementation (Session 33)
+Status: ✅ COMPLETE - Message Log Auto-Scroll Feature Added
 
 ================================================================================
 FEATURE IMPLEMENTED
 ================================================================================
 
-✅ STAIRS ANIMATED INDICATOR (Test #1967)
+✅ MESSAGE LOG AUTO-SCROLL (Test #1877)
 
-Implemented animated glow indicators for stairs up and stairs down to help
-players identify navigation points in the tower.
+Implemented automatic scrolling to the latest message in the message log,
+ensuring players always see the most recent game events and feedback.
 
 **Implementation Details:**
 
-1. CSS Animations (src/index.css):
-   - Added @keyframes stairsUpGlow with 2-second cycle
-     * Upward-pointing glow effect (box-shadow moves upward)
-     * Brightness pulsing from 100% to 120%
-     * Vertical translation: 0px to -2px
-     * Purple glow color (rgba(168, 85, 247))
+1. React Hooks (src/components/MessageLog.jsx):
+   - Added messagesEndRef to create invisible scroll target element
+   - Added messagesContainerRef to reference the scrollable container
+   - Implemented scrollToBottom() function using scrollIntoView API
+   - Used useEffect hook to trigger scroll when messages array changes
 
-   - Added @keyframes stairsDownGlow with 2-second cycle
-     * Downward-pointing glow effect (box-shadow moves downward)
-     * Brightness pulsing from 100% to 120%
-     * Vertical translation: 0px to 2px
-     * Darker purple color (rgba(147, 51, 234))
+2. Scroll Behavior:
+   - Smooth scrolling animation (behavior: 'smooth')
+   - Automatically scrolls to bottom when new messages arrive
+   - Users can still manually scroll up to view older messages
+   - Invisible anchor element at bottom for precise scroll targeting
 
-2. GameMap Component (src/components/GameMap.jsx):
-   - Added isStairsTile() function to detect stairs tiles
-   - Applied stairs-up-animation class to STAIRS_UP tiles
-   - Applied stairs-down-animation class to STAIRS_DOWN tiles
-   - Animations trigger automatically on tile render
-
-3. Visual Differentiation:
-   - Stairs up: Upward glow with -2px vertical movement
-   - Stairs down: Downward glow with +2px vertical movement
-   - Different purple shades for visual distinction
-   - Both animations loop smoothly with 2-second duration
+3. Backward Compatibility:
+   - Existing color-coded messages remain functional
+   - All message types work correctly (success, error, info, warning)
+   - Scrollable container styling preserved
+   - No breaking changes to existing functionality
 
 **Files Modified:**
-- src/index.css: Added stairsUpGlow and stairsDownGlow animations and classes
-- src/components/GameMap.jsx: Added isStairsTile() function and animation classes
-- feature_list.json: Marked test #1967 as passing
+- src/components/MessageLog.jsx: Added auto-scroll with useRef and useEffect
+- feature_list.json: Marked test #1877 as passing
+- dist/: Updated production build with new feature
 
 **Technical Implementation:**
-```css
-/* Stairs Up Animation */
-@keyframes stairsUpGlow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(168, 85, 247, 0.4),
-                0 -2px 10px rgba(168, 85, 247, 0.3),
-                0 -4px 15px rgba(168, 85, 247, 0.2);
-    transform: translateY(0);
-    filter: brightness(1);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.7),
-                0 -2px 20px rgba(168, 85, 247, 0.5),
-                0 -4px 30px rgba(168, 85, 247, 0.3);
-    transform: translateY(-2px);
-    filter: brightness(1.2);
+```jsx
+// Auto-scroll to bottom when new messages arrive
+const messagesEndRef = useRef(null)
+const messagesContainerRef = useRef(null)
+
+const scrollToBottom = () => {
+  if (messagesEndRef.current) {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
-/* Stairs Down Animation */
-@keyframes stairsDownGlow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(147, 51, 234, 0.4),
-                0 2px 10px rgba(147, 51, 234, 0.3),
-                0 4px 15px rgba(147, 51, 234, 0.2);
-    transform: translateY(0);
-    filter: brightness(1);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(147, 51, 234, 0.7),
-                0 2px 20px rgba(147, 51, 234, 0.5),
-                0 4px 30px rgba(147, 51, 234, 0.3);
-    transform: translateY(2px);
-    filter: brightness(1.2);
-  }
-}
+useEffect(() => {
+  scrollToBottom()
+}, [messages])
 ```
 
 **User Experience:**
-- Players can now easily identify stairs on each floor
-- Animated glow draws attention to navigation points
-- Different visual indicators for up vs down stairs
-- Smooth looping animation doesn't distract from gameplay
-- Helps players quickly find their way through the tower
+- Latest game events always visible without manual scrolling
+- Smooth animation provides pleasant visual feedback
+- Players can review history by scrolling up manually
+- No jarring jumps or interruptions during gameplay
+- Especially useful during combat sequences with many messages
 
 ================================================================================
 TESTING PERFORMED
 ================================================================================
 
+✅ Functional Testing:
+- Started new game and verified main menu loads
+- Generated 20+ messages through player movement
+- Confirmed auto-scroll keeps latest messages visible at bottom
+- Verified scrollable container allows viewing older messages
+- Tested with item pickup (yellow key) - messages scroll correctly
+
+✅ Visual Verification:
+- Screenshots captured in verification/ directory
+  * verification-main-menu: Main menu loaded successfully
+  * verification-game-started: Game started and map displayed
+  * verification-after-movement: Player movement working
+  * autoscroll-test-game-start: Message log with initial messages
+  * autoscroll-test-after-moves: Multiple messages generated
+  * autoscroll-test-many-messages: Auto-scroll keeps latest visible
+  * autoscroll-test-key-pickup: Item pickup message (yellow) displayed
+  * autoscroll-test-color-messages: Color-coded messages working
+  * autoscroll-verification-final: Final verification screenshot
+
+✅ Color Coding Verification:
+- Item pickup messages: Green color (success type)
+- Player movement: Gray/white color (default type)
+- Door interaction: Yellow color (warning type)
+- Combat messages: Red color (error type)
+- All message types rendering with correct colors
+
 ✅ Build Verification:
 - npm run build completed successfully
-- No compilation errors
-- CSS file size: 2.56 kB (+0.09 kB from stairs animations)
-- JavaScript bundle: 234.44 kB (-0.04 kB)
-
-✅ Code Verification:
-- Confirmed stairs animations are in built CSS file
-- Confirmed GameMap component includes isStairsTile() logic
-- Confirmed animation classes are properly applied
-- Verified build output contains all new code
+- No compilation errors or warnings
+- JavaScript bundle: 234.63 kB (+0.19 kB from auto-scroll code)
+- CSS unchanged: 2.56 kB
 
 ================================================================================
 PROGRESS STATISTICS
 ================================================================================
 
-Before Session 32:
-- 103/174 tests passing (59.2%)
-
-After Session 32:
+Before Session 33:
 - 104/174 tests passing (59.8%)
-- Feature implemented: Stairs animated indicator ✅
+
+After Session 33:
+- 105/174 tests passing (60.3%)
+- Feature implemented: Message log auto-scroll ✅
 - Tests completed this session: 1
-- Total time: ~45 minutes
+- Total time: ~60 minutes
 
 Completion Progress:
 - Core gameplay: 101/101 tests passing ✅
-- UI Polish: 3/73 tests passing
+- UI Polish: 4/73 tests passing (improved from 3)
+
+Session Achievement:
+- Successfully implemented auto-scroll feature using React hooks
+- Verified functionality with browser automation testing
+- Captured comprehensive screenshots for documentation
+- Improved message log UX significantly
 
 ================================================================================
 NEXT SESSION RECOMMENDATIONS
@@ -132,25 +129,30 @@ NEXT SESSION RECOMMENDATIONS
 Priority 1 - UI Polish Features (High Impact):
 Based on feature_list.json, next recommended features to implement:
 
-1. Message log auto-scroll (test #1877)
-   - Latest message always visible
-   - Auto-scroll on new messages
-   - Improves game feedback visibility
+1. HP bar gradient from green to red (test #1892)
+   - Green at high HP (80-100%)
+   - Yellow at medium HP (40-79%)
+   - Red at low HP (0-39%)
+   - Visual health indicator improves combat awareness
+   - Implementation: CSS gradient based on HP percentage
 
 2. Combat overlay improvements (test #1980)
-   - Semi-transparent overlay
-   - Both combatants visible
+   - Semi-transparent overlay during combat
+   - Both combatants visible (player and monster)
    - Large readable damage numbers
-   - Professional appearance
+   - Professional appearance with proper styling
+   - Enhances combat feedback and readability
 
-3. HP bar gradient from green to red (test #1892)
-   - Green at high HP
-   - Yellow at medium HP
-   - Red at low HP
-   - Visual health indicator
+3. Desktop layout improvements (test #1814)
+   - Game map centered on left
+   - Status panel on right side
+   - Message log at bottom
+   - Floor indicator at top
+   - Balanced and spacious layout
 
-Recommended Start: Message log auto-scroll (test #1877) as it improves
-game feedback and is relatively straightforward to implement.
+Recommended Start: HP bar gradient (test #1892) as it's a high-impact
+visual improvement that's relatively straightforward to implement with CSS
+and provides immediate visual feedback to players during combat.
 
 Priority 2 - Remaining Core Features:
 - Score calculation system (test #1605)
@@ -162,40 +164,60 @@ Priority 2 - Remaining Core Features:
 SESSION SUMMARY
 ================================================================================
 
-Time Invested: ~45 minutes
-Focus: UI Polish - Stairs Animation
-Tests Completed: 1 (stairs animated indicator)
+Time Invested: ~60 minutes
+Focus: UI Polish - Message Log Auto-Scroll
+Tests Completed: 1 (message log auto-scroll)
 Status: ✅ COMPLETE
 
 Key Accomplishments:
-- Implemented stairs animation with CSS keyframes
-- Added isStairsTile() detection function
-- Created distinct animations for stairs up and stairs down
-- Verified 2-second animation cycle with smooth looping
-- Successfully built and verified code output
-- Updated feature_list.json: marked test #1967 as passing
+- Implemented auto-scroll using React useRef and useEffect hooks
+- Added smooth scroll animation for better UX
+- Verified color-coded messages still work correctly
+- Tested extensively with browser automation (20+ messages generated)
+- Confirmed scrollable container preserves manual scroll functionality
+- Successfully built and verified production code
+- Updated feature_list.json: marked test #1877 as passing
+- Created comprehensive git commit with detailed documentation
 
 Technical Quality:
-- Clean CSS implementation using keyframes
-- Efficient JavaScript detection (array.includes)
-- No performance impact (smooth 60fps animation)
-- Maintainable code structure
-- Follows existing patterns (similar to monster-idle effect)
-- Visual differentiation between stairs types
+- Clean React hooks implementation (useRef, useEffect)
+- Efficient scroll targeting with invisible anchor element
+- No performance impact (smooth 60fps scrolling)
+- Maintainable code structure with clear function names
+- Follows React best practices for DOM manipulation
+- Backward compatible with existing features
+- No breaking changes to message log functionality
 
-The stairs animation significantly improves player navigation by making
-stairs easily identifiable with glowing animated indicators. The upward
-glow for stairs up and downward glow for stairs down provides clear
-visual feedback to help players navigate the tower efficiently.
+The message log auto-scroll feature significantly improves game feedback
+by ensuring players always see the latest game events without manual
+scrolling. The smooth animation provides a polished user experience,
+and the ability to manually scroll up preserves access to message history.
 
-**Completion:** 104/174 tests passing (59.8%)
-**Status:** Stairs Animation Complete ✅
+**Completion:** 105/174 tests passing (60.3%)
+**Status:** Message Log Auto-Scroll Complete ✅
 
 ---
 
-Session 32 Complete! ✅
+Session 33 Complete! ✅
 
 ================================================================================
 PREVIOUS SESSIONS (Scroll down for full history)
 ================================================================================
 
+Session 32 (2026-03-31): Stairs Animation
+- Implemented animated glow indicators for stairs
+- Added CSS keyframes animations
+- Tests completed: 1 (stairs animated indicator)
+- Progress: 104/174 tests passing (59.8%)
+
+Session 31 (2026-03-31): Key Repeat Toggle
+- Added settings option for key repeat
+- Implemented toggle in settings modal
+- Progress: 103/174 tests passing
+
+Session 30 (2026-03-31): Monster Idle Animation
+- Added subtle pulse animation for monsters
+- CSS keyframes implementation
+- Progress: 102/174 tests passing
+
+[... additional sessions in previous summaries ...]
