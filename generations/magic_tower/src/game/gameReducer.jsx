@@ -987,7 +987,10 @@ export const initialGameState = {
     fromFloor: 0,
     toFloor: 0,
     direction: 'up'
-  }
+  },
+
+  // Combat overlay for visual combat display
+  combatOverlay: null
 }
 
 function gameReducer(state, action) {
@@ -1032,6 +1035,12 @@ function gameReducer(state, action) {
       return {
         ...state,
         shopOpen: false
+      }
+
+    case 'CLEAR_COMBAT_OVERLAY':
+      return {
+        ...state,
+        combatOverlay: null
       }
 
     case 'OPEN_NPC_DIALOGUE':
@@ -1760,6 +1769,7 @@ function handleCombat(state, monsterType, newX, newY, direction) {
   let monsterHp = monster.hp
   let rounds = 0
   const newDamageNumbers = []
+  const combatRounds = [] // Store combat rounds for overlay
 
   // Calculate tile position for damage numbers (center of tile + offset)
   // Assuming 48px tile size based on typical grid layouts
@@ -1768,6 +1778,12 @@ function handleCombat(state, monsterType, newX, newY, direction) {
   const baseY = newY * tileSize + tileSize / 2
 
   while (playerHp > 0 && monsterHp > 0) {
+    // Record round data for combat overlay
+    const roundData = {
+      playerDamage: playerDamage > 0 ? playerDamage : 0,
+      monsterDamage: 0 // Will be set if monster attacks
+    }
+
     // Player attacks monster
     if (playerDamage > 0) {
       const id = Date.now() + rounds * 2
@@ -1786,6 +1802,7 @@ function handleCombat(state, monsterType, newX, newY, direction) {
 
     // Monster attacks player
     if (monsterDamage > 0) {
+      roundData.monsterDamage = monsterDamage
       const id = Date.now() + rounds * 2 + 1
       // Show player damage taken at player's position
       const playerX = player.x * tileSize + tileSize / 2
@@ -1801,6 +1818,7 @@ function handleCombat(state, monsterType, newX, newY, direction) {
     }
 
     playerHp -= monsterDamage
+    combatRounds.push(roundData)
     rounds++
   }
 
@@ -1843,7 +1861,18 @@ function handleCombat(state, monsterType, newX, newY, direction) {
       damageNumbers: [
         ...state.damageNumbers,
         ...newDamageNumbers
-      ]
+      ],
+      combatOverlay: {
+        monsterName: monster.name,
+        playerMaxHp: player.hp,
+        playerAtk: effectiveStats.atk,
+        playerDef: effectiveStats.def,
+        monsterMaxHp: monster.hp,
+        monsterAtk: monster.atk,
+        monsterDef: monster.def,
+        rounds: combatRounds,
+        victory: true
+      }
     }
   }
 
@@ -1861,7 +1890,18 @@ function handleCombat(state, monsterType, newX, newY, direction) {
     damageNumbers: [
       ...state.damageNumbers,
       ...newDamageNumbers
-    ]
+    ],
+    combatOverlay: {
+      monsterName: monster.name,
+      playerMaxHp: player.hp,
+      playerAtk: effectiveStats.atk,
+      playerDef: effectiveStats.def,
+      monsterMaxHp: monster.hp,
+      monsterAtk: monster.atk,
+      monsterDef: monster.def,
+      rounds: combatRounds,
+      victory: false
+    }
   }
 }
 

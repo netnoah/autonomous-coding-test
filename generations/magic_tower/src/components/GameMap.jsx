@@ -6,9 +6,10 @@ import ItemPickup from './ItemPickup'
 import StatChangeAnimation from './StatChangeAnimation'
 import DoorAnimation from './DoorAnimation'
 import FloorTransition from './FloorTransition'
+import CombatOverlay from './CombatOverlay'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers, itemPickups, statChangeAnimations, doorAnimations, floorTransition } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups, statChangeAnimations, doorAnimations, floorTransition, combatOverlay } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -463,6 +464,14 @@ function GameMap({ gameState, dispatch }) {
               toFloor: floorTransition.toFloor,
               direction: floorTransition.direction
             })}
+          />
+        )}
+
+        {/* Combat Overlay */}
+        {combatOverlay && (
+          <CombatOverlay
+            combat={combatOverlay}
+            onClose={() => dispatch({ type: 'CLEAR_COMBAT_OVERLAY' })}
           />
         )}
       </div>
