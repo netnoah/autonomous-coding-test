@@ -236,34 +236,64 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
   }, [initialLoadState])
 
   return (
-    <div className="game-container flex h-screen bg-gray-900">
-      {/* Left side: Game Map */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <GameMap
-          gameState={gameState}
-          dispatch={dispatch}
-        />
-      </div>
-
-      {/* Right side: Status Panel */}
-      <div className="w-80 p-4 flex flex-col gap-4">
-        {/* Help and Save/Load Buttons */}
-        <div className="flex gap-2">
+    <div className="game-container flex flex-col h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* Top: Floor Indicator */}
+      <div className="flex items-center justify-between px-6 py-3 bg-black/30 border-b border-gray-700">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onReturnToMenu}
+            className="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+          >
+            ← Menu
+          </button>
+          <div className="text-gray-400 text-sm">
+            Press <span className="text-yellow-400 font-bold">ESC</span> to return
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <h2 className="font-pixel text-xl text-yellow-400">
+            Floor {gameState.currentFloor}
+          </h2>
+          <div className="text-gray-400 text-sm">
+            {gameState.currentFloor === 0 ? 'Ground Floor' :
+             gameState.currentFloor === 10 ? 'Tower Top' :
+             `Floor ${gameState.currentFloor}`}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setHelpOpen(true)}
-            className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg shadow-lg flex items-center justify-center gap-2"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2"
           >
             <span>❓</span> Help (H)
           </button>
           <button
             onClick={() => setSaveLoadOpen(true)}
-            className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg flex items-center justify-center gap-2"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2"
           >
             <span>💾</span> Save
           </button>
         </div>
+      </div>
 
-        <StatusPanel gameState={gameState} />
+      {/* Middle: Game Map and Status Panel */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left: Game Map (centered) */}
+        <div className="flex-1 flex items-center justify-center p-6">
+          <GameMap
+            gameState={gameState}
+            dispatch={dispatch}
+          />
+        </div>
+
+        {/* Right: Status Panel */}
+        <div className="w-96 p-6 flex flex-col gap-4 bg-black/20 border-l border-gray-700">
+          <StatusPanel gameState={gameState} />
+        </div>
+      </div>
+
+      {/* Bottom: Message Log */}
+      <div className="h-48 px-6 py-3 bg-black/40 border-t border-gray-700">
         <MessageLog messages={gameState.messages} />
       </div>
 
