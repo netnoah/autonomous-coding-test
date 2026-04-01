@@ -9,7 +9,7 @@ import FloorTransition from './FloorTransition'
 import CombatOverlay from './CombatOverlay'
 
 function GameMap({ gameState, dispatch }) {
-  const { currentFloor, player, maps, damageNumbers, itemPickups, statChangeAnimations, doorAnimations, floorTransition, combatOverlay } = gameState
+  const { currentFloor, player, maps, damageNumbers, itemPickups, statChangeAnimations, doorAnimations, floorTransition, combatOverlay, equipment } = gameState
 
   // Tooltip state
   const [hoveredTile, setHoveredTile] = useState(null)
@@ -403,6 +403,7 @@ function GameMap({ gameState, dispatch }) {
           <MonsterTooltip
             monster={hoveredMonster}
             player={player}
+            equipment={equipment}
             position={mousePosition}
           />
         )}

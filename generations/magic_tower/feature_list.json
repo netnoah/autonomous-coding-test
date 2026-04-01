@@ -1602,7 +1602,7 @@
       "Step 6: Verify actual damage matches prediction",
       "Step 7: Verify actual rounds match prediction"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",
