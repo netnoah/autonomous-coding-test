@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Interface Test - Magic Tower</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #2D2D2D;
+    }
+
+    .font-mono-stats {
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    /* Shop Modal Styles - copied from index.css */
+    .shop-backdrop {
+      animation: shopBackdropPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes shopBackdropPulse {
+      0% { opacity: 0.95; }
+      100% { opacity: 0.98; }
+    }
+
+    .shop-card {
+      opacity: 0;
+      transform: scale(0.9) translateY(-20px);
+      transition: all 0.4s ease-out;
+    }
+
+    .shop-card-visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .shop-glow {
+      animation: shopGlowPulse 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes shopGlowPulse {
+      0% {
+        opacity: 0.2;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0.4;
+        transform: scale(1.02);
+      }
+    }
+
+    .shop-title {
+      animation: shopTitleShine 3s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+
+    @keyframes shopTitleShine {
+      0%, 100% { filter: brightness(1); }
+      50% { filter: brightness(1.2); }
+    }
+
+    .shop-close {
+      transition: all 0.3s ease;
+    }
+
+    .shop-close:hover {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    .shop-gold-display {
+      animation: shopGoldPulse 2s ease-in-out infinite;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes shopGoldPulse {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+        transform: scale(1.02);
+      }
+    }
+
+    .shop-gold-amount {
+      animation: shopGoldCount 0.3s ease-out;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    @keyframes shopGoldCount {
+      0% {
+        transform: scale(1.3);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .shop-items {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 215, 0, 0.5) rgba(0, 0, 0, 0.3);
+    }
+
+    .shop-items::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .shop-items::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+    }
+
+    .shop-items::-webkit-scrollbar-thumb {
+      background: rgba(255, 215, 0, 0.5);
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .shop-items::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 215, 0, 0.7);
+    }
+
+    .shop-item {
+      animation: shopItemAppear 0.4s ease-out both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes shopItemAppear {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .shop-item-icon {
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .shop-item-icon-affordable {
+      animation: shopIconGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes shopIconGlow {
+      0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3),
+                    0 0 10px rgba(255, 255, 255, 0.3);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                    0 0 20px rgba(255, 255, 255, 0.5);
+        transform: scale(1.05);
+      }
+    }
+
+    .shop-item:hover .shop-item-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .shop-item-name {
+      transition: color 0.2s;
+    }
+
+    .shop-item:hover .shop-item-name {
+      color: #FCD34D;
+    }
+
+    .shop-item-price {
+      text-shadow: 0 0 10px currentColor;
+      transition: all 0.3s ease;
+    }
+
+    .shop-item:hover .shop-item-price {
+      transform: scale(1.1);
+    }
+
+    .shop-buy-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .shop-buy-button:hover::before {
+      left: 100%;
+    }
+
+    .shop-footer-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .shop-footer-button:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .shop-footer-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .shop-footer-button:hover::before {
+      left: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <!-- Shop Modal Component -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <!-- Backdrop with animated gradient -->
+      <div class="absolute inset-0 bg-gradient-to-br from-amber-900 via-yellow-900 to-amber-800 opacity-95 shop-backdrop"></div>
+
+      <!-- Shop card -->
+      <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl border-4 border-yellow-500 max-w-4xl w-full mx-4 shop-card shop-card-visible">
+        <!-- Decorative glow effect -->
+        <div class="absolute -inset-1 bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 rounded-2xl blur-lg opacity-30 shop-glow"></div>
+
+        <!-- Content -->
+        <div class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 md:p-8">
+          <!-- Header -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-3">
+              <span class="text-5xl">🏪</span>
+              <div>
+                <h2 class="text-4xl font-bold bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent shop-title">
+                  Shop
+                </h2>
+                <p class="text-gray-400 text-sm">Upgrade your adventure</p>
+              </div>
+            </div>
+            <button class="text-gray-400 hover:text-white text-4xl font-bold leading-none transition-all hover:scale-110 hover:rotate-90 shop-close">
+              ×
+            </button>
+          </div>
+
+          <!-- Player Gold Display -->
+          <div class="mb-6 p-4 bg-gradient-to-r from-yellow-900 to-amber-900 rounded-xl border-2 border-yellow-600 shop-gold-display">
+            <div class="flex items-center justify-center gap-3">
+              <span class="text-4xl">💰</span>
+              <div class="text-center">
+                <p class="text-yellow-200 text-sm font-medium">Your Gold</p>
+                <p class="font-mono-stats text-3xl font-bold text-yellow-400 shop-gold-amount">
+                  500
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shop Items Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2 shop-items">
+            <!-- Small Potion -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  🧪
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Small Potion</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">+200 HP</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    25g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Big Potion -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  🧪
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Big Potion</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">+500 HP</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    100g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Yellow Key -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  🔑
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Yellow Key</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">Opens yellow doors</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    10g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Blue Key -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  🔑
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Blue Key</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">Opens blue doors</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    50g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Red Key - Not affordable (example) -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 opacity-60">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center text-4xl shop-item-icon">
+                  🔑
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Red Key</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">Opens red doors</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-red-400">
+                    100g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 bg-gradient-to-r from-gray-600 to-gray-700 text-gray-500 cursor-not-allowed" disabled>
+                <span class="flex items-center justify-center gap-2">
+                  <span>🔒</span>
+                  <span>Not enough gold</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Red Gem -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  💎
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Red Gem</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">+3 ATK</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    80g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+
+            <!-- Blue Gem -->
+            <div class="relative p-4 rounded-xl border-2 transition-all duration-300 shop-item bg-gradient-to-br from-gray-700 to-gray-800 border-gray-600 hover:border-yellow-500 hover:shadow-lg hover:scale-[1.02] hover:from-gray-600 hover:to-gray-700">
+              <div class="flex items-start gap-4">
+                <div class="relative flex-shrink-0 w-16 h-16 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center text-4xl shop-item-icon shop-item-icon-affordable">
+                  💎
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h3 class="text-lg font-bold text-white mb-1 shop-item-name">Blue Gem</h3>
+                  <p class="text-sm text-gray-400 mb-2 shop-item-description">+3 DEF</p>
+                  <div class="font-mono-stats text-2xl font-bold shop-item-price text-yellow-400">
+                    80g
+                  </div>
+                </div>
+              </div>
+              <button class="w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]">
+                <span class="flex items-center justify-center gap-2">
+                  <span>🛒</span>
+                  <span>Buy</span>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer close button -->
+          <div class="mt-6 text-center">
+            <button class="bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-bold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg shop-footer-button">
+              Close Shop
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Make card visible after a short delay
+    setTimeout(() => {
+      const card = document.querySelector('.shop-card');
+      if (card) {
+        card.classList.add('shop-card-visible');
+      }
+    }, 100);
+  </script>
+</body>
+</html>

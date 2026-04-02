@@ -1434,3 +1434,302 @@ button:active {
     padding: 1rem;
   }
 }
+
+/* ============================================================================
+   SHOP MODAL - Clean and Usable Design
+   ============================================================================ */
+
+/* Backdrop gradient animation */
+.shop-backdrop {
+  animation: shopBackdropPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes shopBackdropPulse {
+  0% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0.98;
+  }
+}
+
+/* Card entrance animation */
+.shop-card {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+  transition: all 0.4s ease-out;
+}
+
+.shop-card-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* Decorative glow effect */
+.shop-glow {
+  animation: shopGlowPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes shopGlowPulse {
+  0% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+}
+
+/* Title styling */
+.shop-title {
+  animation: shopTitleShine 3s ease-in-out infinite;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+@keyframes shopTitleShine {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.2);
+  }
+}
+
+/* Close button hover effect */
+.shop-close {
+  transition: all 0.3s ease;
+}
+
+.shop-close:hover {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Gold display */
+.shop-gold-display {
+  animation: shopGoldPulse 2s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes shopGoldPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+    transform: scale(1.02);
+  }
+}
+
+.shop-gold-amount {
+  animation: shopGoldCount 0.3s ease-out;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+@keyframes shopGoldCount {
+  0% {
+    transform: scale(1.3);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Shop items container */
+.shop-items {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.5) rgba(0, 0, 0, 0.3);
+}
+
+.shop-items::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shop-items::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.shop-items::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.5);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.shop-items::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.7);
+}
+
+/* Shop item card */
+.shop-item {
+  animation: shopItemAppear 0.4s ease-out both;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes shopItemAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Item icon with glow */
+.shop-item-icon {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.shop-item-icon-affordable {
+  animation: shopIconGlow 2s ease-in-out infinite;
+}
+
+@keyframes shopIconGlow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3),
+                0 0 10px rgba(255, 255, 255, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+  }
+}
+
+.shop-item:hover .shop-item-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Item name hover */
+.shop-item-name {
+  transition: color 0.2s;
+}
+
+.shop-item:hover .shop-item-name {
+  color: #FCD34D; /* yellow-300 */
+}
+
+/* Item description */
+.shop-item-description {
+  transition: color 0.2s;
+}
+
+/* Item price */
+.shop-item-price {
+  text-shadow: 0 0 10px currentColor;
+  transition: all 0.3s ease;
+}
+
+.shop-item:hover .shop-item-price {
+  transform: scale(1.1);
+}
+
+/* Buy button */
+.shop-buy-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-buy-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.shop-buy-button:hover::before {
+  left: 100%;
+}
+
+/* Footer button */
+.shop-footer-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.shop-footer-button:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.shop-footer-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.shop-footer-button:hover::before {
+  left: 100%;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .shop-card {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+
+  .shop-items {
+    max-height: 50vh;
+  }
+
+  .shop-item {
+    padding: 0.75rem;
+  }
+
+  .shop-item-icon {
+    width: 3rem;
+    height: 3rem;
+    font-size: 2rem;
+  }
+
+  .shop-item-name {
+    font-size: 1rem;
+  }
+
+  .shop-item-description {
+    font-size: 0.875rem;
+  }
+
+  .shop-item-price {
+    font-size: 1.25rem;
+  }
+}
+
+/* Accessibility - reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .shop-backdrop,
+  .shop-card,
+  .shop-glow,
+  .shop-title,
+  .shop-gold-display,
+  .shop-item,
+  .shop-item-icon,
+  .shop-buy-button,
+  .shop-footer-button {
+    animation: none;
+    transition: none;
+  }
+
+  .shop-item-icon-affordable {
+    animation: none;
+  }
+}

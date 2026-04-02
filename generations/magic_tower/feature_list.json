@@ -2029,7 +2029,7 @@
       "Step 6: Verify item icons are clear",
       "Step 7: Verify buy buttons are obvious"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
