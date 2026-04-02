@@ -1205,3 +1205,232 @@ button:active {
     box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
   }
 }
+
+/* ============================================================================
+   GAME OVER SCREEN - Somber Visual Effects
+   ============================================================================ */
+
+/* Screen fade-in */
+.game-over-screen {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.game-over-screen.visible {
+  opacity: 1;
+}
+
+/* Dark animated gradient background */
+.game-over-gradient {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+  background-size: 400% 400%;
+  animation: gameOverGradient 15s ease infinite;
+}
+
+@keyframes gameOverGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Somber rain effect */
+.game-over-raindrop {
+  position: absolute;
+  top: -50px;
+  width: 2px;
+  height: 20px;
+  background: linear-gradient(to bottom, transparent, rgba(100, 100, 100, 0.3));
+  animation: gameOverRain linear infinite;
+}
+
+@keyframes gameOverRain {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Card entrance animation */
+.game-over-card {
+  animation: gameOverCardAppear 0.8s ease-out forwards;
+}
+
+@keyframes gameOverCardAppear {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02) translateY(-5px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Icon slow pulsing */
+.game-over-icon {
+  animation: gameOverIconPulse 3s ease-in-out infinite;
+}
+
+@keyframes gameOverIconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Title subtle glow */
+.game-over-title {
+  animation: gameOverTitleGlow 4s ease-in-out infinite;
+  text-shadow: 0 0 30px rgba(100, 100, 100, 0.3);
+}
+
+@keyframes gameOverTitleGlow {
+  0%, 100% {
+    filter: brightness(1);
+    text-shadow: 0 0 30px rgba(100, 100, 100, 0.3);
+  }
+  50% {
+    filter: brightness(1.1);
+    text-shadow: 0 0 40px rgba(120, 120, 120, 0.5);
+  }
+}
+
+/* Message fade-in */
+.game-over-message {
+  animation: gameOverMessageFade 1s ease-out 0.3s both;
+}
+
+@keyframes gameOverMessageFade {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stats container subtle border glow */
+.game-over-stats {
+  animation: gameOverStatsGlow 5s ease-in-out infinite alternate;
+}
+
+@keyframes gameOverStatsGlow {
+  0% {
+    box-shadow: 0 0 10px rgba(100, 100, 100, 0.1);
+    border-color: rgba(75, 85, 99, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(100, 100, 100, 0.2);
+    border-color: rgba(107, 114, 128, 0.7);
+  }
+}
+
+/* Button hover states */
+.game-over-card button {
+  position: relative;
+  overflow: hidden;
+}
+
+.game-over-card button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.game-over-card button:hover::before {
+  left: 100%;
+}
+
+/* Button press effect */
+.game-over-card button:active {
+  transform: scale(0.98) !important;
+}
+
+/* Stats entry animation */
+.game-over-stats > div {
+  animation: gameOverStatsEntry 0.6s ease-out both;
+}
+
+.game-over-stats > div:nth-child(1) { animation-delay: 0.5s; }
+.game-over-stats > div:nth-child(2) { animation-delay: 0.6s; }
+.game-over-stats > div:nth-child(3) { animation-delay: 0.7s; }
+.game-over-stats > div:nth-child(4) { animation-delay: 0.8s; }
+.game-over-stats > div:nth-child(5) { animation-delay: 0.9s; }
+.game-over-stats > div:nth-child(6) { animation-delay: 1.0s; }
+.game-over-stats > div:nth-child(7) { animation-delay: 1.1s; }
+
+@keyframes gameOverStatsEntry {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Footer message fade-in */
+.game-over-card > p:last-child {
+  animation: gameOverFooterFade 1s ease-out 1.2s both;
+}
+
+@keyframes gameOverFooterFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 640px) {
+  .game-over-card {
+    padding: 1.5rem;
+  }
+
+  .game-over-title {
+    font-size: 2.5rem;
+  }
+
+  .game-over-icon svg {
+    width: 4rem;
+    height: 4rem;
+  }
+
+  .game-over-stats {
+    padding: 1rem;
+  }
+}
