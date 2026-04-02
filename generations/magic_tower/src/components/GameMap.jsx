@@ -110,37 +110,37 @@ function GameMap({ gameState, dispatch }) {
       case TILE_TYPES.RED_KEY:
         return 'tile-red-key game-map-tile'
       case TILE_TYPES.SMALL_POTION:
-        return 'bg-pink-400 game-map-tile'
+        return 'tile-small-potion game-map-tile'
       case TILE_TYPES.BIG_POTION:
-        return 'bg-pink-500 game-map-tile'
+        return 'tile-big-potion game-map-tile'
       case TILE_TYPES.SUPER_POTION:
-        return 'bg-pink-600 game-map-tile'
+        return 'tile-super-potion game-map-tile'
       case TILE_TYPES.RED_GEM:
-        return 'bg-red-400 game-map-tile'
+        return 'tile-red-gem game-map-tile'
       case TILE_TYPES.BLUE_GEM:
-        return 'bg-blue-400 game-map-tile'
+        return 'tile-blue-gem game-map-tile'
       case TILE_TYPES.GREEN_GEM:
-        return 'bg-green-400 game-map-tile'
+        return 'tile-green-gem game-map-tile'
       case TILE_TYPES.GOLD_PILE:
-        return 'bg-yellow-300 game-map-tile'
+        return 'tile-gold-pile game-map-tile'
       case TILE_TYPES.BIG_GOLD_PILE:
-        return 'bg-yellow-200 game-map-tile'
+        return 'tile-big-gold-pile game-map-tile'
       case TILE_TYPES.IRON_SWORD:
-        return 'bg-gray-400 game-map-tile'
+        return 'tile-iron-sword game-map-tile'
       case TILE_TYPES.STEEL_SWORD:
-        return 'bg-gray-300 game-map-tile'
+        return 'tile-steel-sword game-map-tile'
       case TILE_TYPES.HOLY_SWORD:
-        return 'bg-yellow-100 game-map-tile'
+        return 'tile-holy-sword game-map-tile'
       case TILE_TYPES.WOODEN_SHIELD:
-        return 'bg-amber-700 game-map-tile'
+        return 'tile-wooden-shield game-map-tile'
       case TILE_TYPES.IRON_SHIELD:
-        return 'bg-gray-500 game-map-tile'
+        return 'tile-iron-shield game-map-tile'
       case TILE_TYPES.HOLY_SHIELD:
-        return 'bg-yellow-300 game-map-tile'
+        return 'tile-holy-shield game-map-tile'
       case TILE_TYPES.ATTACK_BOOK:
-        return 'bg-red-200 game-map-tile'
+        return 'tile-attack-book game-map-tile'
       case TILE_TYPES.DEFENSE_BOOK:
-        return 'bg-blue-200 game-map-tile'
+        return 'tile-defense-book game-map-tile'
       case TILE_TYPES.STAIRS_UP:
         return 'bg-purple-400 game-map-tile'
       case TILE_TYPES.STAIRS_DOWN:
@@ -201,34 +201,29 @@ function GameMap({ gameState, dispatch }) {
       case TILE_TYPES.YELLOW_KEY:
       case TILE_TYPES.BLUE_KEY:
       case TILE_TYPES.RED_KEY:
-        return '🔑'
+        return '' // Icon handled by CSS
       case TILE_TYPES.SMALL_POTION:
       case TILE_TYPES.BIG_POTION:
       case TILE_TYPES.SUPER_POTION:
-        return '⚗'
+        return '' // Icon handled by CSS
       case TILE_TYPES.RED_GEM:
       case TILE_TYPES.BLUE_GEM:
       case TILE_TYPES.GREEN_GEM:
-        return '♦'
+        return '' // Icon handled by CSS
       case TILE_TYPES.GOLD_PILE:
       case TILE_TYPES.BIG_GOLD_PILE:
-        return '●'
+        return '' // Icon handled by CSS
       case TILE_TYPES.IRON_SWORD:
-        return '⚔️'
       case TILE_TYPES.STEEL_SWORD:
-        return '⚔️'
       case TILE_TYPES.HOLY_SWORD:
-        return '⚔️'
+        return '' // Icon handled by CSS
       case TILE_TYPES.WOODEN_SHIELD:
-        return '🛡️'
       case TILE_TYPES.IRON_SHIELD:
-        return '🛡️'
       case TILE_TYPES.HOLY_SHIELD:
-        return '🛡️'
+        return '' // Icon handled by CSS
       case TILE_TYPES.ATTACK_BOOK:
-        return '📕'
       case TILE_TYPES.DEFENSE_BOOK:
-        return '📘'
+        return '' // Icon handled by CSS
       case TILE_TYPES.STAIRS_UP:
         return '▲'
       case TILE_TYPES.STAIRS_DOWN:

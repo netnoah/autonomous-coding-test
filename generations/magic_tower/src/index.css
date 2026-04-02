@@ -683,3 +683,344 @@ button:active {
     transform: scale(1.05);
   }
 }
+
+/* ============================================================================
+   ITEM TILES STYLING
+   All items have unique visual styles to be easily distinguishable
+   ============================================================================ */
+
+/* Item glow/sparkle animation */
+@keyframes itemGlow {
+  0%, 100% {
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.3),
+                0 0 8px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5),
+                0 0 12px rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Item float animation */
+@keyframes itemFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Apply animations to all items */
+.game-map-tile[class*="tile-"][class*="-key"],
+.game-map-tile[class*="bg-"][class*="-potion"],
+.game-map-tile[class*="bg-"][class*="-gem"],
+.game-map-tile[class*="bg-"][class*="-gold"],
+.game-map-tile[class*="bg-"][class*="-sword"],
+.game-map-tile[class*="bg-"][class*="-shield"],
+.game-map-tile[class*="bg-"][class*="-book"] {
+  animation: itemGlow 2s ease-in-out infinite, itemFloat 3s ease-in-out infinite;
+}
+
+/* ============================================================================
+   POTIONS - Healing items
+   ============================================================================ */
+
+/* Small Potion - HP +200, Light pink */
+.tile-small-potion,
+.bg-pink-400.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFB6C1 0%, #FF91A4 50%, #FF6C87 100%);
+  border: 2px solid #E55A6F;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6),
+              0 0 10px rgba(255, 150, 170, 0.4);
+}
+
+/* Big Potion - HP +500, Medium pink */
+.tile-big-potion,
+.bg-pink-500.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FF69B4 0%, #FF1493 50%, #DB7093 100%);
+  border: 2px solid #C71585;
+  box-shadow: inset 0 0 12px rgba(255, 200, 220, 0.6),
+              0 0 12px rgba(255, 50, 150, 0.5);
+}
+
+/* Super Potion - Full heal, Dark pink with special effect */
+.tile-super-potion,
+.bg-pink-600.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FF1493 0%, #FF69B4 30%, #C71585 70%, #DB7093 100%);
+  border: 3px solid #8B0A50;
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.8),
+              0 0 15px rgba(255, 20, 147, 0.7),
+              0 0 20px rgba(255, 105, 180, 0.5);
+  animation: itemGlow 1.5s ease-in-out infinite, itemFloat 2.5s ease-in-out infinite;
+}
+
+/* ============================================================================
+   KEYS - Door opening items
+   ============================================================================ */
+
+/* Yellow Key - Most common key */
+.tile-yellow-key {
+  background: radial-gradient(circle at 30% 30%, #FFD700 0%, #FFC700 50%, #E6B800 100%);
+  border: 2px solid #CC9900;
+  box-shadow: inset 0 0 8px rgba(255, 255, 200, 0.8),
+              0 0 8px rgba(255, 215, 0, 0.6);
+}
+
+/* Blue Key - Less common key */
+.tile-blue-key {
+  background: radial-gradient(circle at 30% 30%, #4488FF 0%, #3366DD 50%, #2255BB 100%);
+  border: 2px solid #1144AA;
+  box-shadow: inset 0 0 8px rgba(150, 200, 255, 0.6),
+              0 0 8px rgba(68, 136, 255, 0.5);
+}
+
+/* Red Key - Rare key */
+.tile-red-key {
+  background: radial-gradient(circle at 30% 30%, #FF4444 0%, #DD2222 50%, #BB1111 100%);
+  border: 2px solid #990000;
+  box-shadow: inset 0 0 8px rgba(255, 150, 150, 0.6),
+              0 0 8px rgba(255, 68, 68, 0.5);
+}
+
+/* ============================================================================
+   GEMS - Stat boosting items
+   ============================================================================ */
+
+/* Red Gem - ATK +3, Deep red gemstone */
+.tile-red-gem,
+.bg-red-400.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FF6B6B 0%, #EE4444 50%, #CC2222 100%);
+  border: 2px solid #990000;
+  box-shadow: inset 0 0 10px rgba(255, 200, 200, 0.7),
+              0 0 10px rgba(255, 50, 50, 0.5);
+}
+
+/* Blue Gem - DEF +3, Deep blue gemstone */
+.tile-blue-gem,
+.bg-blue-400.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #6BB6FF 0%, #4488FF 50%, #2266DD 100%);
+  border: 2px solid #0044AA;
+  box-shadow: inset 0 0 10px rgba(200, 220, 255, 0.6),
+              0 0 10px rgba(50, 120, 255, 0.5);
+}
+
+/* Green Gem - ATK +1 DEF +1, Emerald green */
+.tile-green-gem,
+.bg-green-400.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #6BFF6B 0%, #44DD44 50%, #22BB22 100%);
+  border: 2px solid #008800;
+  box-shadow: inset 0 0 10px rgba(200, 255, 200, 0.7),
+              0 0 10px rgba(50, 200, 50, 0.5);
+}
+
+/* ============================================================================
+   GOLD - Currency items
+   ============================================================================ */
+
+/* Gold Pile - +50 gold, Golden coins */
+.tile-gold-pile,
+.bg-yellow-300.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFEC8B 0%, #FFD700 50%, #E6BE8A 100%);
+  border: 2px solid #CC9900;
+  box-shadow: inset 0 0 10px rgba(255, 255, 200, 0.8),
+              0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+/* Big Gold Pile - +200 gold, Larger gold pile */
+.tile-big-gold-pile,
+.bg-yellow-200.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFFACD 0%, #FFEC8B 30%, #FFD700 70%, #E6BE8A 100%);
+  border: 3px solid #CC9900;
+  box-shadow: inset 0 0 15px rgba(255, 255, 220, 0.9),
+              0 0 15px rgba(255, 215, 0, 0.7),
+              0 0 20px rgba(255, 200, 0, 0.5);
+}
+
+/* ============================================================================
+   SWORDS - Attack equipment
+   ============================================================================ */
+
+/* Iron Sword - ATK +10, Iron weapon */
+.tile-iron-sword,
+.bg-gray-400.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #A0A0A0 0%, #808080 50%, #606060 100%);
+  border: 2px solid #404040;
+  box-shadow: inset 0 0 8px rgba(200, 200, 200, 0.4),
+              0 0 8px rgba(100, 100, 100, 0.3);
+}
+
+/* Steel Sword - ATK +20, Steel weapon */
+.tile-steel-sword,
+.bg-gray-300.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #D0D0D0 0%, #B0B0B0 50%, #909090 100%);
+  border: 3px solid #707070;
+  box-shadow: inset 0 0 10px rgba(220, 220, 220, 0.5),
+              0 0 10px rgba(150, 150, 150, 0.4);
+}
+
+/* Holy Sword - ATK +50, Divine weapon with special glow */
+.tile-holy-sword,
+.bg-yellow-100.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFFFE0 0%, #FFFACD 30%, #FFEC8B 60%, #FFD700 100%);
+  border: 3px solid #CC9900;
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.9),
+              0 0 15px rgba(255, 255, 150, 0.7),
+              0 0 20px rgba(255, 215, 0, 0.5);
+  animation: itemGlow 1s ease-in-out infinite, itemFloat 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   SHIELDS - Defense equipment
+   ============================================================================ */
+
+/* Wooden Shield - DEF +8, Basic wooden shield */
+.tile-wooden-shield,
+.bg-amber-700.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #CD853F 0%, #A0522D 50%, #8B4513 100%);
+  border: 2px solid #5D3A1A;
+  box-shadow: inset 0 0 8px rgba(210, 180, 140, 0.5),
+              0 0 8px rgba(139, 69, 19, 0.4);
+}
+
+/* Iron Shield - DEF +15, Iron shield */
+.tile-iron-shield,
+.bg-gray-500.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #909090 0%, #707070 50%, #505050 100%);
+  border: 3px solid #303030;
+  box-shadow: inset 0 0 10px rgba(180, 180, 180, 0.4),
+              0 0 10px rgba(100, 100, 100, 0.3);
+}
+
+/* Holy Shield - DEF +40, Divine shield with special effect */
+.tile-holy-shield,
+.bg-yellow-300.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFFACD 0%, #FFEC8B 30%, #FFD700 60%, #E6BE8A 100%);
+  border: 3px solid #CC9900;
+  box-shadow: inset 0 0 15px rgba(255, 255, 220, 0.9),
+              0 0 15px rgba(255, 215, 0, 0.7),
+              0 0 20px rgba(255, 200, 0, 0.5);
+  animation: itemGlow 1s ease-in-out infinite, itemFloat 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   BOOKS - Permanent stat upgrades
+   ============================================================================ */
+
+/* Attack Book - Permanent ATK boost */
+.tile-attack-book,
+.bg-red-200.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #FFB6C1 0%, #FF9999 50%, #FF7777 100%);
+  border: 2px solid #CC5555;
+  box-shadow: inset 0 0 10px rgba(255, 220, 220, 0.7),
+              0 0 10px rgba(255, 100, 100, 0.5);
+}
+
+/* Defense Book - Permanent DEF boost */
+.tile-defense-book,
+.bg-blue-200.game-map-tile {
+  background: radial-gradient(circle at 30% 30%, #B6D7FF 0%, #99BBFF 50%, #7799FF 100%);
+  border: 2px solid #5577CC;
+  box-shadow: inset 0 0 10px rgba(220, 235, 255, 0.7),
+              0 0 10px rgba(100, 150, 255, 0.5);
+}
+
+/* ============================================================================
+   SPECIAL ITEM SYMBOLS (using ::before pseudo-elements)
+   ============================================================================ */
+
+/* Potion symbols */
+.tile-small-potion::before,
+.tile-big-potion::before,
+.tile-super-potion::before {
+  content: '⚗️';
+  font-size: 24px;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Key symbols */
+.tile-yellow-key::before,
+.tile-blue-key::before,
+.tile-red-key::before {
+  content: '🔑';
+  font-size: 24px;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Gem symbols */
+.tile-red-gem::before,
+.tile-blue-gem::before,
+.tile-green-gem::before {
+  content: '💎';
+  font-size: 26px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Gold symbols */
+.tile-gold-pile::before {
+  content: '●';
+  font-size: 28px;
+  color: rgba(255, 215, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.tile-big-gold-pile::before {
+  content: '●●';
+  font-size: 24px;
+  color: rgba(255, 215, 0, 0.9);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Sword symbols */
+.tile-iron-sword::before,
+.tile-steel-sword::before,
+.tile-holy-sword::before {
+  content: '⚔️';
+  font-size: 26px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Shield symbols */
+.tile-wooden-shield::before,
+.tile-iron-shield::before,
+.tile-holy-shield::before {
+  content: '🛡️';
+  font-size: 26px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Book symbols */
+.tile-attack-book::before {
+  content: '📕';
+  font-size: 24px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tile-defense-book::before {
+  content: '📘';
+  font-size: 24px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Override text symbols for items that now use ::before */
+.game-map-tile.tile-small-potion,
+.game-map-tile.tile-big-potion,
+.game-map-tile.tile-super-potion,
+.game-map-tile.tile-yellow-key,
+.game-map-tile.tile-blue-key,
+.game-map-tile.tile-red-key,
+.game-map-tile.tile-red-gem,
+.game-map-tile.tile-blue-gem,
+.game-map-tile.tile-green-gem,
+.game-map-tile.tile-gold-pile,
+.game-map-tile.tile-big-gold-pile,
+.game-map-tile.tile-iron-sword,
+.game-map-tile.tile-steel-sword,
+.game-map-tile.tile-holy-sword,
+.game-map-tile.tile-wooden-shield,
+.game-map-tile.tile-iron-shield,
+.game-map-tile.tile-holy-shield,
+.game-map-tile.tile-attack-book,
+.game-map-tile.tile-defense-book {
+  color: transparent;
+}

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Styling Test - Magic Tower</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      background-color: #2D2D2D;
+      min-height: 100vh;
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .game-map-tile {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      position: relative;
+    }
+
+    /* Item glow/sparkle animation */
+    @keyframes itemGlow {
+      0%, 100% {
+        box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.3),
+                    0 0 8px rgba(255, 255, 255, 0.2);
+      }
+      50% {
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.5),
+                    0 0 12px rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    /* Item float animation */
+    @keyframes itemFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    /* Apply animations to all items */
+    .game-map-tile[class*="tile-"][class*="-key"],
+    .game-map-tile[class*="tile-"][class*="-potion"],
+    .game-map-tile[class*="tile-"][class*="-gem"],
+    .game-map-tile[class*="tile-"][class*="-gold"],
+    .game-map-tile[class*="tile-"][class*="-sword"],
+    .game-map-tile[class*="tile-"][class*="-shield"],
+    .game-map-tile[class*="tile-"][class*="-book"] {
+      animation: itemGlow 2s ease-in-out infinite, itemFloat 3s ease-in-out infinite;
+    }
+
+    /* Potions */
+    .tile-small-potion {
+      background: radial-gradient(circle at 30% 30%, #FFB6C1 0%, #FF91A4 50%, #FF6C87 100%);
+      border: 2px solid #E55A6F;
+      box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.6),
+                  0 0 10px rgba(255, 150, 170, 0.4);
+    }
+    .tile-small-potion::before {
+      content: '⚗️';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-big-potion {
+      background: radial-gradient(circle at 30% 30%, #FF69B4 0%, #FF1493 50%, #DB7093 100%);
+      border: 2px solid #C71585;
+      box-shadow: inset 0 0 12px rgba(255, 200, 220, 0.6),
+                  0 0 12px rgba(255, 50, 150, 0.5);
+    }
+    .tile-big-potion::before {
+      content: '⚗️';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-super-potion {
+      background: radial-gradient(circle at 30% 30%, #FF1493 0%, #FF69B4 30%, #C71585 70%, #DB7093 100%);
+      border: 3px solid #8B0A50;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.8),
+                  0 0 15px rgba(255, 20, 147, 0.7),
+                  0 0 20px rgba(255, 105, 180, 0.5);
+      animation: itemGlow 1.5s ease-in-out infinite, itemFloat 2.5s ease-in-out infinite;
+    }
+    .tile-super-potion::before {
+      content: '⚗️';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Keys */
+    .tile-yellow-key {
+      background: radial-gradient(circle at 30% 30%, #FFD700 0%, #FFC700 50%, #E6B800 100%);
+      border: 2px solid #CC9900;
+      box-shadow: inset 0 0 8px rgba(255, 255, 200, 0.8),
+                  0 0 8px rgba(255, 215, 0, 0.6);
+    }
+    .tile-yellow-key::before {
+      content: '🔑';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-blue-key {
+      background: radial-gradient(circle at 30% 30%, #4488FF 0%, #3366DD 50%, #2255BB 100%);
+      border: 2px solid #1144AA;
+      box-shadow: inset 0 0 8px rgba(150, 200, 255, 0.6),
+                  0 0 8px rgba(68, 136, 255, 0.5);
+    }
+    .tile-blue-key::before {
+      content: '🔑';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-red-key {
+      background: radial-gradient(circle at 30% 30%, #FF4444 0%, #DD2222 50%, #BB1111 100%);
+      border: 2px solid #990000;
+      box-shadow: inset 0 0 8px rgba(255, 150, 150, 0.6),
+                  0 0 8px rgba(255, 68, 68, 0.5);
+    }
+    .tile-red-key::before {
+      content: '🔑';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Gems */
+    .tile-red-gem {
+      background: radial-gradient(circle at 30% 30%, #FF6B6B 0%, #EE4444 50%, #CC2222 100%);
+      border: 2px solid #990000;
+      box-shadow: inset 0 0 10px rgba(255, 200, 200, 0.7),
+                  0 0 10px rgba(255, 50, 50, 0.5);
+    }
+    .tile-red-gem::before {
+      content: '💎';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-blue-gem {
+      background: radial-gradient(circle at 30% 30%, #6BB6FF 0%, #4488FF 50%, #2266DD 100%);
+      border: 2px solid #0044AA;
+      box-shadow: inset 0 0 10px rgba(200, 220, 255, 0.6),
+                  0 0 10px rgba(50, 120, 255, 0.5);
+    }
+    .tile-blue-gem::before {
+      content: '💎';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-green-gem {
+      background: radial-gradient(circle at 30% 30%, #6BFF6B 0%, #44DD44 50%, #22BB22 100%);
+      border: 2px solid #008800;
+      box-shadow: inset 0 0 10px rgba(200, 255, 200, 0.7),
+                  0 0 10px rgba(50, 200, 50, 0.5);
+    }
+    .tile-green-gem::before {
+      content: '💎';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Gold */
+    .tile-gold-pile {
+      background: radial-gradient(circle at 30% 30%, #FFEC8B 0%, #FFD700 50%, #E6BE8A 100%);
+      border: 2px solid #CC9900;
+      box-shadow: inset 0 0 10px rgba(255, 255, 200, 0.8),
+                  0 0 10px rgba(255, 215, 0, 0.6);
+    }
+    .tile-gold-pile::before {
+      content: '●';
+      font-size: 28px;
+      color: rgba(255, 215, 0, 0.8);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    .tile-big-gold-pile {
+      background: radial-gradient(circle at 30% 30%, #FFFACD 0%, #FFEC8B 30%, #FFD700 70%, #E6BE8A 100%);
+      border: 3px solid #CC9900;
+      box-shadow: inset 0 0 15px rgba(255, 255, 220, 0.9),
+                  0 0 15px rgba(255, 215, 0, 0.7),
+                  0 0 20px rgba(255, 200, 0, 0.5);
+    }
+    .tile-big-gold-pile::before {
+      content: '●●';
+      font-size: 24px;
+      color: rgba(255, 215, 0, 0.9);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Swords */
+    .tile-iron-sword {
+      background: radial-gradient(circle at 30% 30%, #A0A0A0 0%, #808080 50%, #606060 100%);
+      border: 2px solid #404040;
+      box-shadow: inset 0 0 8px rgba(200, 200, 200, 0.4),
+                  0 0 8px rgba(100, 100, 100, 0.3);
+    }
+    .tile-iron-sword::before {
+      content: '⚔️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-steel-sword {
+      background: radial-gradient(circle at 30% 30%, #D0D0D0 0%, #B0B0B0 50%, #909090 100%);
+      border: 3px solid #707070;
+      box-shadow: inset 0 0 10px rgba(220, 220, 220, 0.5),
+                  0 0 10px rgba(150, 150, 150, 0.4);
+    }
+    .tile-steel-sword::before {
+      content: '⚔️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-holy-sword {
+      background: radial-gradient(circle at 30% 30%, #FFFFE0 0%, #FFFACD 30%, #FFEC8B 60%, #FFD700 100%);
+      border: 3px solid #CC9900;
+      box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.9),
+                  0 0 15px rgba(255, 255, 150, 0.7),
+                  0 0 20px rgba(255, 215, 0, 0.5);
+      animation: itemGlow 1s ease-in-out infinite, itemFloat 2s ease-in-out infinite;
+    }
+    .tile-holy-sword::before {
+      content: '⚔️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Shields */
+    .tile-wooden-shield {
+      background: radial-gradient(circle at 30% 30%, #CD853F 0%, #A0522D 50%, #8B4513 100%);
+      border: 2px solid #5D3A1A;
+      box-shadow: inset 0 0 8px rgba(210, 180, 140, 0.5),
+                  0 0 8px rgba(139, 69, 19, 0.4);
+    }
+    .tile-wooden-shield::before {
+      content: '🛡️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-iron-shield {
+      background: radial-gradient(circle at 30% 30%, #909090 0%, #707070 50%, #505050 100%);
+      border: 3px solid #303030;
+      box-shadow: inset 0 0 10px rgba(180, 180, 180, 0.4),
+                  0 0 10px rgba(100, 100, 100, 0.3);
+    }
+    .tile-iron-shield::before {
+      content: '🛡️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-holy-shield {
+      background: radial-gradient(circle at 30% 30%, #FFFACD 0%, #FFEC8B 30%, #FFD700 60%, #E6BE8A 100%);
+      border: 3px solid #CC9900;
+      box-shadow: inset 0 0 15px rgba(255, 255, 220, 0.9),
+                  0 0 15px rgba(255, 215, 0, 0.7),
+                  0 0 20px rgba(255, 200, 0, 0.5);
+      animation: itemGlow 1s ease-in-out infinite, itemFloat 2s ease-in-out infinite;
+    }
+    .tile-holy-shield::before {
+      content: '🛡️';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Books */
+    .tile-attack-book {
+      background: radial-gradient(circle at 30% 30%, #FFB6C1 0%, #FF9999 50%, #FF7777 100%);
+      border: 2px solid #CC5555;
+      box-shadow: inset 0 0 10px rgba(255, 220, 220, 0.7),
+                  0 0 10px rgba(255, 100, 100, 0.5);
+    }
+    .tile-attack-book::before {
+      content: '📕';
+      font-size: 24px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .tile-defense-book {
+      background: radial-gradient(circle at 30% 30%, #B6D7FF 0%, #99BBFF 50%, #7799FF 100%);
+      border: 2px solid #5577CC;
+      box-shadow: inset 0 0 10px rgba(220, 235, 255, 0.7),
+                  0 0 10px rgba(100, 150, 255, 0.5);
+    }
+    .tile-defense-book::before {
+      content: '📘';
+      font-size: 24px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Override text symbols for items */
+    .game-map-tile.tile-small-potion,
+    .game-map-tile.tile-big-potion,
+    .game-map-tile.tile-super-potion,
+    .game-map-tile.tile-yellow-key,
+    .game-map-tile.tile-blue-key,
+    .game-map-tile.tile-red-key,
+    .game-map-tile.tile-red-gem,
+    .game-map-tile.tile-blue-gem,
+    .game-map-tile.tile-green-gem,
+    .game-map-tile.tile-gold-pile,
+    .game-map-tile.tile-big-gold-pile,
+    .game-map-tile.tile-iron-sword,
+    .game-map-tile.tile-steel-sword,
+    .game-map-tile.tile-holy-sword,
+    .game-map-tile.tile-wooden-shield,
+    .game-map-tile.tile-iron-shield,
+    .game-map-tile.tile-holy-shield,
+    .game-map-tile.tile-attack-book,
+    .game-map-tile.tile-defense-book {
+      color: transparent;
+    }
+  </style>
+</head>
+<body class="p-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="font-pixel text-3xl text-yellow-400 mb-8 text-center">
+      Item Styling Test
+    </h1>
+
+    <div class="bg-gray-800 rounded-lg p-6 mb-8">
+      <h2 class="font-pixel text-xl text-white mb-4">Potions (Healing Items)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-small-potion game-map-tile"></div>
+          <p class="font-pixel text-xs text-pink-400 mt-2">Small Potion<br/>(HP +200)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-big-potion game-map-tile"></div>
+          <p class="font-pixel text-xs text-pink-500 mt-2">Big Potion<br/>(HP +500)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-super-potion game-map-tile"></div>
+          <p class="font-pixel text-xs text-pink-600 mt-2">Super Potion<br/>(Full Heal)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Keys (Door Opening)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-yellow-key game-map-tile"></div>
+          <p class="font-pixel text-xs text-yellow-400 mt-2">Yellow Key<br/>(Common)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-blue-key game-map-tile"></div>
+          <p class="font-pixel text-xs text-blue-400 mt-2">Blue Key<br/>(Less Common)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-red-key game-map-tile"></div>
+          <p class="font-pixel text-xs text-red-400 mt-2">Red Key<br/>(Rare)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Gems (Stat Boosts)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-red-gem game-map-tile"></div>
+          <p class="font-pixel text-xs text-red-400 mt-2">Red Gem<br/>(ATK +3)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-blue-gem game-map-tile"></div>
+          <p class="font-pixel text-xs text-blue-400 mt-2">Blue Gem<br/>(DEF +3)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-green-gem game-map-tile"></div>
+          <p class="font-pixel text-xs text-green-400 mt-2">Green Gem<br/>(ATK +1, DEF +1)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Gold (Currency)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-gold-pile game-map-tile"></div>
+          <p class="font-pixel text-xs text-yellow-300 mt-2">Gold Pile<br/>(+50 gold)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-big-gold-pile game-map-tile"></div>
+          <p class="font-pixel text-xs text-yellow-200 mt-2">Big Gold Pile<br/>(+200 gold)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Swords (Attack Equipment)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-iron-sword game-map-tile"></div>
+          <p class="font-pixel text-xs text-gray-400 mt-2">Iron Sword<br/>(ATK +10)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-steel-sword game-map-tile"></div>
+          <p class="font-pixel text-xs text-gray-300 mt-2">Steel Sword<br/>(ATK +20)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-holy-sword game-map-tile"></div>
+          <p class="font-pixel text-xs text-yellow-100 mt-2">Holy Sword<br/>(ATK +50)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Shields (Defense Equipment)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-wooden-shield game-map-tile"></div>
+          <p class="font-pixel text-xs text-amber-700 mt-2">Wooden Shield<br/>(DEF +8)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-iron-shield game-map-tile"></div>
+          <p class="font-pixel text-xs text-gray-500 mt-2">Iron Shield<br/>(DEF +15)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-holy-shield game-map-tile"></div>
+          <p class="font-pixel text-xs text-yellow-300 mt-2">Holy Shield<br/>(DEF +40)</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Books (Permanent Upgrades)</h2>
+      <div class="flex flex-wrap gap-4">
+        <div class="text-center">
+          <div class="tile-attack-book game-map-tile"></div>
+          <p class="font-pixel text-xs text-red-300 mt-2">Attack Book<br/>(+ATK)</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-defense-book game-map-tile"></div>
+          <p class="font-pixel text-xs text-blue-300 mt-2">Defense Book<br/>(+DEF)</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg p-6">
+      <h2 class="font-pixel text-xl text-white mb-4">Visual Distinction Checklist</h2>
+      <ul class="font-pixel text-xs text-gray-300 space-y-2">
+        <li>✓ Each item has unique gradient background</li>
+        <li>✓ Each item has distinct icon/symbol</li>
+        <li>✓ Border thickness indicates item quality/rarity</li>
+        <li>✓ Glow effects draw attention to collectible items</li>
+        <li>✓ Premium items (Holy Sword, Super Potion) have enhanced effects</li>
+        <li>✓ All items have glow + float animations</li>
+        <li>✓ Color coding matches item type (potions=pink, gems=colors, etc.)</li>
+        <li>✓ Equipment progression is visually clear (Iron → Steel → Holy)</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
