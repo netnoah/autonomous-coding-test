@@ -1285,6 +1285,11 @@ function markTilesAsExplored(state) {
 }
 
 function handleMove(state, direction) {
+  // Block movement during floor transition animation
+  if (state.floorTransition && state.floorTransition.isActive) {
+    return state
+  }
+
   const { player } = state
   let newX = player.x
   let newY = player.y
@@ -2192,6 +2197,12 @@ function handleChangeFloor(state, newFloor, direction = null) {
       floor: newFloor,
       x: newX,
       y: newY
+    },
+    floorTransition: {
+      isActive: false,
+      fromFloor: 0,
+      toFloor: 0,
+      direction: 'up'
     },
     visitedFloors,
     messages: [
