@@ -1825,7 +1825,7 @@
       "Step 6: Verify all elements are accessible",
       "Step 7: Verify no horizontal scrolling required"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
@@ -1839,7 +1839,7 @@
       "Step 6: Tap other direction buttons",
       "Step 7: Verify player moves in each direction"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",

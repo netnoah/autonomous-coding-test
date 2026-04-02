@@ -7,6 +7,8 @@ import ShopModal from './ShopModal'
 import HelpModal from './HelpModal'
 import SaveLoadModal from './SaveLoadModal'
 import DialogueModal from './DialogueModal'
+import TouchControls from './TouchControls'
+import MobileStatusBar from './MobileStatusBar'
 
 function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, settings }) {
   const [gameState, dispatch] = useReducer(gameReducer, initialGameState)
@@ -236,9 +238,9 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
   }, [initialLoadState])
 
   return (
-    <div className="game-container flex flex-col h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      {/* Top: Floor Indicator */}
-      <div className="flex items-center justify-between px-6 py-3 bg-black/30 border-b border-gray-700">
+    <div className="game-container flex flex-col h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+      {/* Desktop: Floor Indicator Bar */}
+      <div className="hidden md:flex items-center justify-between px-6 py-3 bg-black/30 border-b border-gray-700">
         <div className="flex items-center gap-3">
           <button
             onClick={onReturnToMenu}
@@ -276,8 +278,14 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         </div>
       </div>
 
-      {/* Middle: Game Map and Status Panel */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Mobile: Status Bar Overlay */}
+      <MobileStatusBar
+        player={gameState.player}
+        currentFloor={gameState.currentFloor}
+      />
+
+      {/* Desktop: Middle Section - Game Map and Status Panel */}
+      <div className="hidden md:flex flex-1 overflow-hidden">
         {/* Left: Game Map (centered) */}
         <div className="flex-1 flex items-center justify-center p-6">
           <GameMap
@@ -292,10 +300,45 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         </div>
       </div>
 
-      {/* Bottom: Message Log */}
-      <div className="h-48 px-6 py-3 bg-black/40 border-t border-gray-700">
+      {/* Mobile: Full Screen Game Map */}
+      <div className="md:hidden flex-1 flex items-center justify-center p-4 pt-24 pb-24">
+        <GameMap
+          gameState={gameState}
+          dispatch={dispatch}
+        />
+      </div>
+
+      {/* Desktop: Bottom Message Log */}
+      <div className="hidden md:block h-48 px-6 py-3 bg-black/40 border-t border-gray-700">
         <MessageLog messages={gameState.messages} />
       </div>
+
+      {/* Mobile: Bottom Action Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-sm border-t border-gray-700 p-2">
+        <div className="flex items-center justify-between gap-2">
+          <button
+            onClick={onReturnToMenu}
+            className="flex-1 px-3 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+          >
+            ← Menu
+          </button>
+          <button
+            onClick={() => setHelpOpen(true)}
+            className="flex-1 px-3 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg"
+          >
+            ❓ Help
+          </button>
+          <button
+            onClick={() => setSaveLoadOpen(true)}
+            className="flex-1 px-3 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+          >
+            💾 Save
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile: Touch Controls */}
+      <TouchControls onMove={(direction) => dispatch({ type: 'MOVE', direction })} />
 
       {/* Shop Modal */}
       <ShopModal

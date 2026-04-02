@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Mobile Layout - Magic Tower</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1a1a1a;
+      color: #e5e5e5;
+    }
+
+    .test-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .test-section {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .test-section h2 {
+      color: #ffd700;
+      margin-bottom: 15px;
+    }
+
+    .phone-frame {
+      width: 375px;
+      height: 667px;
+      border: 3px solid #666;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 20px auto;
+      position: relative;
+      background: linear-gradient(to bottom right, #1f2937, #111827);
+    }
+
+    .phone-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      padding: 10px;
+      margin: 5px 0;
+      background: #333;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checklist li:before {
+      content: '☐';
+      font-size: 20px;
+      color: #ffd700;
+    }
+
+    .checklist li.passed:before {
+      content: '☑';
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .button-group button {
+      flex: 1;
+      padding: 10px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #4488ff;
+      color: white;
+      font-weight: bold;
+    }
+
+    .button-group button:hover {
+      background: #3366dd;
+    }
+
+    .info-box {
+      background: #1e40af;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .status-message {
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .status-message.success {
+      background: #065f46;
+      color: #6ee7b7;
+    }
+
+    .status-message.error {
+      background: #991b1b;
+      color: #fca5a5;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-section">
+      <h2>📱 Mobile Layout Test - Magic Tower</h2>
+      <p>Test the mobile layout implementation by viewing the game in a mobile-sized viewport.</p>
+
+      <div class="info-box">
+        <strong>Test Requirements (test #1818):</strong>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+          <li>Game map fills screen on mobile</li>
+          <li>Status bar overlay at top</li>
+          <li>Touch controls at bottom</li>
+          <li>All elements are accessible</li>
+          <li>No horizontal scrolling required</li>
+        </ul>
+      </div>
+
+      <ul class="checklist">
+        <li>Game map fills the screen (with padding for status bar and controls)</li>
+        <li>Status bar overlay visible at top with HP, keys, and stats</li>
+        <li>Touch D-pad controls visible at bottom</li>
+        <li>Action buttons (Menu, Help, Save) at bottom</li>
+        <li>No horizontal scroll bar appears</li>
+        <li>Touch controls are large enough to tap (min 44x44px)</li>
+      </ul>
+
+      <div class="button-group">
+        <button onclick="loadGame()">Load Game</button>
+        <button onclick="checkLayout()">Check Layout</button>
+      </div>
+
+      <div id="statusMessage"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>Mobile Preview</h2>
+      <div class="phone-frame">
+        <iframe id="gameFrame" src="http://localhost:3014"></iframe>
+      </div>
+      <p style="text-align: center; color: #999; margin-top: 10px;">
+        iPhone SE size (375x667)
+      </p>
+    </div>
+
+    <div class="test-section">
+      <h2>Manual Verification Steps</h2>
+      <ol style="margin-left: 20px; line-height: 2;">
+        <li>Click "Load Game" button above</li>
+        <li>Click "New Game" in the game</li>
+        <li>Verify mobile status bar appears at top</li>
+        <li>Verify game map is centered with padding</li>
+        <li>Verify touch D-pad appears at bottom</li>
+        <li>Tap direction buttons to move player</li>
+        <li>Verify bottom action bar (Menu, Help, Save)</li>
+        <li>Check no horizontal scrolling</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+    function loadGame() {
+      const frame = document.getElementById('gameFrame');
+      frame.src = 'http://localhost:3014';
+      showMessage('Game loaded. Click "New Game" in the preview.', 'success');
+    }
+
+    function checkLayout() {
+      const frame = document.getElementById('gameFrame');
+      try {
+        const frameDoc = frame.contentDocument || frame.contentWindow.document;
+
+        // Check for mobile status bar
+        const statusBar = frameDoc.querySelector('.md\\:hidden.fixed.top-0');
+        const hasStatusBar = !!statusBar;
+
+        // Check for touch controls
+        const touchControls = frameDoc.querySelector('.touch-controls');
+        const hasTouchControls = !!touchControls;
+
+        // Check for mobile bottom bar
+        const bottomBar = frameDoc.querySelector('.md\\:hidden.fixed.bottom-0');
+        const hasBottomBar = !!bottomBar;
+
+        let message = 'Layout Check Results:\n';
+        message += hasStatusBar ? '✓ Mobile status bar found\n' : '✗ Mobile status bar missing\n';
+        message += hasTouchControls ? '✓ Touch controls found\n' : '✗ Touch controls missing\n';
+        message += hasBottomBar ? '✓ Bottom action bar found\n' : '✗ Bottom action bar missing\n';
+
+        if (hasStatusBar && hasTouchControls && hasBottomBar) {
+          showMessage(message, 'success');
+        } else {
+          showMessage(message, 'error');
+        }
+      } catch (e) {
+        showMessage('Cannot check layout (cross-origin restriction). Verify manually.', 'error');
+      }
+    }
+
+    function showMessage(text, type) {
+      const div = document.getElementById('statusMessage');
+      div.className = 'status-message ' + type;
+      div.textContent = text;
+    }
+
+    // Auto-load game on page load
+    window.addEventListener('load', () => {
+      setTimeout(loadGame, 500);
+    });
+  </script>
+</body>
+</html>
