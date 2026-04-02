@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Avatar Test - Magic Tower</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+        .font-pixel { font-family: 'Press Start 2P', monospace; }
+        .font-mono-stats { font-family: 'Courier New', monospace; }
+    </style>
+</head>
+<body class="bg-gray-900 p-8">
+    <h1 class="text-2xl text-yellow-400 mb-4 font-pixel">Player Avatar Component Test</h1>
+
+    <div id="avatar-container"></div>
+
+    <script type="module">
+        // Simulate PlayerAvatar component
+        function createPlayerAvatar(player) {
+            const getAvatarEmoji = () => {
+                const { atk, def } = player;
+                const totalStats = atk + def;
+
+                if (totalStats < 30) return '🧑‍🌾';
+                else if (totalStats < 60) return '🧑‍🔧';
+                else if (totalStats < 100) return '👨‍✈️';
+                else if (totalStats < 150) return '🦸';
+                else return '👸';
+            };
+
+            const getAvatarTitle = () => {
+                const { atk, def } = player;
+                const totalStats = atk + def;
+
+                if (totalStats < 30) return 'Novice Adventurer';
+                if (totalStats < 60) return 'Warrior';
+                if (totalStats < 100) return 'Knight';
+                if (totalStats < 150) return 'Hero';
+                return 'Legend';
+            };
+
+            const container = document.createElement('div');
+            container.className = 'player-avatar mb-4 relative p-4 bg-gradient-to-br from-gray-700 to-gray-800 rounded-lg border-2 border-yellow-600 max-w-md';
+
+            container.innerHTML = `
+                <div class="flex items-center space-x-4">
+                    <div class="avatar-icon text-5xl">
+                        ${getAvatarEmoji()}
+                    </div>
+                    <div class="flex-1">
+                        <div class="avatar-title text-sm text-yellow-400 font-bold mb-1">
+                            ${getAvatarTitle()}
+                        </div>
+                        <div class="avatar-stats text-xs text-gray-400">
+                            <div>Floor ${player.floor}</div>
+                            <div>${player.steps} steps</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-0 left-0 w-2 h-2 bg-yellow-500 rounded-tl"></div>
+                <div class="absolute top-0 right-0 w-2 h-2 bg-yellow-500 rounded-tr"></div>
+                <div class="absolute bottom-0 left-0 w-2 h-2 bg-yellow-500 rounded-bl"></div>
+                <div class="absolute bottom-0 right-0 w-2 h-2 bg-yellow-500 rounded-br"></div>
+            `;
+
+            return container;
+        }
+
+        // Test different player states
+        const testCases = [
+            { name: 'Novice Player (Start)', player: { hp: 1000, maxHp: 1000, atk: 10, def: 10, floor: 0, steps: 0 } },
+            { name: 'Mid-Game Warrior', player: { hp: 1500, maxHp: 2000, atk: 40, def: 30, floor: 5, steps: 500 } },
+            { name: 'High-Level Knight', player: { hp: 2500, maxHp: 3000, atk: 70, def: 60, floor: 8, steps: 1200 } },
+            { name: 'End-Game Hero', player: { hp: 4000, maxHp: 5000, atk: 100, def: 80, floor: 10, steps: 2000 } },
+        ];
+
+        const container = document.getElementById('avatar-container');
+
+        testCases.forEach(testCase => {
+            const section = document.createElement('div');
+            section.className = 'mb-8';
+
+            const title = document.createElement('h2');
+            title.className = 'text-xl text-white mb-2';
+            title.textContent = testCase.name;
+
+            const avatar = createPlayerAvatar(testCase.player);
+
+            section.appendChild(title);
+            section.appendChild(avatar);
+            container.appendChild(section);
+        });
+
+        // Log test results
+        console.log('Player Avatar Test - All avatars rendered successfully');
+        console.log('Test cases:', testCases.length);
+    </script>
+</body>
+</html>

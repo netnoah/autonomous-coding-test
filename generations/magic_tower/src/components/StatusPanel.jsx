@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { EQUIPMENT_STATS, TILE_TYPES } from '../game/gameReducer'
 import MiniMap from './MiniMap'
+import PlayerAvatar from './PlayerAvatar'
 
 function StatusPanel({ gameState }) {
   const { player, equipment } = gameState
@@ -110,6 +111,9 @@ function StatusPanel({ gameState }) {
   return (
     <div className="status-panel bg-gray-800 rounded-lg p-4 shadow-lg">
       <h2 className="font-pixel text-lg text-yellow-400 mb-4">Status</h2>
+
+      {/* Player Avatar */}
+      <PlayerAvatar player={player} />
 
       {/* HP Bar */}
       <div className="mb-4">
