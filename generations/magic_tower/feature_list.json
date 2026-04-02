@@ -1916,7 +1916,7 @@
       "Step 7: Verify door is clearly blue colored",
       "Step 8: Verify red doors are clearly red"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
@@ -1930,7 +1930,7 @@
       "Step 6: Verify doors have solid appearance",
       "Step 7: Verify both are same color but clearly different"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
