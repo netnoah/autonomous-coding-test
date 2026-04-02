@@ -143,7 +143,7 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         settings={settings}
-        onSettingsChange={setSettings}
+        onSettingsChange={onSettingsChange}
       />
 
       {/* Help Modal */}
