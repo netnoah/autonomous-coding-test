@@ -53,7 +53,8 @@ function DamageNumber({ x, y, damage, type, onComplete }) {
         transition: 'opacity 0.95s ease-out, transform 0.95s ease-out',
         pointerEvents: 'none',
         textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)',
-        zIndex: 1000
+        zIndex: 1000,
+        fontFamily: "'Press Start 2P', monospace"
       }}
     >
       {damage > 0 ? `-${damage}` : '0'}

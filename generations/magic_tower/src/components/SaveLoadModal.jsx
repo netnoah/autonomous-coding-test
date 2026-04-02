@@ -131,12 +131,12 @@ function SaveLoadModal({ isOpen, onClose, gameData, onSaveGame, onLoadGame }) {
               {formatDate(saveData.timestamp)}
             </div>
             <div className="grid grid-cols-2 gap-2 text-gray-300">
-              <div>Floor: <span className="text-white">{saveData.floor}</span></div>
-              <div>HP: <span className="text-green-400">{saveData.hp}/{saveData.maxHp}</span></div>
-              <div>ATK: <span className="text-red-400">{saveData.atk}</span></div>
-              <div>DEF: <span className="text-blue-400">{saveData.def}</span></div>
-              <div>Gold: <span className="text-yellow-400">{saveData.gold}</span></div>
-              <div>Steps: <span className="text-purple-400">{saveData.steps}</span></div>
+              <div>Floor: <span className="font-mono-stats text-white">{saveData.floor}</span></div>
+              <div>HP: <span className="font-mono-stats text-green-400">{saveData.hp}/{saveData.maxHp}</span></div>
+              <div>ATK: <span className="font-mono-stats text-red-400">{saveData.atk}</span></div>
+              <div>DEF: <span className="font-mono-stats text-blue-400">{saveData.def}</span></div>
+              <div>Gold: <span className="font-mono-stats text-yellow-400">{saveData.gold}</span></div>
+              <div>Steps: <span className="font-mono-stats text-purple-400">{saveData.steps}</span></div>
             </div>
           </div>
         ) : (

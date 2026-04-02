@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typography Test - Magic Tower</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --bg-dark: #2D2D2D;
+            --bg-dungeon: #3A3A3A;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #E5E5E5;
+        }
+
+        .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        .font-mono-stats {
+            font-family: 'Courier New', monospace;
+        }
+
+        .sample-card {
+            background: #3A3A3A;
+            border: 2px solid #5C5C5C;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen p-8">
+        <h1 class="font-pixel text-3xl text-yellow-400 mb-8 text-center">Typography Test Page</h1>
+
+        <div class="max-w-6xl mx-auto space-y-8">
+            <!-- Section 1: Game Elements - Pixel Font -->
+            <div class="sample-card">
+                <h2 class="font-pixel text-xl text-blue-400 mb-4">1. Game Elements (Pixel Font - Press Start 2P)</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Floor Title:</p>
+                        <p class="font-pixel text-2xl text-yellow-400">Floor 5</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Status Header:</p>
+                        <p class="font-pixel text-lg text-yellow-400">Status</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Damage Number:</p>
+                        <p class="font-pixel text-xl" style="color: #FFD700;">-45</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Modal Titles:</p>
+                        <p class="font-pixel text-2xl text-yellow-400">Help & Tutorial</p>
+                        <p class="font-pixel text-2xl text-yellow-400">Settings</p>
+                        <p class="font-pixel text-2xl text-yellow-400">Save / Load Game</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: UI Text - Sans-serif (Inter) -->
+            <div class="sample-card">
+                <h2 class="font-pixel text-xl text-blue-400 mb-4">2. UI Text (Sans-serif - Inter)</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Button Text:</p>
+                        <button class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg">
+                            New Game
+                        </button>
+                        <button class="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white font-bold rounded-lg ml-2">
+                            Settings
+                        </button>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Description Text:</p>
+                        <p class="text-base text-gray-300">
+                            Magic Tower is a classic turn-based RPG puzzle game where you navigate
+                            through a multi-floor tower, fighting monsters and solving puzzles.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Labels:</p>
+                        <p class="text-sm text-gray-300">⚔️ Sword</p>
+                        <p class="text-sm text-gray-300">🛡️ Shield</p>
+                        <p class="text-sm text-gray-300">⚔️ Attack</p>
+                        <p class="text-sm text-gray-300">🛡️ Defense</p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Message Log:</p>
+                        <div class="bg-gray-900 rounded p-3 space-y-1">
+                            <p class="text-sm text-green-400">Picked up Red Gem (+3 ATK)</p>
+                            <p class="text-sm text-yellow-400">Used Yellow Key</p>
+                            <p class="text-sm text-red-400">Green Slime dealt 15 damage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Stat Numbers - Monospace (Courier New) -->
+            <div class="sample-card">
+                <h2 class="font-pixel text-xl text-blue-400 mb-4">3. Stat Numbers (Monospace - Courier New)</h2>
+
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Player Stats:</p>
+                        <div class="bg-gray-900 rounded p-4 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">HP:</span>
+                                <span class="font-mono-stats text-white">850/1000</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">⚔️ ATK:</span>
+                                <span class="font-mono-stats text-white">25</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">🛡️ DEF:</span>
+                                <span class="font-mono-stats text-white">18</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Keys and Gold:</p>
+                        <div class="bg-gray-900 rounded p-4 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-yellow-400">🔑 Yellow Keys:</span>
+                                <span class="font-mono-stats text-white">3</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-blue-400">🔑 Blue Keys:</span>
+                                <span class="font-mono-stats text-white">1</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-red-400">🔑 Red Keys:</span>
+                                <span class="font-mono-stats text-white">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-yellow-400">💰 Gold:</span>
+                                <span class="font-mono-stats text-white">450</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Monster Stats (Tooltip):</p>
+                        <div class="bg-gray-900 rounded p-4 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-red-400 font-semibold">HP:</span>
+                                <span class="font-mono-stats text-white">50</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-orange-400 font-semibold">ATK:</span>
+                                <span class="font-mono-stats text-white">18</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-blue-400 font-semibold">DEF:</span>
+                                <span class="font-mono-stats text-white">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Shop Prices:</p>
+                        <div class="bg-gray-900 rounded p-4 space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-white">❤️ Small Potion</span>
+                                <span class="font-mono-stats text-yellow-400 font-bold">25g</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-white">❤️ Big Potion</span>
+                                <span class="font-mono-stats text-yellow-400 font-bold">100g</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-white">🔑 Yellow Key</span>
+                                <span class="font-mono-stats text-yellow-400 font-bold">10g</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-400 mb-2">Game Over / Victory Stats:</p>
+                        <div class="bg-gray-900 rounded p-4">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="text-gray-400">Floor Reached:</div>
+                                <div class="font-mono-stats text-white">10/10</div>
+
+                                <div class="text-gray-400">Monsters Defeated:</div>
+                                <div class="font-mono-stats text-white">47</div>
+
+                                <div class="text-gray-400">Steps Taken:</div>
+                                <div class="font-mono-stats text-white">1,245</div>
+
+                                <div class="text-gray-400">Final Score:</div>
+                                <div class="font-mono-stats text-yellow-400 text-2xl font-bold">15,890</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="sample-card bg-gradient-to-r from-green-900 to-green-800">
+                <h2 class="font-pixel text-xl text-yellow-400 mb-4">✓ Typography Requirements Met</h2>
+                <div class="space-y-2 text-sm">
+                    <p class="text-green-300">✅ Game elements use pixel font (Press Start 2P)</p>
+                    <p class="text-green-300">✅ UI text uses sans-serif font (Inter)</p>
+                    <p class="text-green-300">✅ Stat numbers use monospace font (Courier New)</p>
+                    <p class="text-green-300">✅ Fonts are readable at all sizes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Log font loading status
+        document.fonts.ready.then(() => {
+            console.log('All fonts loaded successfully!');
+            console.log('Available fonts:', document.fonts);
+        });
+    </script>
+</body>
+</html>

@@ -35,7 +35,7 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
 
         <div className="mb-4 text-right">
           <span className="text-gray-400">Your Gold:</span>{' '}
-          <span className="text-yellow-400 font-bold text-xl">{playerGold}</span>
+          <span className="font-mono-stats text-yellow-400 font-bold text-xl">{playerGold}</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-96 overflow-y-auto">
@@ -60,7 +60,7 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className={`text-xl font-bold ${canAfford ? 'text-yellow-400' : 'text-red-400'}`}>
+                    <div className={`font-mono-stats text-xl font-bold ${canAfford ? 'text-yellow-400' : 'text-red-400'}`}>
                       {item.price}g
                     </div>
                   </div>

@@ -30,30 +30,30 @@ function Victory({ finalStats, onRestart, onReturnToMenu }) {
 
           <div className="grid grid-cols-2 gap-4 text-left mb-4">
             <div className="text-gray-400">Floors Cleared:</div>
-            <div className="text-white font-bold">{finalStats.floor}/10</div>
+            <div className="font-mono-stats text-white font-bold">{finalStats.floor}/10</div>
 
             <div className="text-gray-400">Monsters Defeated:</div>
-            <div className="text-white font-bold">{finalStats.monstersKilled}</div>
+            <div className="font-mono-stats text-white font-bold">{finalStats.monstersKilled}</div>
 
             <div className="text-gray-400">Steps Taken:</div>
-            <div className="text-white font-bold">{finalStats.steps}</div>
+            <div className="font-mono-stats text-white font-bold">{finalStats.steps}</div>
 
             <div className="text-gray-400">Final HP:</div>
-            <div className="text-green-400 font-bold">{finalStats.hp}</div>
+            <div className="font-mono-stats text-green-400 font-bold">{finalStats.hp}</div>
 
             <div className="text-gray-400">Final ATK:</div>
-            <div className="text-orange-400 font-bold">{finalStats.atk}</div>
+            <div className="font-mono-stats text-orange-400 font-bold">{finalStats.atk}</div>
 
             <div className="text-gray-400">Final DEF:</div>
-            <div className="text-blue-400 font-bold">{finalStats.def}</div>
+            <div className="font-mono-stats text-blue-400 font-bold">{finalStats.def}</div>
 
             <div className="text-gray-400">Gold Collected:</div>
-            <div className="text-yellow-400 font-bold">{finalStats.gold}</div>
+            <div className="font-mono-stats text-yellow-400 font-bold">{finalStats.gold}</div>
           </div>
 
           <div className="border-t border-gray-700 pt-4 mt-4">
             <div className="text-gray-400 text-lg">Final Score:</div>
-            <div className="text-yellow-400 text-3xl font-bold">{score.toLocaleString()}</div>
+            <div className="font-mono-stats text-yellow-400 text-3xl font-bold">{score.toLocaleString()}</div>
           </div>
         </div>
 

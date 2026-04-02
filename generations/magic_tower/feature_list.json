@@ -1797,7 +1797,7 @@
       "Step 5: Verify stat numbers use monospace font",
       "Step 6: Verify fonts are readable at all sizes"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",

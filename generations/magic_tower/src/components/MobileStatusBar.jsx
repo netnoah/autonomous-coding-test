@@ -32,15 +32,15 @@ function MobileStatusBar({ player, currentFloor }) {
         <div className="flex items-center gap-3 text-sm">
           <div className="flex items-center gap-1">
             <span className="text-yellow-400">🔑</span>
-            <span className="text-white text-xs">{player.yellowKeys}</span>
+            <span className="font-mono-stats text-white text-xs">{player.yellowKeys}</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-blue-400">🔑</span>
-            <span className="text-white text-xs">{player.blueKeys}</span>
+            <span className="font-mono-stats text-white text-xs">{player.blueKeys}</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-red-400">🔑</span>
-            <span className="text-white text-xs">{player.redKeys}</span>
+            <span className="font-mono-stats text-white text-xs">{player.redKeys}</span>
           </div>
         </div>
       </div>
@@ -48,12 +48,12 @@ function MobileStatusBar({ player, currentFloor }) {
       {/* Stats Row */}
       <div className="flex items-center justify-between mt-2 text-xs">
         <div className="flex items-center gap-3">
-          <span className="text-white">⚔️ {player.atk}</span>
-          <span className="text-white">🛡️ {player.def}</span>
+          <span className="text-white">⚔️ <span className="font-mono-stats">{player.atk}</span></span>
+          <span className="text-white">🛡️ <span className="font-mono-stats">{player.def}</span></span>
         </div>
         <div className="flex items-center gap-1">
           <span className="text-yellow-400">💰</span>
-          <span className="text-white">{player.gold}</span>
+          <span className="font-mono-stats text-white">{player.gold}</span>
         </div>
       </div>
     </div>
