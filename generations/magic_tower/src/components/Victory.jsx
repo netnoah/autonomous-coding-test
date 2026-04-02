@@ -14,7 +14,7 @@ function Victory({ finalStats, onRestart, onReturnToMenu }) {
   const score = calculateScore()
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
       <div className="bg-gray-800 rounded-lg p-8 max-w-lg w-full mx-4 text-center border-4 border-yellow-500">
         <h1 className="text-5xl font-bold text-yellow-400 mb-2">Victory!</h1>
         <h2 className="text-2xl font-bold text-yellow-300 mb-6">🏆 Tower Conquered! 🏆</h2>

@@ -76,11 +76,18 @@ export default function DialogueModal({ isOpen, onClose, npcName, dialoguePages 
       {/* Modal Content */}
       <div className="relative bg-gray-800 rounded-lg shadow-2xl max-w-2xl w-full border-4 border-yellow-600">
         {/* Header */}
-        <div className="bg-gradient-to-r from-yellow-700 to-yellow-600 px-6 py-4 rounded-t-lg">
+        <div className="bg-gradient-to-r from-yellow-700 to-yellow-600 px-6 py-4 rounded-t-lg flex justify-between items-center">
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             <span>💬</span>
             <span>{npcName}</span>
           </h2>
+          <button
+            onClick={handleClose}
+            className="text-gray-200 hover:text-white text-3xl font-bold leading-none"
+            aria-label="Close dialogue"
+          >
+            ×
+          </button>
         </div>
 
         {/* Dialogue Content */}

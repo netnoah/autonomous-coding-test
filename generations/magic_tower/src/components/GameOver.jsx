@@ -2,7 +2,7 @@ import React from 'react'
 
 function GameOver({ finalStats, onRetry, onRestart, onReturnToMenu }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
       <div className="bg-gray-800 rounded-lg p-8 max-w-lg w-full mx-4 text-center border-4 border-red-600">
         <h1 className="text-5xl font-bold text-red-500 mb-6">Game Over</h1>
 

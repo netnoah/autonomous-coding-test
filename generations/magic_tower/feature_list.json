@@ -1870,7 +1870,7 @@
       "Step 7: Verify settings modal has same styling",
       "Step 8: Verify all modals follow design system"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",
