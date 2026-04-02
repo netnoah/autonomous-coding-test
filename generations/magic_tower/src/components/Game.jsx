@@ -129,7 +129,7 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         clearInterval(timer)
       })
     }
-  }, [onReturnToMenu, settings.keyRepeat])
+  }, [dispatch, onReturnToMenu, settings.keyRepeat])
 
   // Check for game over
   useEffect(() => {

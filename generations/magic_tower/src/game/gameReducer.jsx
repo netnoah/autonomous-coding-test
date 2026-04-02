@@ -1439,7 +1439,7 @@ function handleMove(state, direction) {
 
   // Check for NPCs
   if (targetTile === TILE_TYPES.NPC || targetTile === TILE_TYPES.SHOPKEEPER) {
-    return handleNPC(stateToUse, targetTile)
+    return handleNPC(stateToUse, targetTile, newX, newY, direction)
   }
 
   // Normal movement (including onto revealed hidden walls)
@@ -2014,7 +2014,7 @@ function completeDoorOpening(state, doorType, newX, newY, direction) {
   }
 }
 
-function handleNPC(state, npcType) {
+function handleNPC(state, npcType, newX, newY, direction) {
   let messageText = ''
   let messageType = 'info'
 
@@ -2054,8 +2054,16 @@ function handleNPC(state, npcType) {
         }
       ]
 
+      // Move player to NPC position and open dialogue
       return {
         ...state,
+        player: {
+          ...state.player,
+          x: newX,
+          y: newY,
+          direction: direction,
+          steps: state.player.steps + 1
+        },
         messages: [
           ...state.messages.slice(-9),
           { type: 'info', text: 'NPC Guide: Greetings, adventurer! Let me share some wisdom...' }
@@ -2069,9 +2077,16 @@ function handleNPC(state, npcType) {
     case TILE_TYPES.SHOPKEEPER:
       messageText = 'Shopkeeper: Welcome to my shop!'
       messageType = 'info'
-      // Return state with shopOpen flag
+      // Move player to shopkeeper and open shop
       return {
         ...state,
+        player: {
+          ...state.player,
+          x: newX,
+          y: newY,
+          direction: direction,
+          steps: state.player.steps + 1
+        },
         messages: [
           ...state.messages.slice(-9),
           { type: messageType, text: messageText }
