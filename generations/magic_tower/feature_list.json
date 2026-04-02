@@ -1945,7 +1945,7 @@
       "Step 7: Verify Skeleton has different appearance",
       "Step 8: Verify all monster types are visually distinct"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",

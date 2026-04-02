@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monster Styling Test - Magic Tower</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    body {
+      background-color: #2D2D2D;
+      min-height: 100vh;
+    }
+
+    .font-pixel {
+      font-family: 'Press Start 2P', cursive;
+    }
+
+    .game-map-tile {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      position: relative;
+    }
+
+    /* Monster idle animation - subtle pulse/bob effect */
+    @keyframes monsterIdle {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      25% {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 0.95;
+      }
+      50% {
+        transform: translateY(-3px) scale(1.03);
+        opacity: 0.9;
+      }
+      75% {
+        transform: translateY(-2px) scale(1.02);
+        opacity: 0.95;
+      }
+    }
+
+    .monster-idle {
+      animation: monsterIdle 2s ease-in-out infinite;
+    }
+
+    /* Green Slime - Easy monster, green blob */
+    .tile-green-slime {
+      background: radial-gradient(circle at 30% 30%, #66CC66 0%, #44AA44 50%, #338833 100%);
+      border: 2px solid #227722;
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3),
+                  0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .tile-green-slime::before {
+      content: '●';
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.6);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Red Bat - Easy monster, red flying creature */
+    .tile-red-bat {
+      background: radial-gradient(circle at 30% 30%, #DD4444 0%, #BB2222 50%, #991111 100%);
+      border: 2px solid #880000;
+      box-shadow: inset 0 0 6px rgba(255, 200, 200, 0.3),
+                  0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .tile-red-bat::before {
+      content: '🦇';
+      font-size: 24px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Skeleton - Easy monster, white/grey bones */
+    .tile-skeleton {
+      background: radial-gradient(circle at 30% 30%, #EEEEEE 0%, #CCCCCC 50%, #AAAAAA 100%);
+      border: 2px solid #888888;
+      box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.5),
+                  0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .tile-skeleton::before {
+      content: '💀';
+      font-size: 24px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Magician - Easy monster, purple mystical */
+    .tile-magician {
+      background: radial-gradient(circle at 30% 30%, #BB66DD 0%, #9944BB 50%, #772299 100%);
+      border: 2px solid #551177;
+      box-shadow: inset 0 0 8px rgba(200, 150, 255, 0.4),
+                  0 0 6px rgba(150, 100, 200, 0.3);
+    }
+    .tile-magician::before {
+      content: '🧙';
+      font-size: 24px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Red Slime - Medium monster, stronger green slime */
+    .tile-red-slime {
+      background: radial-gradient(circle at 30% 30%, #DD6666 0%, #BB4444 50%, #993333 100%);
+      border: 2px solid #882222;
+      box-shadow: inset 0 0 8px rgba(255, 150, 150, 0.4),
+                  0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .tile-red-slime::before {
+      content: '●';
+      font-size: 32px;
+      color: rgba(255, 200, 200, 0.7);
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Stone Golem - Medium monster, earth/rock creature */
+    .tile-stone-golem {
+      background: radial-gradient(circle at 30% 30%, #999999 0%, #777777 50%, #555555 100%);
+      border: 3px solid #444444;
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5),
+                  0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+    .tile-stone-golem::before {
+      content: '🗿';
+      font-size: 26px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Dark Knight - Medium monster, dark armored warrior */
+    .tile-dark-knight {
+      background: radial-gradient(circle at 30% 30%, #4A4A6A 0%, #333355 50%, #222244 100%);
+      border: 3px solid #111133;
+      box-shadow: inset 0 0 8px rgba(100, 100, 150, 0.3),
+                  0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    .tile-dark-knight::before {
+      content: '🗡️';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Witch - Medium monster, magical spellcaster */
+    .tile-witch {
+      background: radial-gradient(circle at 30% 30%, #8844AA 0%, #663388 50%, #442266 100%);
+      border: 2px solid #331155;
+      box-shadow: inset 0 0 8px rgba(180, 120, 220, 0.4),
+                  0 0 8px rgba(150, 80, 200, 0.3);
+    }
+    .tile-witch::before {
+      content: '🧹';
+      font-size: 24px;
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Vampire - Hard monster, dark bloodsucker */
+    .tile-vampire {
+      background: radial-gradient(circle at 30% 30%, #AA0044 0%, #880033 50%, #660022 100%);
+      border: 3px solid #440011;
+      box-shadow: inset 0 0 10px rgba(200, 50, 100, 0.5),
+                  0 0 10px rgba(150, 0, 50, 0.4);
+    }
+    .tile-vampire::before {
+      content: '🧛';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Dragon - Hard monster, legendary fire breather */
+    .tile-dragon {
+      background: radial-gradient(circle at 30% 30%, #FF6600 0%, #DD4400 50%, #BB2200 100%);
+      border: 3px solid #991100;
+      box-shadow: inset 0 0 12px rgba(255, 150, 50, 0.6),
+                  0 0 12px rgba(255, 100, 0, 0.5);
+    }
+    .tile-dragon::before {
+      content: '🐉';
+      font-size: 28px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Dark Mage - Hard monster, powerful dark sorcerer */
+    .tile-dark-mage {
+      background: radial-gradient(circle at 30% 30%, #440066 0%, #330044 50%, #220033 100%);
+      border: 3px solid #110022;
+      box-shadow: inset 0 0 12px rgba(150, 50, 200, 0.6),
+                  0 0 12px rgba(100, 0, 150, 0.5);
+    }
+    .tile-dark-mage::before {
+      content: '🔮';
+      font-size: 26px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Skeleton King - Hard mini-boss, undead ruler */
+    .tile-skeleton-king {
+      background: radial-gradient(circle at 30% 30%, #DDCCAA 0%, #BBA988 50%, #998866 100%);
+      border: 4px solid #775533;
+      box-shadow: inset 0 0 10px rgba(255, 230, 180, 0.5),
+                  0 0 10px rgba(150, 120, 70, 0.4);
+    }
+    .tile-skeleton-king::before {
+      content: '👑';
+      font-size: 28px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Mini Boss - Boss monster, powerful foe */
+    .tile-mini-boss {
+      background: radial-gradient(circle at 30% 30%, #DD0044 0%, #BB0033 50%, #990022 100%);
+      border: 4px solid #770011;
+      box-shadow: inset 0 0 15px rgba(255, 100, 150, 0.6),
+                  0 0 15px rgba(200, 0, 50, 0.5),
+                  0 0 20px rgba(150, 0, 30, 0.3);
+    }
+    .tile-mini-boss::before {
+      content: '⚔️';
+      font-size: 30px;
+      text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Floor Guardian - Boss monster, floor protector */
+    .tile-floor-guardian {
+      background: radial-gradient(circle at 30% 30%, #0088DD 0%, #0066BB 50%, #004499 100%);
+      border: 5px solid #003377;
+      box-shadow: inset 0 0 15px rgba(100, 180, 255, 0.6),
+                  0 0 15px rgba(0, 120, 200, 0.5),
+                  0 0 20px rgba(0, 80, 150, 0.3);
+    }
+    .tile-floor-guardian::before {
+      content: '🛡️';
+      font-size: 32px;
+      text-shadow: 0 3px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Tower Lord - Final Boss, ultimate challenge */
+    .tile-tower-lord {
+      background: radial-gradient(circle at 30% 30%, #FF0044 0%, #DD0033 50%, #BB0022 100%);
+      border: 6px solid #990011;
+      box-shadow: inset 0 0 20px rgba(255, 100, 150, 0.8),
+                  0 0 20px rgba(220, 0, 50, 0.6),
+                  0 0 30px rgba(180, 0, 30, 0.4),
+                  0 0 40px rgba(150, 0, 20, 0.2);
+      animation: towerLordPulse 3s ease-in-out infinite;
+    }
+    .tile-tower-lord::before {
+      content: '👿';
+      font-size: 34px;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Tower Lord special pulse animation */
+    @keyframes towerLordPulse {
+      0%, 100% {
+        filter: brightness(1);
+        transform: scale(1);
+      }
+      50% {
+        filter: brightness(1.2);
+        transform: scale(1.05);
+      }
+    }
+  </style>
+</head>
+<body class="p-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="font-pixel text-3xl text-yellow-400 mb-8 text-center">
+      Monster Styling Test
+    </h1>
+
+    <div class="bg-gray-800 rounded-lg p-6 mb-8">
+      <h2 class="font-pixel text-xl text-white mb-4">Easy Monsters (Floor 0-3)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-green-slime game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-green-400 mt-2">Green Slime</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-red-bat game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-red-400 mt-2">Red Bat</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-skeleton game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-gray-400 mt-2">Skeleton</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-magician game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-purple-400 mt-2">Magician</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Medium Monsters (Floor 4-6)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-red-slime game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-red-400 mt-2">Red Slime</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-stone-golem game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-gray-500 mt-2">Stone Golem</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-dark-knight game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-indigo-400 mt-2">Dark Knight</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-witch game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-purple-500 mt-2">Witch</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Hard Monsters (Floor 7-9)</h2>
+      <div class="flex flex-wrap gap-4 mb-6">
+        <div class="text-center">
+          <div class="tile-vampire game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-red-600 mt-2">Vampire</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-dragon game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-orange-500 mt-2">Dragon</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-dark-mage game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-purple-700 mt-2">Dark Mage</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-skeleton-king game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-yellow-600 mt-2">Skeleton King</p>
+        </div>
+      </div>
+
+      <h2 class="font-pixel text-xl text-white mb-4">Boss Monsters (Floor 9-10)</h2>
+      <div class="flex flex-wrap gap-4">
+        <div class="text-center">
+          <div class="tile-mini-boss game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-red-500 mt-2">Mini Boss</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-floor-guardian game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-blue-500 mt-2">Floor Guardian</p>
+        </div>
+        <div class="text-center">
+          <div class="tile-tower-lord game-map-tile monster-idle"></div>
+          <p class="font-pixel text-xs text-red-600 mt-2">Tower Lord</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-800 rounded-lg p-6">
+      <h2 class="font-pixel text-xl text-white mb-4">Visual Distinction Checklist</h2>
+      <ul class="font-pixel text-xs text-gray-300 space-y-2">
+        <li>✓ Each monster has unique gradient background</li>
+        <li>✓ Each monster has distinct icon/emoji</li>
+        <li>✓ Border thickness increases with difficulty</li>
+        <li>✓ Glow effects intensify for stronger monsters</li>
+        <li>✓ Boss monsters have enhanced visual effects</li>
+        <li>✓ Tower Lord has special pulse animation</li>
+        <li>✓ All monsters have idle animation (bob/pulse)</li>
+        <li>✓ Color scheme indicates difficulty tier</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -146,14 +146,35 @@ function GameMap({ gameState, dispatch }) {
       case TILE_TYPES.STAIRS_DOWN:
         return 'bg-purple-500 game-map-tile'
       case TILE_TYPES.GREEN_SLIME:
+        return 'tile-green-slime game-map-tile monster-idle'
       case TILE_TYPES.RED_SLIME:
-        return 'bg-green-500 game-map-tile'
+        return 'tile-red-slime game-map-tile monster-idle'
       case TILE_TYPES.RED_BAT:
-        return 'bg-red-600 game-map-tile'
+        return 'tile-red-bat game-map-tile monster-idle'
       case TILE_TYPES.SKELETON:
-        return 'bg-gray-400 game-map-tile'
+        return 'tile-skeleton game-map-tile monster-idle'
       case TILE_TYPES.MAGICIAN:
-        return 'bg-purple-600 game-map-tile'
+        return 'tile-magician game-map-tile monster-idle'
+      case TILE_TYPES.STONE_GOLEM:
+        return 'tile-stone-golem game-map-tile monster-idle'
+      case TILE_TYPES.DARK_KNIGHT:
+        return 'tile-dark-knight game-map-tile monster-idle'
+      case TILE_TYPES.WITCH:
+        return 'tile-witch game-map-tile monster-idle'
+      case TILE_TYPES.VAMPIRE:
+        return 'tile-vampire game-map-tile monster-idle'
+      case TILE_TYPES.DRAGON:
+        return 'tile-dragon game-map-tile monster-idle'
+      case TILE_TYPES.DARK_MAGE:
+        return 'tile-dark-mage game-map-tile monster-idle'
+      case TILE_TYPES.SKELETON_KING:
+        return 'tile-skeleton-king game-map-tile monster-idle'
+      case TILE_TYPES.MINI_BOSS:
+        return 'tile-mini-boss game-map-tile monster-idle'
+      case TILE_TYPES.FLOOR_GUARDIAN:
+        return 'tile-floor-guardian game-map-tile monster-idle'
+      case TILE_TYPES.TOWER_LORD:
+        return 'tile-tower-lord game-map-tile monster-idle'
       default:
         return 'tile-floor game-map-tile'
     }
@@ -216,6 +237,23 @@ function GameMap({ gameState, dispatch }) {
         return '🧙‍♂️'
       case TILE_TYPES.SHOPKEEPER:
         return '👨‍💼'
+      // Monsters now use CSS ::before pseudo-elements for icons
+      case TILE_TYPES.GREEN_SLIME:
+      case TILE_TYPES.RED_SLIME:
+      case TILE_TYPES.RED_BAT:
+      case TILE_TYPES.SKELETON:
+      case TILE_TYPES.MAGICIAN:
+      case TILE_TYPES.STONE_GOLEM:
+      case TILE_TYPES.DARK_KNIGHT:
+      case TILE_TYPES.WITCH:
+      case TILE_TYPES.VAMPIRE:
+      case TILE_TYPES.DRAGON:
+      case TILE_TYPES.DARK_MAGE:
+      case TILE_TYPES.SKELETON_KING:
+      case TILE_TYPES.MINI_BOSS:
+      case TILE_TYPES.FLOOR_GUARDIAN:
+      case TILE_TYPES.TOWER_LORD:
+        return '' // Empty - icons handled by CSS
       default:
         return '☺'
     }
