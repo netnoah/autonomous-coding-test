@@ -92,70 +92,70 @@ function GameMap({ gameState, dispatch }) {
 
     switch (tile) {
       case TILE_TYPES.WALL:
-        return 'bg-gray-600'
+        return 'tile-wall game-map-tile'
       case TILE_TYPES.HIDDEN_WALL:
-        return isRevealedHiddenWall ? 'bg-gray-400 border-2 border-dashed border-gray-300' : 'bg-gray-600'
+        return isRevealedHiddenWall ? 'bg-gray-400 border-2 border-dashed border-gray-300 game-map-tile' : 'tile-wall game-map-tile'
       case TILE_TYPES.FLOOR:
-        return 'bg-gray-700'
+        return 'tile-floor game-map-tile'
       case TILE_TYPES.YELLOW_DOOR:
-        return 'bg-yellow-500'
+        return 'bg-yellow-500 game-map-tile'
       case TILE_TYPES.BLUE_DOOR:
-        return 'bg-blue-500'
+        return 'bg-blue-500 game-map-tile'
       case TILE_TYPES.RED_DOOR:
-        return 'bg-red-500'
+        return 'bg-red-500 game-map-tile'
       case TILE_TYPES.YELLOW_KEY:
-        return 'bg-yellow-400'
+        return 'bg-yellow-400 game-map-tile'
       case TILE_TYPES.BLUE_KEY:
-        return 'bg-blue-400'
+        return 'bg-blue-400 game-map-tile'
       case TILE_TYPES.RED_KEY:
-        return 'bg-red-400'
+        return 'bg-red-400 game-map-tile'
       case TILE_TYPES.SMALL_POTION:
-        return 'bg-pink-400'
+        return 'bg-pink-400 game-map-tile'
       case TILE_TYPES.BIG_POTION:
-        return 'bg-pink-500'
+        return 'bg-pink-500 game-map-tile'
       case TILE_TYPES.SUPER_POTION:
-        return 'bg-pink-600'
+        return 'bg-pink-600 game-map-tile'
       case TILE_TYPES.RED_GEM:
-        return 'bg-red-400'
+        return 'bg-red-400 game-map-tile'
       case TILE_TYPES.BLUE_GEM:
-        return 'bg-blue-400'
+        return 'bg-blue-400 game-map-tile'
       case TILE_TYPES.GREEN_GEM:
-        return 'bg-green-400'
+        return 'bg-green-400 game-map-tile'
       case TILE_TYPES.GOLD_PILE:
-        return 'bg-yellow-300'
+        return 'bg-yellow-300 game-map-tile'
       case TILE_TYPES.BIG_GOLD_PILE:
-        return 'bg-yellow-200'
+        return 'bg-yellow-200 game-map-tile'
       case TILE_TYPES.IRON_SWORD:
-        return 'bg-gray-400'
+        return 'bg-gray-400 game-map-tile'
       case TILE_TYPES.STEEL_SWORD:
-        return 'bg-gray-300'
+        return 'bg-gray-300 game-map-tile'
       case TILE_TYPES.HOLY_SWORD:
-        return 'bg-yellow-100'
+        return 'bg-yellow-100 game-map-tile'
       case TILE_TYPES.WOODEN_SHIELD:
-        return 'bg-amber-700'
+        return 'bg-amber-700 game-map-tile'
       case TILE_TYPES.IRON_SHIELD:
-        return 'bg-gray-500'
+        return 'bg-gray-500 game-map-tile'
       case TILE_TYPES.HOLY_SHIELD:
-        return 'bg-yellow-300'
+        return 'bg-yellow-300 game-map-tile'
       case TILE_TYPES.ATTACK_BOOK:
-        return 'bg-red-200'
+        return 'bg-red-200 game-map-tile'
       case TILE_TYPES.DEFENSE_BOOK:
-        return 'bg-blue-200'
+        return 'bg-blue-200 game-map-tile'
       case TILE_TYPES.STAIRS_UP:
-        return 'bg-purple-400'
+        return 'bg-purple-400 game-map-tile'
       case TILE_TYPES.STAIRS_DOWN:
-        return 'bg-purple-500'
+        return 'bg-purple-500 game-map-tile'
       case TILE_TYPES.GREEN_SLIME:
       case TILE_TYPES.RED_SLIME:
-        return 'bg-green-500'
+        return 'bg-green-500 game-map-tile'
       case TILE_TYPES.RED_BAT:
-        return 'bg-red-600'
+        return 'bg-red-600 game-map-tile'
       case TILE_TYPES.SKELETON:
-        return 'bg-gray-400'
+        return 'bg-gray-400 game-map-tile'
       case TILE_TYPES.MAGICIAN:
-        return 'bg-purple-600'
+        return 'bg-purple-600 game-map-tile'
       default:
-        return 'bg-gray-700'
+        return 'tile-floor game-map-tile'
     }
   }
 
