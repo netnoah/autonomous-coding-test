@@ -98,17 +98,17 @@ function GameMap({ gameState, dispatch }) {
       case TILE_TYPES.FLOOR:
         return 'tile-floor game-map-tile'
       case TILE_TYPES.YELLOW_DOOR:
-        return 'bg-yellow-500 game-map-tile'
+        return 'tile-yellow-door game-map-tile'
       case TILE_TYPES.BLUE_DOOR:
-        return 'bg-blue-500 game-map-tile'
+        return 'tile-blue-door game-map-tile'
       case TILE_TYPES.RED_DOOR:
-        return 'bg-red-500 game-map-tile'
+        return 'tile-red-door game-map-tile'
       case TILE_TYPES.YELLOW_KEY:
-        return 'bg-yellow-400 game-map-tile'
+        return 'tile-yellow-key game-map-tile'
       case TILE_TYPES.BLUE_KEY:
-        return 'bg-blue-400 game-map-tile'
+        return 'tile-blue-key game-map-tile'
       case TILE_TYPES.RED_KEY:
-        return 'bg-red-400 game-map-tile'
+        return 'tile-red-key game-map-tile'
       case TILE_TYPES.SMALL_POTION:
         return 'bg-pink-400 game-map-tile'
       case TILE_TYPES.BIG_POTION:
@@ -393,7 +393,13 @@ function GameMap({ gameState, dispatch }) {
             transition: 'none' // We handle animation manually with requestAnimationFrame
           }}
         >
-          <div className="ring-2 ring-blue-400 ring-inset w-full h-full flex items-center justify-center">
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{
+              border: '2px solid #4488FF',
+              backgroundColor: '#4488FF'
+            }}
+          >
             {getPlayerSprite()}
           </div>
         </div>

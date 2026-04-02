@@ -23,7 +23,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: #2D2D2D;
 }
 
 /* Pixel-perfect rendering for game elements */
@@ -333,4 +333,33 @@ button:active {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   shape-rendering: crispEdges;
+}
+
+/* Exact specification colors for game elements */
+.tile-yellow-door {
+  background: #FFD700;
+}
+
+.tile-blue-door {
+  background: #4488FF;
+}
+
+.tile-red-door {
+  background: #FF4444;
+}
+
+.tile-yellow-key {
+  background: #FFD700;
+}
+
+.tile-blue-key {
+  background: #4488FF;
+}
+
+.tile-red-key {
+  background: #FF4444;
+}
+
+.tile-player {
+  background: #4488FF;
 }
