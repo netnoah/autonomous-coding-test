@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from 'react'
+import Toast, { ToastContainer } from './Toast'
 
 function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
   const [isVisible, setIsVisible] = useState(false)
+  const [toasts, setToasts] = useState([])
 
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true)
     }
   }, [isOpen])
+
+  // Function to show toast notification
+  const showToast = (message, type = 'error') => {
+    const id = Date.now()
+    setToasts(prev => [...prev, { id, message, type }])
+  }
+
+  // Function to remove toast
+  const removeToast = (id) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id))
+  }
 
   if (!isOpen) return null
 
@@ -24,6 +37,12 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
   const handleBuy = (item) => {
     if (playerGold >= item.price) {
       onBuyItem(item)
+    } else {
+      // Show error toast for insufficient gold
+      showToast(
+        `Not enough gold! You need ${item.price - playerGold} more gold to buy ${item.name}.`,
+        'error'
+      )
     }
   }
 
@@ -155,6 +174,9 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
           </div>
         </div>
       </div>
+
+      {/* Toast notifications */}
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
     </div>
   )
 }

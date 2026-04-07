@@ -2134,7 +2134,7 @@
       "Step 5: Test other error conditions",
       "Step 6: Verify all errors have same style"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "functional",

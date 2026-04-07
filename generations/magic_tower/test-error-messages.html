@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Error Messages - Magic Tower</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Import the game's CSS styles */
+    @import url('./src/index.css');
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    }
+
+    .test-section {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .test-section h2 {
+      color: #fbbf24;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .test-section p {
+      color: #d1d5db;
+      margin-bottom: 1rem;
+    }
+
+    .test-button {
+      padding: 0.75rem 1.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .test-button:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-error { background: linear-gradient(to right, #dc2626, #b91c1c); color: white; }
+    .btn-warning { background: linear-gradient(to right, #eab308, #ca8a04); color: white; }
+    .btn-success { background: linear-gradient(to right, #16a34a, #15803d); color: white; }
+    .btn-info { background: linear-gradient(to right, #2563eb, #1d4ed8); color: white; }
+
+    .demo-shop {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 1rem;
+    }
+
+    .gold-display {
+      background: linear-gradient(to right, #78350f, #92400e);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .gold-amount {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #fde047;
+    }
+
+    .shop-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+    }
+
+    .shop-item.disabled {
+      opacity: 0.5;
+    }
+
+    .buy-button {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(to right, #16a34a, #15803d);
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .buy-button:disabled {
+      background: linear-gradient(to right, #4b5563, #374151);
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-yellow-400 mb-8 text-center">
+      Error Messages Test - Magic Tower
+    </h1>
+
+    <!-- Section 1: Toast Notifications -->
+    <div class="test-section">
+      <h2>1. Toast Notifications Test</h2>
+      <p>Click buttons to test different toast notification types:</p>
+      <button class="test-button btn-error" onclick="showToast('Not enough gold! You need 50 more gold.', 'error')">
+        Show Error Toast
+      </button>
+      <button class="test-button btn-warning" onclick="showToast('Your inventory is full!', 'warning')">
+        Show Warning Toast
+      </button>
+      <button class="test-button btn-success" onclick="showToast('Item purchased successfully!', 'success')">
+        Show Success Toast
+      </button>
+      <button class="test-button btn-info" onclick="showToast('Game saved to slot 1', 'info')">
+        Show Info Toast
+      </button>
+      <div id="toast-container"></div>
+    </div>
+
+    <!-- Section 2: Shop Error Messages -->
+    <div class="test-section">
+      <h2>2. Shop Error Messages Test</h2>
+      <p>Simulates trying to buy items without enough gold:</p>
+
+      <div class="demo-shop">
+        <div class="gold-display">
+          <div style="font-size: 1rem; color: #fef08a;">Your Gold</div>
+          <div class="gold-amount" id="gold-amount">50g</div>
+        </div>
+
+        <div class="shop-item">
+          <div>
+            <div style="font-weight: bold; color: white;">Small Potion</div>
+            <div style="font-size: 0.875rem; color: #9ca3af;">+200 HP</div>
+            <div style="color: #fde047; font-weight: bold;">25g</div>
+          </div>
+          <button class="buy-button" onclick="tryBuy('Small Potion', 25)">
+            🛒 Buy
+          </button>
+        </div>
+
+        <div class="shop-item">
+          <div>
+            <div style="font-weight: bold; color: white;">Big Potion</div>
+            <div style="font-size: 0.875rem; color: #9ca3af;">+500 HP</div>
+            <div style="color: #fde047; font-weight: bold;">100g</div>
+          </div>
+          <button class="buy-button" onclick="tryBuy('Big Potion', 100)">
+            🛒 Buy
+          </button>
+        </div>
+
+        <div class="shop-item disabled">
+          <div>
+            <div style="font-weight: bold; color: white;">Red Gem</div>
+            <div style="font-size: 0.875rem; color: #9ca3af;">+3 ATK</div>
+            <div style="color: #f87171; font-weight: bold;">80g</div>
+          </div>
+          <button class="buy-button" disabled onclick="tryBuy('Red Gem', 80)">
+            🔒 Not enough gold
+          </button>
+        </div>
+
+        <div class="shop-item disabled">
+          <div>
+            <div style="font-weight: bold; color: white;">Blue Gem</div>
+            <div style="font-size: 0.875rem; color: #9ca3af;">+3 DEF</div>
+            <div style="color: #f87171; font-weight: bold;">80g</div>
+          </div>
+          <button class="buy-button" disabled onclick="tryBuy('Blue Gem', 80)">
+            🔒 Not enough gold
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Message Log Test -->
+    <div class="test-section">
+      <h2>3. Message Log Color Coding Test</h2>
+      <p>Verifies that different message types have distinct colors:</p>
+      <div style="background: #1f2937; padding: 1rem; border-radius: 0.5rem; font-family: monospace;">
+        <div style="color: #f87171; margin-bottom: 0.5rem;">❌ Error: Not enough gold!</div>
+        <div style="color: #facc15; margin-bottom: 0.5rem;">⚠️ Warning: Low HP!</div>
+        <div style="color: #4ade80; margin-bottom: 0.5rem;">✅ Success: Item picked up!</div>
+        <div style="color: #60a5fa; margin-bottom: 0.5rem;">ℹ️ Info: Entered Floor 1</div>
+        <div style="color: #d1d5db;">General: Game started</div>
+      </div>
+    </div>
+
+    <!-- Section 4: Checklist -->
+    <div class="test-section">
+      <h2>4. Error Messages Checklist</h2>
+      <div style="color: #d1d5db; line-height: 2;">
+        <label><input type="checkbox"> Error messages are clear and readable</label><br>
+        <label><input type="checkbox"> Error messages use consistent red/orange colors</label><br>
+        <label><input type="checkbox"> Error messages have icons for visual clarity</label><br>
+        <label><input type="checkbox"> Error messages animate smoothly</label><br>
+        <label><input type="checkbox"> Error messages auto-dismiss after timeout</label><br>
+        <label><input type="checkbox"> Error messages can be manually dismissed</label><br>
+        <label><input type="checkbox"> Multiple error messages stack properly</label><br>
+        <label><input type="checkbox"> Shop purchase errors show specific gold amount needed</label><br>
+        <label><input type="checkbox"> Toast notifications work on mobile</label><br>
+        <label><input type="checkbox"> All error conditions have appropriate messages</label>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let toastCounter = 0;
+
+    function showToast(message, type = 'error') {
+      const container = document.getElementById('toast-container');
+      const toastId = `toast-${toastCounter++}`;
+
+      const colors = {
+        error: { bg: 'from-red-900 to-red-950', border: 'border-red-500', icon: '⚠️' },
+        warning: { bg: 'from-yellow-900 to-yellow-950', border: 'border-yellow-500', icon: '⚡' },
+        success: { bg: 'from-green-900 to-green-950', border: 'border-green-500', icon: '✅' },
+        info: { bg: 'from-blue-900 to-blue-950', border: 'border-blue-500', icon: 'ℹ️' }
+      };
+
+      const config = colors[type] || colors.info;
+
+      const toast = document.createElement('div');
+      toast.id = toastId;
+      toast.className = `relative bg-gradient-to-br ${config.bg} border-2 ${config.border} rounded-xl shadow-2xl p-4 min-w-[300px] max-w-md mb-2`;
+      toast.style.animation = 'toastCardAppear 0.3s ease-out forwards';
+
+      toast.innerHTML = `
+        <div class="flex items-start gap-3">
+          <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br ${config.bg} flex items-center justify-center text-2xl">
+            ${config.icon}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-${type === 'error' ? 'red' : type === 'warning' ? 'yellow' : type === 'success' ? 'green' : 'blue'}-100">
+              ${message}
+            </p>
+          </div>
+          <button onclick="dismissToast('${toastId}')" class="flex-shrink-0 text-white hover:text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r ${config.border} rounded-b-xl overflow-hidden">
+          <div class="h-full bg-gradient-to-r ${config.border}" style="animation: toastProgress 3s linear forwards;"></div>
+        </div>
+      `;
+
+      container.appendChild(toast);
+
+      // Auto-dismiss after 3 seconds
+      setTimeout(() => {
+        dismissToast(toastId);
+      }, 3000);
+    }
+
+    function dismissToast(toastId) {
+      const toast = document.getElementById(toastId);
+      if (toast) {
+        toast.style.animation = 'toastSlideOut 0.3s ease-in forwards';
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }
+    }
+
+    function tryBuy(itemName, price) {
+      const currentGold = 50;
+      if (price > currentGold) {
+        const needed = price - currentGold;
+        showToast(`Not enough gold! You need ${needed} more gold to buy ${itemName}.`, 'error');
+      } else {
+        showToast(`Successfully purchased ${itemName}!`, 'success');
+      }
+    }
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes toastCardAppear {
+        from {
+          transform: scale(0.9) translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes toastSlideOut {
+        from {
+          transform: translateX(0);
+          opacity: 1;
+        }
+        to {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+      }
+
+      @keyframes toastProgress {
+        from { width: 100%; }
+        to { width: 0%; }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

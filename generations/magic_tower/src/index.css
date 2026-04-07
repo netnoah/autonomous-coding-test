@@ -1733,3 +1733,154 @@ button:active {
     animation: none;
   }
 }
+
+/* ============================================================================
+   TOAST NOTIFICATION STYLES
+   ============================================================================ */
+
+/* Toast container entrance animation */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Toast exit animation */
+@keyframes toastSlideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Toast card appearance animation */
+@keyframes toastCardAppear {
+  from {
+    transform: scale(0.9) translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Toast glow pulse animation */
+@keyframes toastGlowPulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Toast icon bounce animation */
+@keyframes toastIconBounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Toast progress bar animation */
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Toast container */
+.toast-container {
+  animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+.toast-container.toast-exiting {
+  animation: toastSlideOut 0.3s ease-in forwards;
+}
+
+/* Toast card */
+.toast-card {
+  animation: toastCardAppear 0.3s ease-out forwards;
+  backdrop-filter: blur(10px);
+}
+
+/* Toast glow effect */
+.toast-glow {
+  animation: toastGlowPulse 2s ease-in-out infinite;
+}
+
+/* Toast icon */
+.toast-icon {
+  animation: toastIconBounce 1s ease-in-out infinite;
+}
+
+/* Toast message text */
+.toast-message {
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+/* Toast close button hover effect */
+.toast-close:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s ease;
+}
+
+.toast-close:active {
+  transform: scale(0.95);
+}
+
+/* Toast progress bar */
+.toast-progress {
+  transform-origin: left;
+}
+
+/* Toast container stack for multiple toasts */
+.toast-container-stack {
+  animation: toastSlideIn 0.3s ease-out forwards;
+}
+
+/* Mobile responsive styles for toast */
+@media (max-width: 768px) {
+  .toast-container {
+    right: 8px;
+    left: 8px;
+    max-width: none;
+  }
+
+  .toast-card {
+    min-width: auto;
+  }
+}
+
+/* Accessibility - reduced motion for toasts */
+@media (prefers-reduced-motion: reduce) {
+  .toast-container,
+  .toast-card,
+  .toast-glow,
+  .toast-icon,
+  .toast-progress {
+    animation: none;
+    transition: none;
+  }
+
+  .toast-close {
+    transition: none;
+  }
+}
