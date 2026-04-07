@@ -9,12 +9,19 @@ import SaveLoadModal from './SaveLoadModal'
 import DialogueModal from './DialogueModal'
 import TouchControls from './TouchControls'
 import MobileStatusBar from './MobileStatusBar'
+import FloorTransition from './FloorTransition'
 
 function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, settings }) {
   const [gameState, dispatch] = useReducer(gameReducer, initialGameState)
   const [helpOpen, setHelpOpen] = useState(false)
   const [saveLoadOpen, setSaveLoadOpen] = useState(false)
   const [previousFloor, setPreviousFloor] = useState(0)
+
+  // Floor transition state
+  const [transitionActive, setTransitionActive] = useState(false)
+  const [transitionFromFloor, setTransitionFromFloor] = useState(0)
+  const [transitionToFloor, setTransitionToFloor] = useState(0)
+  const [transitionDirection, setTransitionDirection] = useState('up')
 
   // Keyboard input handling with key repeat support
   useEffect(() => {
@@ -216,9 +223,18 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
     console.log('Game loaded successfully')
   }
 
-  // Auto-save when floor changes
+  // Handle floor changes with transition animation
   useEffect(() => {
     if (gameState.currentFloor !== previousFloor && previousFloor !== 0) {
+      // Determine transition direction
+      const direction = gameState.currentFloor > previousFloor ? 'up' : 'down'
+
+      // Start floor transition
+      setTransitionFromFloor(previousFloor)
+      setTransitionToFloor(gameState.currentFloor)
+      setTransitionDirection(direction)
+      setTransitionActive(true)
+
       // Save to auto-save slot
       const autoSaveData = {
         ...getGameData(),
@@ -229,6 +245,11 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
     }
     setPreviousFloor(gameState.currentFloor)
   }, [gameState.currentFloor])
+
+  // Handle transition completion
+  const handleTransitionComplete = () => {
+    setTransitionActive(false)
+  }
 
   // Load initial state if provided (from continue game)
   useEffect(() => {
@@ -369,6 +390,15 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         onClose={handleCloseDialogue}
         npcName={gameState.dialogueContent?.npcName || 'NPC'}
         dialoguePages={gameState.dialogueContent?.dialoguePages || []}
+      />
+
+      {/* Floor Transition Overlay */}
+      <FloorTransition
+        isActive={transitionActive}
+        fromFloor={transitionFromFloor}
+        toFloor={transitionToFloor}
+        direction={transitionDirection}
+        onComplete={handleTransitionComplete}
       />
     </div>
   )

@@ -3,6 +3,7 @@ import MainMenu from './components/MainMenu'
 import Game from './components/Game'
 import GameOver from './components/GameOver'
 import Victory from './components/Victory'
+import LoadingScreen from './components/LoadingScreen'
 
 function App() {
   const [gameState, setGameState] = useState('menu') // 'menu', 'playing', 'paused', 'gameOver', 'victory'
@@ -17,6 +18,9 @@ function App() {
     showMonsterStats: true,
     autoSave: true
   })
+
+  // Loading screen state
+  const [isLoading, setIsLoading] = useState(true)
 
   // Load settings from localStorage on mount
   useEffect(() => {
@@ -149,37 +153,48 @@ function App() {
 
   return (
     <div className="App">
-      {gameState === 'menu' && (
-        <MainMenu
-          onStartNewGame={handleStartNewGame}
-          onContinueGame={handleContinueGame}
-          settings={settings}
-          onSettingsChange={setSettings}
-        />
-      )}
-      {gameState === 'playing' && (
-        <Game
-          onReturnToMenu={handleReturnToMenu}
-          onGameOver={handleGameOver}
-          onVictory={handleVictory}
-          initialLoadState={loadedGameData}
-          settings={settings}
-        />
-      )}
-      {gameState === 'gameOver' && finalStats && (
-        <GameOver
-          finalStats={finalStats}
-          onRetry={handleRetryFromSave}
-          onRestart={handleRestart}
-          onReturnToMenu={handleReturnToMenu}
-        />
-      )}
-      {gameState === 'victory' && finalStats && (
-        <Victory
-          finalStats={finalStats}
-          onRestart={handleRestart}
-          onReturnToMenu={handleReturnToMenu}
-        />
+      {/* Initial Loading Screen */}
+      <LoadingScreen
+        isVisible={isLoading}
+        onComplete={() => setIsLoading(false)}
+      />
+
+      {/* Main App Content - Only show after loading completes */}
+      {!isLoading && (
+        <>
+          {gameState === 'menu' && (
+            <MainMenu
+              onStartNewGame={handleStartNewGame}
+              onContinueGame={handleContinueGame}
+              settings={settings}
+              onSettingsChange={setSettings}
+            />
+          )}
+          {gameState === 'playing' && (
+            <Game
+              onReturnToMenu={handleReturnToMenu}
+              onGameOver={handleGameOver}
+              onVictory={handleVictory}
+              initialLoadState={loadedGameData}
+              settings={settings}
+            />
+          )}
+          {gameState === 'gameOver' && finalStats && (
+            <GameOver
+              finalStats={finalStats}
+              onRetry={handleRetryFromSave}
+              onRestart={handleRestart}
+              onReturnToMenu={handleReturnToMenu}
+            />
+          )}
+          {gameState === 'victory' && finalStats && (
+            <Victory
+              finalStats={finalStats}
+              onRestart={handleRestart}
+              onReturnToMenu={handleReturnToMenu}
+            />
+          )}
+        </>
       )}
     </div>
   )

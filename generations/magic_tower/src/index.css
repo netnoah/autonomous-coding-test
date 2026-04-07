@@ -1884,3 +1884,181 @@ button:active {
     transition: none;
   }
 }
+
+/* ============================================================================
+   SMOOTH TRANSITIONS AND LOADING SCREENS
+   ============================================================================ */
+
+/* Loading and transition animations */
+@keyframes fade-scale-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-scale-down {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* Smooth fade transition for floor changes */
+.floor-transition-overlay {
+  transition: opacity 0.15s ease-in-out;
+}
+
+.floor-transition-content {
+  animation: fade-scale-up 0.3s ease-out;
+}
+
+/* Loading screen smooth progress bar */
+.loading-progress-bar {
+  transition: width 0.02s linear;
+}
+
+/* Loading screen floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.loading-title {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth screen transitions */
+.screen-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.screen-fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Smooth game state transitions */
+.game-container {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Map smooth transitions */
+.game-map {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.game-map.fading {
+  opacity: 0;
+}
+
+/* Smooth HP bar transitions */
+.hp-bar-fill {
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth stat updates */
+.stat-value {
+  transition: all 0.2s ease-out;
+}
+
+.stat-value.updated {
+  animation: statUpdate 0.3s ease-out;
+}
+
+@keyframes statUpdate {
+  0% {
+    transform: scale(1);
+    color: inherit;
+  }
+  50% {
+    transform: scale(1.2);
+    color: #FCD34D;
+  }
+  100% {
+    transform: scale(1);
+    color: inherit;
+  }
+}
+
+/* Loading screen shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Smooth modal transitions */
+.modal-backdrop {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.modal-content {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth button interactions */
+button,
+.clickable {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Smooth scroll behavior */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .floor-transition-overlay,
+  .loading-progress-bar,
+  .game-container,
+  .game-map,
+  .hp-bar-fill,
+  .stat-value,
+  .modal-backdrop,
+  .modal-content,
+  button,
+  .clickable {
+    transition: none;
+    animation: none;
+  }
+
+  .loading-title {
+    animation: none;
+  }
+}
