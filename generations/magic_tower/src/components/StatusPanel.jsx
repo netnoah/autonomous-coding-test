@@ -138,7 +138,7 @@ function StatusPanel({ gameState }) {
       {/* Stats - Now showing effective stats */}
       <div className="space-y-2 mb-4">
         <div className="flex justify-between items-center">
-          <span className="text-gray-300">⚔ ATK</span>
+          <span className="text-gray-300">⚔️ ATK</span>
           <div className="text-right">
             <span className="font-mono-stats text-white text-lg">{effectiveAtk}</span>
             {effectiveAtk !== player.atk && (
@@ -147,7 +147,7 @@ function StatusPanel({ gameState }) {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <span className="text-gray-300">🛡 DEF</span>
+          <span className="text-gray-300">🛡️ DEF</span>
           <div className="text-right">
             <span className="font-mono-stats text-white text-lg">{effectiveDef}</span>
             {effectiveDef !== player.def && (
