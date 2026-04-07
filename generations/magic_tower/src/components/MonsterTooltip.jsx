@@ -90,13 +90,13 @@ function MonsterTooltip({ monster, player, equipment, position }) {
 
       {/* Player Effective Stats */}
       <div className="mb-3 pb-2 border-b border-gray-700">
-        <div className="text-xs font-semibold text-gray-400 mb-1">Your Stats (with equipment):</div>
+        <div className="text-xs font-semibold text-gray-200 mb-1">Your Stats (with equipment):</div>
         <div className="flex gap-3 text-xs">
           <span className="text-orange-400">ATK: <span className="font-mono-stats">{effectiveStats.atk}</span></span>
           <span className="text-blue-400">DEF: <span className="font-mono-stats">{effectiveStats.def}</span></span>
         </div>
         {(equipment.sword || equipment.shield) && (
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-xs text-gray-300 mt-1">
             {equipment.sword && <span>⚔️ {equipment.sword.replace(/_/g, ' ')} </span>}
             {equipment.shield && <span>🛡️ {equipment.shield.replace(/_/g, ' ')}</span>}
           </div>
@@ -125,25 +125,25 @@ function MonsterTooltip({ monster, player, equipment, position }) {
 
         <div className="space-y-1 text-xs">
           <div className="flex justify-between">
-            <span className="text-gray-400">Your damage per hit:</span>
+            <span className="text-gray-200">Your damage per hit:</span>
             <span className="font-mono-stats text-green-400">{prediction.playerDmgPerHit}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Enemy damage per hit:</span>
+            <span className="text-gray-200">Enemy damage per hit:</span>
             <span className="font-mono-stats text-red-400">{prediction.monsterDmgPerHit}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Rounds to victory:</span>
+            <span className="text-gray-200">Rounds to victory:</span>
             <span className="font-mono-stats text-white">{prediction.roundsToKill === Infinity ? '∞' : prediction.roundsToKill}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Total damage taken:</span>
+            <span className="text-gray-200">Total damage taken:</span>
             <span className={`font-mono-stats ${prediction.totalDamageTaken > player.hp * 0.5 ? 'text-red-400' : 'text-yellow-400'}`}>
               {prediction.totalDamageTaken}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">HP remaining:</span>
+            <span className="text-gray-200">HP remaining:</span>
             <span className={prediction.remainingHP > 0 ? 'text-green-400' : 'text-red-600'}>
               {prediction.remainingHP > 0 ? <span className="font-mono-stats">{prediction.remainingHP}/{player.hp}</span> : 'DEFEAT'}
             </span>

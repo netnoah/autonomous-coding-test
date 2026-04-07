@@ -39,7 +39,7 @@ function MessageLog({ messages }) {
         className="flex-1 overflow-y-auto space-y-1"
       >
         {messages.length === 0 ? (
-          <div className="text-gray-500 text-sm">No messages yet</div>
+          <div className="text-gray-300 text-sm">No messages yet</div>
         ) : (
           <>
             {messages.map((message, index) => (

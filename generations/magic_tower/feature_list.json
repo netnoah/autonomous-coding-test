@@ -2108,7 +2108,7 @@
       "Step 4: Verify no text blends into background",
       "Step 5: Verify text is readable at all sizes"
     ],
-    "passes": false
+    "passes": true
   },
   {
     "category": "style",

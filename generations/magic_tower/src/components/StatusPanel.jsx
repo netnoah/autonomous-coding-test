@@ -159,17 +159,17 @@ function StatusPanel({ gameState }) {
 
       {/* Equipment */}
       <div className="mb-4 p-3 bg-gray-700 rounded-lg">
-        <h3 className="text-sm text-gray-400 mb-2">Equipment</h3>
+        <h3 className="text-sm text-gray-200 mb-2">Equipment</h3>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-gray-300">⚔️ Sword</span>
-            <span className={`text-sm ${swordName ? 'text-yellow-400' : 'text-gray-500'}`}>
+            <span className={`text-sm ${swordName ? 'text-yellow-400' : 'text-gray-300'}`}>
               {swordName || 'None'}
             </span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-300">🛡️ Shield</span>
-            <span className={`text-sm ${shieldName ? 'text-blue-400' : 'text-gray-500'}`}>
+            <span className={`text-sm ${shieldName ? 'text-blue-400' : 'text-gray-300'}`}>
               {shieldName || 'None'}
             </span>
           </div>
@@ -178,7 +178,7 @@ function StatusPanel({ gameState }) {
 
       {/* Keys */}
       <div className="mb-4 p-3 bg-gray-700 rounded-lg">
-        <h3 className="text-sm text-gray-400 mb-2">Keys</h3>
+        <h3 className="text-sm text-gray-200 mb-2">Keys</h3>
         <div className="flex justify-around">
           <div className="text-center">
             <div className="text-yellow-400 text-2xl">🔑</div>

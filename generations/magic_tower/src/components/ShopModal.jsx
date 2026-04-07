@@ -71,12 +71,12 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent shop-title">
                   Shop
                 </h2>
-                <p className="text-gray-400 text-sm">Upgrade your adventure</p>
+                <p className="text-gray-200 text-sm">Upgrade your adventure</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-white text-4xl font-bold leading-none transition-all hover:scale-110 hover:rotate-90 shop-close"
+              className="text-gray-200 hover:text-white text-4xl font-bold leading-none transition-all hover:scale-110 hover:rotate-90 shop-close"
               aria-label="Close shop"
             >
               ×
@@ -123,7 +123,7 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
                       <h3 className="text-lg font-bold text-white mb-1 shop-item-name">
                         {item.name}
                       </h3>
-                      <p className="text-sm text-gray-400 mb-2 shop-item-description">
+                      <p className="text-sm text-gray-200 mb-2 shop-item-description">
                         {item.description}
                       </p>
 
@@ -143,7 +143,7 @@ function ShopModal({ isOpen, onClose, playerGold, onBuyItem }) {
                     className={`w-full mt-3 py-3 px-4 rounded-lg font-bold transition-all duration-300 shop-buy-button ${
                       canAfford
                         ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]'
-                        : 'bg-gradient-to-r from-gray-600 to-gray-700 text-gray-500 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-gray-600 to-gray-700 text-gray-300 cursor-not-allowed'
                     }`}
                   >
                     {canAfford ? (

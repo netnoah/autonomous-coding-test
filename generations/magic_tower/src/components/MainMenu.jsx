@@ -125,9 +125,9 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
         </div>
 
         {/* Enhanced Footer */}
-        <div className="mt-16 text-gray-400 text-sm space-y-2">
+        <div className="mt-16 text-gray-200 text-sm space-y-2">
           <p className="text-gray-300 tracking-wide">Navigate • Fight • Solve • Ascend</p>
-          <p className="text-xs text-gray-500">Version 1.0 • A Classic Dungeon Crawler</p>
+          <p className="text-xs text-gray-300">Version 1.0 • A Classic Dungeon Crawler</p>
         </div>
       </div>
 

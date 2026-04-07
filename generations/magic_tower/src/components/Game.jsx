@@ -248,7 +248,7 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
           >
             ← Menu
           </button>
-          <div className="text-gray-400 text-sm">
+          <div className="text-gray-200 text-sm">
             Press <span className="text-yellow-400 font-bold">ESC</span> to return
           </div>
         </div>
@@ -256,7 +256,7 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
           <h2 className="font-pixel text-xl text-yellow-400">
             Floor {gameState.currentFloor}
           </h2>
-          <div className="text-gray-400 text-sm">
+          <div className="text-gray-200 text-sm">
             {gameState.currentFloor === 0 ? 'Ground Floor' :
              gameState.currentFloor === 10 ? 'Tower Top' :
              `Floor ${gameState.currentFloor}`}
