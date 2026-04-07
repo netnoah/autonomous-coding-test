@@ -244,7 +244,7 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         <div className="flex items-center gap-3">
           <button
             onClick={onReturnToMenu}
-            className="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            className="px-3 py-1 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white rounded-lg transition-colors"
           >
             ← Menu
           </button>
@@ -265,13 +265,13 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         <div className="flex items-center gap-2">
           <button
             onClick={() => setHelpOpen(true)}
-            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2"
+            className="px-4 py-2 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2 transition-colors"
           >
             <span>❓</span> Help (H)
           </button>
           <button
             onClick={() => setSaveLoadOpen(true)}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold rounded-lg shadow-lg text-sm flex items-center gap-2 transition-colors"
           >
             <span>💾</span> Save
           </button>
@@ -318,19 +318,19 @@ function Game({ onReturnToMenu, onGameOver, onVictory, initialLoadState, setting
         <div className="flex items-center justify-between gap-2">
           <button
             onClick={onReturnToMenu}
-            className="flex-1 px-3 py-2 text-sm bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            className="flex-1 px-3 py-2 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 text-white rounded-lg transition-colors"
           >
             ← Menu
           </button>
           <button
             onClick={() => setHelpOpen(true)}
-            className="flex-1 px-3 py-2 text-sm bg-purple-600 hover:bg-purple-500 text-white rounded-lg"
+            className="flex-1 px-3 py-2 text-sm bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-lg transition-colors"
           >
             ❓ Help
           </button>
           <button
             onClick={() => setSaveLoadOpen(true)}
-            className="flex-1 px-3 py-2 text-sm bg-blue-600 hover:bg-blue-500 text-white rounded-lg"
+            className="flex-1 px-3 py-2 text-sm bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-lg transition-colors"
           >
             💾 Save
           </button>

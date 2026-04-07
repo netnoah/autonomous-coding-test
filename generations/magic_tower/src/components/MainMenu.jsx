@@ -85,7 +85,7 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
         <div className="flex flex-col gap-4 items-center">
           <button
             onClick={onStartNewGame}
-            className="w-72 px-8 py-4 bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-amber-600 hover:via-yellow-500 hover:to-amber-600 transition-all duration-300 hover:scale-105"
+            className="w-72 px-8 py-4 bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-amber-600 hover:via-yellow-500 hover:to-amber-600 active:scale-95 transition-all duration-300 hover:scale-105"
             style={{
               boxShadow: '0 8px 32px rgba(255, 215, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
@@ -95,7 +95,7 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
 
           <button
             onClick={onContinueGame}
-            className="w-72 px-8 py-4 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-blue-600 hover:via-blue-500 hover:to-blue-600 transition-all duration-300 hover:scale-105"
+            className="w-72 px-8 py-4 bg-gradient-to-r from-blue-700 via-blue-600 to-blue-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-blue-600 hover:via-blue-500 hover:to-blue-600 active:scale-95 transition-all duration-300 hover:scale-105"
             style={{
               boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
@@ -105,7 +105,7 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
 
           <button
             onClick={() => setSettingsOpen(true)}
-            className="w-72 px-8 py-4 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-gray-600 hover:via-gray-500 hover:to-gray-600 transition-all duration-300 hover:scale-105"
+            className="w-72 px-8 py-4 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-gray-600 hover:via-gray-500 hover:to-gray-600 active:scale-95 transition-all duration-300 hover:scale-105"
             style={{
               boxShadow: '0 8px 32px rgba(107, 114, 128, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
@@ -115,7 +115,7 @@ function MainMenu({ onStartNewGame, onContinueGame, settings, onSettingsChange }
 
           <button
             onClick={() => setHelpOpen(true)}
-            className="w-72 px-8 py-4 bg-gradient-to-r from-purple-700 via-purple-600 to-purple-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-purple-600 hover:via-purple-500 hover:to-purple-600 transition-all duration-300 hover:scale-105"
+            className="w-72 px-8 py-4 bg-gradient-to-r from-purple-700 via-purple-600 to-purple-700 text-white font-bold text-lg rounded-lg shadow-2xl hover:from-purple-600 hover:via-purple-500 hover:to-purple-600 active:scale-95 transition-all duration-300 hover:scale-105"
             style={{
               boxShadow: '0 8px 32px rgba(147, 51, 234, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
             }}
